@@ -5,13 +5,13 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 16:50:56 2017 Antoine Baché
-** Last update Sat Jan  7 18:40:23 2017 Antoine Baché
+** Last update Sat Jan  7 18:52:35 2017 Antoine Baché
 */
 
 #include "raise.h"
 #include "exceptions.h"
 
-static void		Exception_ctor(Object *self, va_list *ap)
+__attribute__((nonnull (1, 2)))static void		Exception_ctor(Object *self, va_list *ap)
 {
   ExceptionClass	*obj;
 
