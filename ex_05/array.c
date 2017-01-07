@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 04:04:49 2017 Ludovic Petrenko
+** Last update Sat Jan  7 04:09:49 2017 Ludovic Petrenko
 */
 
 #include <string.h>
@@ -30,6 +30,15 @@ typedef struct {
     size_t _idx;
 } ArrayIteratorClass;
 
+static void	_setval(ArrayClass *self, size_t ndx, va_list *ap)
+{
+  if (self && ap && ndx < self->_size)
+    {
+      free(self->_tab[ndx]);
+      self->_tab[ndx] = new(self->_type, ap);
+    }
+}
+
 void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
 {
   if (self && args)
@@ -43,14 +52,35 @@ void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
 
 bool ArrayIterator_eq(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
+  if (self && other)
+    {
+      if (self->_array != other->_array)
+	raise("Comparison between incompatible iterator!");
+      return (self->_idx == other->_idx);
+    }
+  return (false);
 }
 
 bool ArrayIterator_gt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
+  if (self && other)
+    {
+      if (self->_array != other->_array)
+	raise("Comparison between incompatible iterator!");
+      return (self->_idx > other->_idx);
+    }
+  return (false);
 }
 
 bool ArrayIterator_lt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
+  if (self && other)
+    {
+      if (self->_array != other->_array)
+	raise("Comparison between incompatible iterator!");
+      return (self->_idx < other->_idx);
+    }
+  return (false);
 }
 
 void ArrayIterator_incr(ArrayIteratorClass* self)
@@ -67,7 +97,7 @@ Object* ArrayIterator_getval(ArrayIteratorClass* self)
 {
   if (self)
     {
-      return (self->_array->_tab[self->_idx]);
+      return (getitem((Container *)self->_array, self->_idx));
     }
   return (NULL);
 }
@@ -79,7 +109,8 @@ void ArrayIterator_setval(ArrayIteratorClass* self, ...)
   if (self)
     {
       va_start(ap, self);
-      _setval(self->_array, self->_idx, ap);
+      _setval(self->_array, self->_idx, &ap);
+      va_end(ap);
     }
 }
 
@@ -206,19 +237,14 @@ Object* Array_getitem(ArrayClass* self, ...)
 
 void Array_setitem(ArrayClass* self, ...)
 {
-  size_t	ndx;
-  size_t	i;
   va_list	ap;
+  size_t	ndx;
 
   if (self)
     {
       va_start(ap, self);
       ndx = va_arg(ap, size_t);
-      if (ndx < self->_size)
-	{
-	  free(self->_tab[ndx]);
-	  self->_tab[ndx] = new(self->_type, &ap);
-	}
+      _setval(self, ndx, &ap);
       va_end(ap);
     }
 }
