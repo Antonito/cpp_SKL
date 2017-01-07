@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan 07 18:06:44 2017 
+** Last update Sat Jan  7 18:52:28 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -19,8 +19,7 @@
 #include "int32_t.h"
 #include "new.h"
 #include "number.h"
-
-Object *	check_add(const Object *a, const Object *b);
+#include "operation.h"
 
 typedef struct
 {
@@ -72,13 +71,7 @@ static Object	*Int32_t_clone(const Object *self)
 
 static Object*		Int32_t_add(const Object * self, const Object *other)
 {
-  /*Object		*obj;
-  int32_t		sum;
-
-  sum = ((Int32_tClass *)self)->value + ((Int32_tClass *)other)->value;
-  obj = new(Int32_t, sum);
-  return (obj);*/
-  return (check_add(self, other));
+  return (check_op(self, other, '-'));
 }
 
 static Object*		Int32_t_real_add(const Object *self, const Object *other)
@@ -113,64 +106,209 @@ static Object*		Int32_t_real_add(const Object *self, const Object *other)
 
 static Object*		Int32_t_sub(const Object * self, const Object *other)
 {
+  return (check_op(self, other, '-'));
+}
+
+static Object*		Int32_t_real_sub(const Object *self, const Object *other)
+{
   Object		*obj;
   int32_t		sub;
+  Class			*_b;
+  uintptr_t		value;
 
-  sub = ((Int32_tClass *)self)->value - ((Int32_tClass *)other)->value;
+  _b = (Class *)other;
+  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+
+
+  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+    {
+      sub = ((Int32_tClass *)self)->value - (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+    {
+      sub = ((Int32_tClass *)self)->value - (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+    {
+      sub = ((Int32_tClass *)self)->value - ((Int32_tClass *)other)->value;
+    }
+
   obj = new(Int32_t, sub);
   return (obj);
 }
 
 static Object*		Int32_t_mul(const Object * self, const Object *other)
 {
+  return (check_op(self, other, '*'));
+}
+
+static Object*		Int32_t_real_mul(const Object *self, const Object *other)
+{
   Object		*obj;
   int32_t		mul;
+  Class			*_b;
+  uintptr_t		value;
 
-  mul = ((Int32_tClass *)self)->value * ((Int32_tClass *)other)->value;
+  _b = (Class *)other;
+  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+
+
+  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+    {
+      mul = ((Int32_tClass *)self)->value * (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+    {
+      mul = ((Int32_tClass *)self)->value * (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+    {
+      mul = ((Int32_tClass *)self)->value * ((Int32_tClass *)other)->value;
+    }
+
   obj = new(Int32_t, mul);
   return (obj);
 }
 
 static Object*		Int32_t_div(const Object * self, const Object *other)
 {
+  return (check_op(self, other, '/'));
+}
+
+static Object*		Int32_t_real_div(const Object *self, const Object *other)
+{
   Object		*obj;
   int32_t		div;
+  Class			*_b;
+  uintptr_t		value;
 
-  if (((Int32_tClass *)other)->value == 0)
-    raise("Floating point exception");
-  div = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
+  _b = (Class *)other;
+  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+
+
+  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+    {
+      div = ((Int32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+    {
+      div = ((Int32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+    {
+      div = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
+    }
+
   obj = new(Int32_t, div);
   return (obj);
 }
 
 static bool		Int32_t_eq(const Object *self, const Object *other)
 {
-  int32_t		val1;
-  int32_t		val2;
+  return (check_cmp(self, other, '='));
+}
 
-  val1 = ((Int32_tClass *)self)->value;
-  val2 = ((Int32_tClass *)other)->value;
-  return (val1 == val2);
+static bool		Int32_t_real_eq(const Object *self, const Object *other)
+{
+  Object		*obj;
+  int32_t		comp;
+  Class			*_b;
+  uintptr_t		value;
+
+  _b = (Class *)other;
+  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+
+
+  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+    {
+      comp = ((Int32_tClass *)self)->value - (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+    {
+      comp = ((Int32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+    {
+      comp = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
+    }
+
+  return (comp == 0);
 }
 
 static bool		Int32_t_lt(const Object *self, const Object *other)
 {
-  int32_t		val1;
-  int32_t		val2;
+  return (check_cmp(self, other, '<'));
+}
 
-  val1 = ((Int32_tClass *)self)->value;
-  val2 = ((Int32_tClass *)other)->value;
-  return (val1 < val2);
+static bool		Int32_t_real_lt(const Object *self, const Object *other)
+{
+  Object		*obj;
+  int32_t		comp;
+  Class			*_b;
+  uintptr_t		value;
+
+  _b = (Class *)other;
+  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+
+
+  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+    {
+      comp = ((Int32_tClass *)self)->value - (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+    {
+      comp = ((Int32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+    {
+      comp = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
+    }
+
+  return (lt < 0);
 }
 
 static bool		Int32_t_gt(const Object *self, const Object *other)
 {
-  int32_t		val1;
-  int32_t		val2;
+  return (check_cmp(self, other, '>'));
+}
 
-  val1 = ((Int32_tClass *)self)->value;
-  val2 = ((Int32_tClass *)other)->value;
-  return (val1 > val2);
+static bool		Int32_t_real_gt(const Object *self, const Object *other)
+{
+  Object		*obj;
+  int32_t		comp;
+  Class			*_b;
+  uintptr_t		value;
+
+  _b = (Class *)other;
+  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+
+
+  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+    {
+      comp = ((Int32_tClass *)self)->value - (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+    {
+      comp = ((Int32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+    }
+
+  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+    {
+      comp = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
+    }
+
+  return (lt > 0);
 }
 
 static Int32_tClass _description =
@@ -181,7 +319,13 @@ static Int32_tClass _description =
     &Int32_t_str, &Int32_t_clone, &Int32_t_add, &Int32_t_sub, &Int32_t_mul, &Int32_t_div,
     &Int32_t_eq, &Int32_t_gt, &Int32_t_lt
       },
-      &Int32_t_real_add
+      &Int32_t_real_add,
+      &Int32_t_real_sub,
+      &Int32_t_real_mul,
+      &Int32_t_real_div,
+      &Int32_t_real_eq,
+      &Int32_t_real_lt,
+      &Int32_t_real_gt;
   },
   NULL, 0
 };
