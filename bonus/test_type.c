@@ -39,5 +39,8 @@ int main()
   test(new(Uint16_t, 12), new(Uint16_t, 12), new(Uint16_t, 13));
   test(new(Uint32_t, 12), new(Uint32_t, 12), new(Uint32_t, 13));
   test(new(Uint64_t, 12), new(Uint64_t, 12), new(Uint64_t, 13));
+
+  Object *toto = add(new(Int32_t, 90), new(Int8_t, 10));
+  test(toto, toto, toto);
   return 0;
 }
