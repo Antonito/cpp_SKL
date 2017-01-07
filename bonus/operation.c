@@ -13,6 +13,9 @@ Object *	check_op(const Object *a, const Object *b, char op)
   enum Type type_a;
   enum Type type_b;
 
+  if (a == NULL || b == NULL)
+    raise("you cannot do operations with NULL values");
+
   if (strncmp(_a->base.__name__, "Int8_t", 6) == 0 || strncmp(_a->base.__name__, "Uint8_t", 7) == 0)
     type_a = INT8_T;
 
@@ -82,6 +85,9 @@ bool	check_cmp(const Object *a, const Object *b, char op)
   Number *_b = (Number *)b;
   enum Type type_a;
   enum Type type_b;
+
+  if (a == NULL || b == NULL)
+    raise("you cannot do comparaisons with NULL values");
 
   if (strncmp(_a->base.__name__, "Int8_t", 6) == 0 || strncmp(_a->base.__name__, "Uint8_t", 7) == 0)
     type_a = INT8_T;
