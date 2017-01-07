@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 02:44:09 2017 Antoine Baché
+** Last update Sat Jan  7 03:02:20 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -100,6 +100,7 @@ void Array_ctor(ArrayClass* self, va_list* args)
 	  self->_tab[i] = new(self->_type, &new_list);
 	  ++i;
 	}
+      va_end(new_list);
     }
 }
 
@@ -129,16 +130,26 @@ size_t Array_len(ArrayClass* self)
 
 Iterator* Array_begin(ArrayClass* self)
 {
+  Iterator	*ite;
+
+  ite = NULL;
   if (self)
     {
+      ite = new(ArrayIterator, self->_tab, self->_size, 0);
     }
+  return (ite);
 }
 
 Iterator* Array_end(ArrayClass* self)
 {
+  Iterator	*ite;
+
+  ite = NULL;
   if (self)
     {
+      ite = new(ArrayIterator, self->_tab, self->_size, 0);
     }
+  return (ite);
 }
 
 Object* Array_getitem(ArrayClass* self, ...)
