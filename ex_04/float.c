@@ -5,12 +5,13 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:37 2017 Antoine Baché
-** Last update Sat Jan  7 01:29:59 2017 Antoine Baché
+** Last update Sat Jan 07 13:41:44 2017 
 */
 
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdarg.h>
+#include <float.h>
 #include "raise.h"
 #include "float.h"
 #include "new.h"
@@ -50,7 +51,7 @@ static char const*	Float_str(Object *self)
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
-  if (asprintf(&obj->__str__, "<%s (%f)>\n", obj->base.__name__,
+  if (asprintf(&obj->__str__, "<%s (%f)>", obj->base.__name__,
 	       obj->value) == -1)
     {
       raise("Out of memory");
@@ -92,7 +93,11 @@ static Object*		Float_div(const Object * self, const Object *other)
 {
   Object		*obj;
   float			div;
+  float			value;
 
+  value = ((FloatClass *)other)->value;
+  if (value < 0.001f && value > -0.001f)
+    raise("Floating point exception");
   div = ((FloatClass *)self)->value / ((FloatClass *)other)->value;
   obj = new(Float, div);
   return (obj);
