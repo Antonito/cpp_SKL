@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "int.h"
 #include "int8_t.h"
+#include "int16_t.h"
+#include "int32_t.h"
+#include "int64_t.h"
 #include "new.h"
 
 void test(Object* a, Object* b, Object* c)
@@ -26,5 +28,8 @@ int main()
 {
     test(new(Int, 12), new(Int, 12), new(Int, 13));
     test(new(Int8_t, 12), new(Int8_t, 12), new(Int8_t, 13));
+    test(new(Int16_t, 12), new(Int16_t, 12), new(Int16_t, 13));
+    /* test(new(Int32_t, 12), new(Int32_t, 12), new(Int32_t, 13)); */
+    /* test(new(Int64_t, 12), new(Int64_t, 12), new(Int64_t, 13)); */
     return 0;
 }
