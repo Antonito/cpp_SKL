@@ -3,5 +3,6 @@
 
 
 Object *	check_op(const Object *a, const Object *b, char op);
+bool		check_cmp(const Object *a, const Object *b, char op);
 
 #endif /* !OPERATION_H_ */
