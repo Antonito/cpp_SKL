@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Fri Jan  6 09:01:56 2017 Antoine Baché
-** Last update Sat Jan  7 23:04:10 2017 Antoine Baché
+** Last update Sun Jan  8 00:44:16 2017 Antoine Baché
 */
 
 #ifndef STRING_H_
@@ -14,6 +14,24 @@
 # include <stddef.h>
 # include "object.h"
 
+/*
+** String Object
+**
+** assign -> set a new str
+** append -> append a str
+** at -> get the char at the requested position
+** clear -> clear a str
+** size -> get a str size
+** compare -> compare two str
+** copy -> copy a str
+** c_str -> get a str
+** empty -> is a str empty ?
+** find -> find a str
+** insert -> insert a str
+** to_int -> turn a str into
+** aff -> print a str
+** join -> join a str
+*/
 typedef struct		StringClass
 {
   Class			base;

@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 16:30:20 2017 Antoine Baché
-** Last update Sat Jan  7 20:40:30 2017 Antoine Baché
+** Last update Sun Jan  8 00:39:19 2017 Antoine Baché
 */
 
 #ifndef EXCEPTIONS_H_
@@ -18,13 +18,21 @@
 
 typedef struct	ExceptionClass ExceptionClass;
 
+/*
+** List of defined exceptions
+*/
 enum ExceptionsCode {
   NO_EXCEPTION = 0,
   NULL_EXCEPTION,
   TEST_EXCEPTION
 };
 
-
+/*
+** ExceptionClass
+**
+** Allows us to implement a try-catch behavior with
+** setjmp and longjmp
+*/
 struct	       ExceptionClass
 {
   Class			base;
@@ -38,7 +46,21 @@ extern Class	*Exception;
 void		_free_exception(Object *);
 
 /*
-** Try and catch
+** Try and catch in GNU C99
+**
+** Every TRY must end with ETRY. Example:
+**
+** TRY
+** {
+** // Some stuff
+** THROW(SOME_EXCEPTION);
+** }
+** CATCH(SOME_EXCEPTION)
+** {
+** // HANDLE SOME STUFF
+** }
+** ETRY
+**
 */
 # define	TRY							\
   do {									\
@@ -54,11 +76,5 @@ void		_free_exception(Object *);
 
 # define	ETRY								\
   } while (0);
-
-/*
-** Global definition
-*/
-extern jmp_buf	exception_buffer;
-extern int32_t	exception_val;
 
 #endif /* !EXCEPTIONS_H_ */

@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 16:50:56 2017 Antoine Baché
-** Last update Sat Jan  7 20:14:56 2017 Antoine Baché
+** Last update Sun Jan  8 00:31:19 2017 Antoine Baché
 */
 
 #include "raise.h"
@@ -21,7 +21,6 @@ static void		Exception_ctor(Object * const self, va_list * const ap)
   obj->value = NO_EXCEPTION;
 }
 
-
 static enum ExceptionsCode	Exception_getException(const ExceptionClass *
 						       const self)
 {
@@ -30,7 +29,7 @@ static enum ExceptionsCode	Exception_getException(const ExceptionClass *
   return (self->value);
 }
 
-inline void	_free_exception(Object *ptr)
+__attribute__((always_inline))inline void	_free_exception(Object *ptr)
 {
   Object	*except;
 
