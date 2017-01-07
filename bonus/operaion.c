@@ -5,7 +5,7 @@
 
 enum Type {INT8_T, INT16_T, INT32_T, INT64_T, FLOAT};
 
-Object *	check_add(const Object *a, const Object *b)
+Object *	check_op(const Object *a, const Object *b, char op)
 {
   Number *_a = (Number *)a;
   Number *_b = (Number *)b;
@@ -47,9 +47,51 @@ Object *	check_add(const Object *a, const Object *b)
   if (strncmp(_b->base.__name__, "Float", 5) == 0)
     type_b = FLOAT;
 
-  if (type_a > type_b)
-    return _a->real_add(a, b);
-  else
-    return _b->real_add(b, a);
-
+  switch(op)
+    {
+    case '+':
+	if (type_a > type_b)
+		return _a->real_add(a, b);
+	else
+		return _b->real_add(b, a);
+	break;
+    case '-':
+	if (type_a > type_b)
+		return _a->real_sub(a, b);
+	else
+		return _b->real_sub(b, a);
+	break;
+    case '*':
+	if (type_a > type_b)
+		return _a->real_mul(a, b);
+	else
+		return _b->real_mul(b, a);
+	break;
+    case '/' :
+	if (type_a > type_b)
+		return _a->real_div(a, b);
+	else
+		return _b->real_div(b, a);
+	break;
+    case '=' :
+	if (type_a > type_b)
+		return _a->real_eq(a, b);
+	else
+		return _b->real_eq(b, a);
+	break;
+    case '<' :
+	if (type_a > type_b)
+		return _a->real_lt(a, b);
+	else
+		return _b->real_lt(b, a);
+	break;
+    case '>' :
+	if (type_a > type_b)
+		return _a->real_gt(a, b);
+	else
+		return _b->real_gt(b, a);
+	break;
+    default:
+	break;
+    }
 }

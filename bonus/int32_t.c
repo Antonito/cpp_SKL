@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan 07 18:06:44 2017 
+** Last update Sat Jan 07 18:35:33 2017 
 */
 
 #define _GNU_SOURCE
@@ -19,8 +19,7 @@
 #include "int32_t.h"
 #include "new.h"
 #include "number.h"
-
-Object *	check_add(const Object *a, const Object *b);
+#include "operation.h"
 
 typedef struct
 {
@@ -78,7 +77,7 @@ static Object*		Int32_t_add(const Object * self, const Object *other)
   sum = ((Int32_tClass *)self)->value + ((Int32_tClass *)other)->value;
   obj = new(Int32_t, sum);
   return (obj);*/
-  return (check_add(self, other));
+  return (check_op(self, other, '+'));
 }
 
 static Object*		Int32_t_real_add(const Object *self, const Object *other)
