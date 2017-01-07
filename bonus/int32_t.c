@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan 07 17:46:29 2017 
+** Last update Sat Jan  7 18:01:49 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -104,7 +104,6 @@ static Object*		Int32_t_real_add(const Object *self, const Object *other)
       sum = ((Int32_tClass *)self)->value + ((Int32_tClass *)other)->value;
     }
 
-  sum = ((Int32_tClass *)self)->value + ((Int32_tClass *)other)->value;
   obj = new(Int32_t, sum);
   return (obj);
 }
