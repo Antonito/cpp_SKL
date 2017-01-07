@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "raise.h"
 #include "object.h"
 #include "number.h"
 
