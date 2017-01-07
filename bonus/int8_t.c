@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:45 2017 Antoine Baché
-** Last update Sat Jan  7 13:50:51 2017 Arthur ARNAUD
+** Last update Sat Jan  7 14:01:51 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -13,7 +13,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include "raise.h"
-#include "int.h"
+#include "int8_t.h"
 #include "new.h"
 
 typedef struct
@@ -62,7 +62,7 @@ static char const*	Int8_t_str(Object *self)
 static Object*		Int8_t_add(const Object * self, const Object *other)
 {
   Object		*obj;
-  int			sum;
+  int8_t		sum;
 
   sum = ((Int8_tClass *)self)->value + ((Int8_tClass *)other)->value;
   obj = new(Int8_t, sum);
@@ -72,7 +72,7 @@ static Object*		Int8_t_add(const Object * self, const Object *other)
 static Object*		Int8_t_sub(const Object * self, const Object *other)
 {
   Object		*obj;
-  int			sub;
+  int8_t		sub;
 
   sub = ((Int8_tClass *)self)->value - ((Int8_tClass *)other)->value;
   obj = new(Int8_t, sub);
@@ -82,7 +82,7 @@ static Object*		Int8_t_sub(const Object * self, const Object *other)
 static Object*		Int8_t_mul(const Object * self, const Object *other)
 {
   Object		*obj;
-  int			mul;
+  int8_t		mul;
 
   mul = ((Int8_tClass *)self)->value * ((Int8_tClass *)other)->value;
   obj = new(Int8_t, mul);
@@ -92,7 +92,7 @@ static Object*		Int8_t_mul(const Object * self, const Object *other)
 static Object*		Int8_t_div(const Object * self, const Object *other)
 {
   Object		*obj;
-  int			div;
+  int8_t		div;
 
   if (((Int8_tClass *)other)->value == 0)
     raise("Floating point exception");
@@ -103,8 +103,8 @@ static Object*		Int8_t_div(const Object * self, const Object *other)
 
 static bool		Int8_t_eq(const Object *self, const Object *other)
 {
-  int			val1;
-  int			val2;
+  int8_t		val1;
+  int8_t		val2;
 
   val1 = ((Int8_tClass *)self)->value;
   val2 = ((Int8_tClass *)other)->value;
@@ -113,8 +113,8 @@ static bool		Int8_t_eq(const Object *self, const Object *other)
 
 static bool		Int8_t_lt(const Object *self, const Object *other)
 {
-  int			val1;
-  int			val2;
+  int8_t		val1;
+  int8_t		val2;
 
   val1 = ((Int8_tClass *)self)->value;
   val2 = ((Int8_tClass *)other)->value;
@@ -123,8 +123,8 @@ static bool		Int8_t_lt(const Object *self, const Object *other)
 
 static bool		Int8_t_gt(const Object *self, const Object *other)
 {
-  int			val1;
-  int			val2;
+  int8_t		val1;
+  int8_t		val2;
 
   val1 = ((Int8_tClass *)self)->value;
   val2 = ((Int8_tClass *)other)->value;

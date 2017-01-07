@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:45 2017 Antoine Baché
-** Last update Sat Jan  7 13:39:00 2017 Arthur ARNAUD
+** Last update Sat Jan  7 14:03:24 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -35,6 +35,15 @@ static void	Int_ctor(Object *self, va_list *ap)
 }
 
 static void	Int_dtor(Object *self)
+{
+  IntClass	*obj;
+
+  obj = self;
+  if (obj->__str__)
+    free(obj->__str__);
+}
+
+static void	Int_clone(Object *self)
 {
   IntClass	*obj;
 
