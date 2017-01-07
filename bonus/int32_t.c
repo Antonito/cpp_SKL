@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan 07 21:00:59 2017 
+** Last update Sat Jan 07 21:21:30 2017 
 */
 
 #define _GNU_SOURCE
@@ -185,7 +185,6 @@ static Object*		Int32_t_real_div(const Object *self, const Object *other)
   Class			*_b;
   uintptr_t		value;
 
-  raise("Floating Point Exception (divide by zero)");
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
 
