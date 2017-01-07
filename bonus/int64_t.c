@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan  7 21:54:48 2017 Arthur ARNAUD
+** Last update Sat Jan 07 22:54:41 2017 
 */
 
 #define _GNU_SOURCE
@@ -83,7 +83,7 @@ static Object*		Int64_t_real_add(const Object *self, const Object *other)
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -122,7 +122,7 @@ static Object*		Int64_t_real_sub(const Object *self, const Object *other)
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -160,7 +160,7 @@ static Object*		Int64_t_real_mul(const Object *self, const Object *other)
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -199,9 +199,8 @@ static Object*		Int64_t_real_div(const Object *self, const Object *other)
   Class			*_b;
   uintptr_t		value;
 
-  raise("Floating Point Exception (divide by zero)");
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -248,7 +247,7 @@ static bool		Int64_t_real_eq(const Object *self, const Object *other)
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -284,7 +283,7 @@ static bool		Int64_t_real_lt(const Object *self, const Object *other)
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -320,7 +319,7 @@ static bool		Int64_t_real_gt(const Object *self, const Object *other)
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)

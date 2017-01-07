@@ -126,13 +126,13 @@ bool	check_cmp(const Object *a, const Object *b, char op)
 	if (type_a > type_b)
 		return _a->real_lt(a, b);
 	else
-		return _b->real_lt(b, a);
+		return _b->real_gt(b, a);
 	break;
     case '>' :
 	if (type_a > type_b)
 		return _a->real_gt(a, b);
 	else
-		return _b->real_gt(b, a);
+		return _b->real_lt(b, a);
 	break;
     default:
 	break;

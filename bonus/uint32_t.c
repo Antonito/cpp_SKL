@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan 07 21:54:53 2017 
+** Last update Sat Jan 07 22:53:11 2017 
 */
 
 #define _GNU_SOURCE
@@ -77,12 +77,12 @@ static Object*		Uint32_t_add(const Object * self, const Object *other)
 static Object*		Uint32_t_real_add(const Object *self, const Object *other)
 {
   Object		*obj;
-  uint32_t		sum = 0;
+  int32_t		sum = 0;
   Class			*_b;
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -111,12 +111,12 @@ static Object*		Uint32_t_sub(const Object * self, const Object *other)
 static Object*		Uint32_t_real_sub(const Object *self, const Object *other)
 {
   Object		*obj;
-  uint32_t		sub = 0;
+  int32_t		sub = 0;
   Class			*_b;
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -146,12 +146,12 @@ static Object*		Uint32_t_mul(const Object * self, const Object *other)
 static Object*		Uint32_t_real_mul(const Object *self, const Object *other)
 {
   Object		*obj;
-  uint32_t		mul = 0;
+  int32_t		mul = 0;
   Class			*_b;
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -181,12 +181,12 @@ static Object*		Uint32_t_div(const Object * self, const Object *other)
 static Object*		Uint32_t_real_div(const Object *self, const Object *other)
 {
   Object		*obj;
-  uint32_t		div = 0;
+  int32_t		div = 0;
   Class			*_b;
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -221,12 +221,12 @@ static bool		Uint32_t_eq(const Object *self, const Object *other)
 
 static bool		Uint32_t_real_eq(const Object *self, const Object *other)
 {
-  uint32_t		comp = 0;
+  int32_t		comp = 0;
   Class			*_b;
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -236,12 +236,12 @@ static bool		Uint32_t_real_eq(const Object *self, const Object *other)
 
   else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      comp = ((Uint32_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
+      comp = ((Uint32_tClass *)self)->value - (int16_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      comp = ((Uint32_tClass *)self)->value / ((Uint32_tClass *)other)->value;
+      comp = ((Uint32_tClass *)self)->value - ((Uint32_tClass *)other)->value;
     }
 
   return (comp == 0);
@@ -259,7 +259,7 @@ static bool		Uint32_t_real_lt(const Object *self, const Object *other)
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -269,12 +269,12 @@ static bool		Uint32_t_real_lt(const Object *self, const Object *other)
 
   else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      comp = ((Uint32_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
+      comp = ((Uint32_tClass *)self)->value - (int16_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      comp = ((Uint32_tClass *)self)->value / ((Uint32_tClass *)other)->value;
+      comp = ((Uint32_tClass *)self)->value - ((Uint32_tClass *)other)->value;
     }
 
   return (comp < 0);
@@ -292,7 +292,7 @@ static bool		Uint32_t_real_gt(const Object *self, const Object *other)
   uintptr_t		value;
 
   _b = (Class *)other;
-  value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
+  value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
@@ -302,12 +302,12 @@ static bool		Uint32_t_real_gt(const Object *self, const Object *other)
 
   else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      comp = ((Uint32_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
+      comp = ((Uint32_tClass *)self)->value - (int16_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      comp = ((Uint32_tClass *)self)->value / ((Uint32_tClass *)other)->value;
+      comp = ((Uint32_tClass *)self)->value - ((Uint32_tClass *)other)->value;
     }
 
   return (comp > 0);
