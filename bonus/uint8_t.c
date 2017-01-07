@@ -5,12 +5,13 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:45 2017 Antoine Baché
-** Last update Sat Jan  7 14:29:47 2017 Arthur ARNAUD
+** Last update Sat Jan  7 14:34:11 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include "raise.h"
 #include "uint8_t.h"
 #include "new.h"
