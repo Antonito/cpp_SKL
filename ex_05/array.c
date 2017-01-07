@@ -5,12 +5,17 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
+<<<<<<< HEAD
 ** Last update Sat Jan  7 04:37:23 2017 Ludovic Petrenko
+=======
+** Last update Sat Jan  7 04:44:08 2017 Antoine Baché
+>>>>>>> 769bf0f2765739d36af96027c1209ed45abc43ec
 */
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <assert.h>
 
 #include "raise.h"
 #include "array.h"
@@ -139,7 +144,7 @@ static Class* ArrayIterator = (Class*) &ArrayIteratorDescr;
 void Array_ctor(ArrayClass* self, va_list* args)
 {
   size_t	i;
-  va_list	new_list;
+  va_list	ap;
 
   if (self && args)
     {
@@ -147,18 +152,28 @@ void Array_ctor(ArrayClass* self, va_list* args)
       self->_size = va_arg(*args, size_t);
       printf("%lu\n", self->_size);
       self->_type = va_arg(*args, Class *);
+<<<<<<< HEAD
       printf("%p\n", self->_type);
       self->_tab = calloc(self->_size + 1, sizeof(self->_type));
       printf("%p\n", self->_tab);
+=======
+      self->_tab = malloc(sizeof(self->_type) * (self->_size + 1));
+>>>>>>> 769bf0f2765739d36af96027c1209ed45abc43ec
       if (!self->_tab)
 	raise("Out of memory !\n");
       //      memset(self->_tab, 0, sizeof(self->_type) * (self->_size + 1));
       i = 0;
       while (i < self->_size)
 	{
+<<<<<<< HEAD
 	  va_copy(new_list, *args);
 	  self->_tab[i] = va_new(self->_type, &new_list);
 	  va_end(new_list);
+=======
+	  va_copy(ap, *args);
+	  self->_tab[i] = va_new(self->_type, &ap);
+	  va_end(ap);
+>>>>>>> 769bf0f2765739d36af96027c1209ed45abc43ec
 	  ++i;
 	}
     }
@@ -176,6 +191,7 @@ void Array_dtor(ArrayClass* self)
 	  delete(self->_tab[i]);
 	  ++i;
 	}
+      free(self->_tab);
     }
 }
 
@@ -195,7 +211,11 @@ Iterator* Array_begin(ArrayClass* self)
   ite = NULL;
   if (self)
     {
+<<<<<<< HEAD
       ite = new(ArrayIterator, self->_tab, 0);
+=======
+      ite = new(ArrayIterator, self, 0);
+>>>>>>> 769bf0f2765739d36af96027c1209ed45abc43ec
     }
   return (ite);
 }
@@ -207,7 +227,7 @@ Iterator* Array_end(ArrayClass* self)
   ite = NULL;
   if (self)
     {
-      ite = new(ArrayIterator, self->_tab, 0);
+      ite = new(ArrayIterator, self, 0);
     }
   return (ite);
 }

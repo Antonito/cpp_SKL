@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 17:14:35 2017 Ludovic Petrenko
+** Last update Sat Jan  7 17:42:37 2017 Ludovic Petrenko
 */
 
 #include <string.h>
@@ -190,7 +190,7 @@ Iterator* List_begin(ListClass* self)
   ite = NULL;
   if (self)
     {
-      ite = new(ListIterator, self->_list);
+      ite = new(ListIterator, self, self->_list);
     }
   return (ite);
 }
@@ -202,7 +202,7 @@ Iterator* List_end(ListClass* self)
   ite = NULL;
   if (self)
     {
-      ite = new(ListIterator, NULL, 0);
+      ite = new(ListIterator, self, NULL);
     }
   return (ite);
 }
@@ -271,31 +271,24 @@ void	List_push_back(ListClass* self, ...)
   ListNode	*node;
   ListNode	*new_node;
   va_list	ap;
-      printf("DEBUG #01\n");
+
   if (self)
     {
       va_start(ap, self);
-      printf("DEBUG #0\n");
       if (!(new_node = malloc(sizeof(ListNode))))
 	raise("Out of memory!");
-      printf("DEBUG #1\n");
       new_node->_type = va_arg(ap, __typeof__(self->_type));
-      printf("DEBUG #2\n");
       if (!self->_list)
 	self->_list = new_node;
       else
 	{
-	  printf("DEBUG #3\n");
 	  node = self->_list;
 	  while (node->next)
 	    node = node->next;
-	  printf("DEBUG #4\n");
 	  node->next = new_node;
 	}
       new_node->next = NULL;
-      printf("DEBUG #5\n");
       self->_size++;
-      printf("DEBUG #6\n");
       va_end(ap);
     }
 }
@@ -379,7 +372,7 @@ void	List_insert(ListClass* self, ...)
 	raise("Out of memory!");
       node = self->_list;
       i = 0;
-      while (i < ndx && node)
+      while (i < ndx - 1 && node)
 	{
 	  ++i;
 	  node = node->next;

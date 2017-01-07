@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:01 2017 Antoine Baché
-** Last update Sat Jan  7 01:30:19 2017 Antoine Baché
+** Last update Sat Jan 07 13:39:25 2017 
 */
 
 #define _GNU_SOURCE
@@ -54,7 +54,7 @@ static char const*	Vertex_str(Object *self)
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
-  if (asprintf(&obj->__str__, "<%s (%d, %d, %d)>\n", obj->base.__name__,
+  if (asprintf(&obj->__str__, "<%s (%d, %d, %d)>", obj->base.__name__,
 	       obj->x, obj->y, obj->z) == -1)
     {
       raise("Out of memory");

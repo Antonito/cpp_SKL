@@ -6,44 +6,51 @@
 #include "int.h"
 #include "new.h"
 
+void	print_list(Object *list)
+{
+  size_t	len = len(list);
+  Object	*it = begin(list);
+  Object	*end = end(list);
+
+  printf("List[%ld]\n", len);
+  while (!eq(it, end))
+    {
+      printf("%s", str(getval(it)));
+      incr(it);
+    }
+  printf("\n");
+  delete(it);
+  delete(end);
+}
 
 int main()
 {
   Object* list = new(List, Int);
-    Object* it;
-    Object* it_end;
 
-    printf("ok\n");
     push_back(list, new(Int, 1));
-    printf("list[%ld] = %s\n", len(list) - 1, str(getitem(list, len(list) - 1)));
     push_back(list, new(Int, 2));
-    printf("list[%ld] = %s\n", len(list) - 1, str(getitem(list, len(list) - 1)));
     push_back(list, new(Int, 3));
-    printf("list[%ld] = %s\n", len(list) - 1, str(getitem(list, len(list) - 1)));
     push_back(list, new(Int, 4));
-    printf("list[%ld] = %s\n", len(list) - 1, str(getitem(list, len(list) - 1)));
     push_back(list, new(Int, 5));
-    printf("list[%ld] = %s\n", len(list) - 1, str(getitem(list, len(list) - 1)));
     push_back(list, new(Int, 6));
-    printf("list[%ld] = %s\n", len(list) - 1, str(getitem(list, len(list) - 1)));
     push_back(list, new(Int, 7));
-    printf("list[%ld] = %s\n", len(list) - 1, str(getitem(list, len(list) - 1)));
     push_back(list, new(Int, 8));
-    printf("list[%ld] = %s\n", len(list) - 1, str(getitem(list, len(list) - 1)));
 
-    it = begin(list);
-    it_end = end(list);
+    print_list(list);
+
+    insert(list, 5, new(Int, 5));
+    pop_front(list);
+
+    print_list(list);
+
+    pop_back(list);
+    push_front(list, new(Int, 0));
+    print_list(list);
+
     printf("array size: %zu\n", len(list));
     setitem(list, 5, 12);
     setitem(list, 6, 13);
-    while (lt(it, it_end))
-    {
-        printf("%s\n", str(getval(it)));
-        incr(it);
-    }
 
-    delete(it);
-    delete(it_end);
     delete(list);
     return 0;
 }

@@ -4,7 +4,6 @@
 
 # include "object.h"
 
-extern Class* Char;
+extern Int8_t Char;
 
 #endif
-

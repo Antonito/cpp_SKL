@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:52 2017 Antoine Baché
-** Last update Sat Jan  7 03:04:35 2017 Antoine Baché
+** Last update Sat Jan  7 04:42:36 2017 Antoine Baché
 */
 
 #include <stdlib.h>
@@ -23,7 +23,7 @@ Object* va_new(Class* class, va_list* ap)
     {
       raise("Out of memory");
     }
-  memcpy(obj, class, sizeof(*class));
+  memcpy(obj, class, class->__size__);
   if (class->__init__)
     class->__init__(obj, ap);
   return (obj);

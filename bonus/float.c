@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:37 2017 Antoine Baché
-** Last update Sat Jan 07 13:41:44 2017 
+** Last update Sat Jan 07 14:39:11 2017 
 */
 
 #define _GNU_SOURCE
@@ -57,6 +57,11 @@ static char const*	Float_str(Object *self)
       raise("Out of memory");
     }
   return (obj->__str__);
+}
+
+static Object	*Float_clone(const Object *self)
+{
+  return (new(Float, ((FloatClass *)self)->value));
 }
 
 static Object*		Float_add(const Object * self, const Object *other)
@@ -137,7 +142,7 @@ static FloatClass _description =
 {
   {
     sizeof(FloatClass), "Float", &Float_ctor, &Float_dtor,
-    &Float_str, &Float_add, &Float_sub, &Float_mul, &Float_div,
+    &Float_str, &Float_clone, &Float_add, &Float_sub, &Float_mul, &Float_div,
     &Float_eq, &Float_gt, &Float_lt
   },
   NULL, 0
