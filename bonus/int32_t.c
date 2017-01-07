@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan  7 18:54:46 2017 Arthur ARNAUD
+** Last update Sat Jan  7 18:57:42 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -274,7 +274,7 @@ static bool		Int32_t_real_lt(const Object *self, const Object *other)
       comp = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
     }
 
-  return (lt < 0);
+  return (comp < 0);
 }
 
 static bool		Int32_t_gt(const Object *self, const Object *other)
@@ -308,7 +308,7 @@ static bool		Int32_t_real_gt(const Object *self, const Object *other)
       comp = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
     }
 
-  return (lt > 0);
+  return (comp > 0);
 }
 
 static Int32_tClass _description =
@@ -325,7 +325,7 @@ static Int32_tClass _description =
       &Int32_t_real_div,
       &Int32_t_real_eq,
       &Int32_t_real_lt,
-      &Int32_t_real_gt;
+      &Int32_t_real_gt
   },
   NULL, 0
 };
