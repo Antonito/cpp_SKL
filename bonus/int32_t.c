@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan  7 20:11:34 2017 Arthur ARNAUD
+** Last update Sat Jan 07 21:00:59 2017 
 */
 
 #define _GNU_SOURCE
@@ -77,7 +77,7 @@ static Object*		Int32_t_add(const Object * self, const Object *other)
 static Object*		Int32_t_real_add(const Object *self, const Object *other)
 {
   Object		*obj;
-  int32_t		sum;
+  int32_t		sum = 0;
   Class			*_b;
   uintptr_t		value;
 
@@ -111,7 +111,7 @@ static Object*		Int32_t_sub(const Object * self, const Object *other)
 static Object*		Int32_t_real_sub(const Object *self, const Object *other)
 {
   Object		*obj;
-  int32_t		sub;
+  int32_t		sub = 0;
   Class			*_b;
   uintptr_t		value;
 
@@ -146,7 +146,7 @@ static Object*		Int32_t_mul(const Object * self, const Object *other)
 static Object*		Int32_t_real_mul(const Object *self, const Object *other)
 {
   Object		*obj;
-  int32_t		mul;
+  int32_t		mul = 0;
   Class			*_b;
   uintptr_t		value;
 
@@ -181,16 +181,19 @@ static Object*		Int32_t_div(const Object * self, const Object *other)
 static Object*		Int32_t_real_div(const Object *self, const Object *other)
 {
   Object		*obj;
-  int32_t		div;
+  int32_t		div = 0;
   Class			*_b;
   uintptr_t		value;
 
+  raise("Floating Point Exception (divide by zero)");
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
 
 
   if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
     {
+      if ((int8_t)*(uintptr_t *)value == 0)
+	raise("you cannot divide by zero)");
       div = ((Int32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
     }
 
@@ -215,7 +218,7 @@ static bool		Int32_t_eq(const Object *self, const Object *other)
 
 static bool		Int32_t_real_eq(const Object *self, const Object *other)
 {
-  int32_t		comp;
+  int32_t		comp = 0;
   Class			*_b;
   uintptr_t		value;
 
@@ -248,7 +251,7 @@ static bool		Int32_t_lt(const Object *self, const Object *other)
 
 static bool		Int32_t_real_lt(const Object *self, const Object *other)
 {
-  int32_t		comp;
+  int32_t		comp = 0;
   Class			*_b;
   uintptr_t		value;
 
@@ -281,7 +284,7 @@ static bool		Int32_t_gt(const Object *self, const Object *other)
 
 static bool		Int32_t_real_gt(const Object *self, const Object *other)
 {
-  int32_t		comp;
+  int32_t		comp = 0;
   Class			*_b;
   uintptr_t		value;
 

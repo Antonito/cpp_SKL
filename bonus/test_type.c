@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <assert.h>
-
+#include "raise.h"
 #include "int8_t.h"
 #include "int16_t.h"
 #include "int32_t.h"
@@ -30,7 +30,8 @@ void test(Object* a, Object* b, Object* c)
 
 int main()
 {
-  printf("TESTING INIT STDINT TYPES\n");
+  /*fflush(stderr);
+  printf("TESTING INIT STDINT TYPES\n");*/
   /* test(new(Int8_t, 12), new(Int8_t, 12), new(Int8_t, 13)); */
   /* test(new(Int16_t, 12), new(Int16_t, 12), new(Int16_t, 13)); */
   /* test(new(Int32_t, 12), new(Int32_t, 12), new(Int32_t, 13)); */
@@ -39,10 +40,12 @@ int main()
   /* test(new(Uint16_t, 12), new(Uint16_t, 12), new(Uint16_t, 13)); */
   /* test(new(Uint32_t, 12), new(Uint32_t, 12), new(Uint32_t, 13)); */
   /* test(new(Uint64_t, 12), new(Uint64_t, 12), new(Uint64_t, 13)); */
-  Object *a = new(Int32_t, 50);
-  Object *b = new(Int8_t, 10);
+  /*Object *a = new(Int32_t, 50);
+  Object *b = new(Int8_t, 1);
 
+  Object *res = ((Class *)a)->__div__(a, b);
+  printf("result div: %s\n", str(res));
   delete(b);
-  delete(a);
+  delete(a);*/
   return 0;
 }
