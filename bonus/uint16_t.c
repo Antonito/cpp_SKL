@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan 07 21:39:57 2017 
+** Last update Sat Jan 07 21:54:25 2017 
 */
 
 #define _GNU_SOURCE
@@ -227,7 +227,7 @@ static bool		Uint16_t_lt(const Object *self, const Object *other)
 
 static bool		Uint16_t_real_lt(const Object *self, const Object *other)
 {
-  uint16_t		comp = 0;
+  int32_t		comp = 0;
   Class			*_b;
   uintptr_t		value;
 
@@ -254,7 +254,7 @@ static bool		Uint16_t_gt(const Object *self, const Object *other)
 
 static bool		Uint16_t_real_gt(const Object *self, const Object *other)
 {
-  uint16_t		comp = 0;
+  int32_t		comp = 0;
   Class			*_b;
   uintptr_t		value;
 
