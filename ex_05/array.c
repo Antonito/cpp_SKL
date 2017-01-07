@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 03:40:50 2017 Ludovic Petrenko
+** Last update Sat Jan  7 04:04:49 2017 Ludovic Petrenko
 */
 
 #include <string.h>
@@ -74,9 +74,12 @@ Object* ArrayIterator_getval(ArrayIteratorClass* self)
 
 void ArrayIterator_setval(ArrayIteratorClass* self, ...)
 {
+  va_list	ap;
+
   if (self)
     {
-      self->_array->
+      va_start(ap, self);
+      _setval(self->_array, self->_idx, ap);
     }
 }
 
@@ -122,6 +125,7 @@ void Array_ctor(ArrayClass* self, va_list* args)
 	  self->_tab[i] = new(self->_type, &new_list);
 	  ++i;
 	}
+      va_end(new_list);
     }
 }
 
@@ -151,17 +155,30 @@ size_t Array_len(ArrayClass* self)
 
 Iterator* Array_begin(ArrayClass* self)
 {
+  Iterator	*ite;
+
+  ite = NULL;
   if (self)
     {
+<<<<<<< HEAD
 
+=======
+      ite = new(ArrayIterator, self->_tab, 0);
+>>>>>>> 7c308969c4d337655833beab32738f89ff9ef61e
     }
+  return (ite);
 }
 
 Iterator* Array_end(ArrayClass* self)
 {
+  Iterator	*ite;
+
+  ite = NULL;
   if (self)
     {
+      ite = new(ArrayIterator, self->_tab, 0);
     }
+  return (ite);
 }
 
 Object* Array_getitem(ArrayClass* self, ...)
@@ -192,23 +209,16 @@ void Array_setitem(ArrayClass* self, ...)
   size_t	ndx;
   size_t	i;
   va_list	ap;
-  Object	**new_objs;
 
   if (self)
     {
       va_start(ap, self);
       ndx = va_arg(ap, size_t);
-      new_objs = malloc(sizeof(self->_type) * (self->_size + 2));
-      ndx = (ndx > self->_size) ? self->_size : ndx;
-      memcpy(new_objs, self->_tab, sizeof(self->_type) * ndx);
-      new_objs[ndx] = new(self->_type, &ap);
-      if (self->_size - ndx > 0)
-	memcpy(new_objs + ndx + 1, self->_tab + ndx + 1,
-	       sizeof(self->_type) * (self->_size - ndx));
-      self->_tab[self->_size + 1] = NULL;
-      free(self->_tab);
-      self->_tab = new_objs;
-      ++self->_size;
+      if (ndx < self->_size)
+	{
+	  free(self->_tab[ndx]);
+	  self->_tab[ndx] = new(self->_type, &ap);
+	}
       va_end(ap);
     }
 }
