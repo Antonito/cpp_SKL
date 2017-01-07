@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 03:08:46 2017 Antoine Baché
+** Last update Sat Jan  7 03:40:27 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -180,23 +180,16 @@ void Array_setitem(ArrayClass* self, ...)
   size_t	ndx;
   size_t	i;
   va_list	ap;
-  Object	**new_objs;
 
   if (self)
     {
       va_start(ap, self);
       ndx = va_arg(ap, size_t);
-      new_objs = malloc(sizeof(self->_type) * (self->_size + 2));
-      ndx = (ndx > self->_size) ? self->_size : ndx;
-      memcpy(new_objs, self->_tab, sizeof(self->_type) * ndx);
-      new_objs[ndx] = new(self->_type, &ap);
-      if (self->_size - ndx > 0)
-	memcpy(new_objs + ndx + 1, self->_tab + ndx + 1,
-	       sizeof(self->_type) * (self->_size - ndx));
-      self->_tab[self->_size + 1] = NULL;
-      free(self->_tab);
-      self->_tab = new_objs;
-      ++self->_size;
+      if (ndx < self->_size)
+	{
+	  free(self->_tab[ndx]);
+	  self->_tab[ndx] = new(self->_type, &ap);
+	}
       va_end(ap);
     }
 }
