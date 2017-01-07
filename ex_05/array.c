@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 02:44:09 2017 Antoine Baché
+** Last update Sat Jan  7 03:40:50 2017 Ludovic Petrenko
 */
 
 #include <string.h>
@@ -32,6 +32,13 @@ typedef struct {
 
 void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
 {
+  if (self && args)
+    {
+      self->_array = va_arg(*args, ArrayClass*);
+      self->_idx = va_arg(*args, size_t);
+      if (self->_idx >= self->_array->_size)
+	raise("Out of range iterator!");
+    }
 }
 
 bool ArrayIterator_eq(ArrayIteratorClass* self, ArrayIteratorClass* other)
@@ -48,14 +55,29 @@ bool ArrayIterator_lt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 
 void ArrayIterator_incr(ArrayIteratorClass* self)
 {
+  if (self)
+    {
+      self->_idx++;
+      if (self->_idx >= self->_array->_size)
+	raise("Out of range iterator!");
+    }
 }
 
 Object* ArrayIterator_getval(ArrayIteratorClass* self)
 {
+  if (self)
+    {
+      return (self->_array->_tab[self->_idx]);
+    }
+  return (NULL);
 }
 
 void ArrayIterator_setval(ArrayIteratorClass* self, ...)
 {
+  if (self)
+    {
+      self->_array->
+    }
 }
 
 static ArrayIteratorClass ArrayIteratorDescr = {
@@ -131,6 +153,7 @@ Iterator* Array_begin(ArrayClass* self)
 {
   if (self)
     {
+
     }
 }
 
