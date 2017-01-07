@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 03:04:17 2017 Antoine Baché
+** Last update Sat Jan  7 03:08:46 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -135,7 +135,7 @@ Iterator* Array_begin(ArrayClass* self)
   ite = NULL;
   if (self)
     {
-      ite = new(ArrayIterator, self->_tab, self->_size, 0);
+      ite = new(ArrayIterator, self->_tab, 0);
     }
   return (ite);
 }
@@ -147,7 +147,7 @@ Iterator* Array_end(ArrayClass* self)
   ite = NULL;
   if (self)
     {
-      ite = new(ArrayIterator, self->_tab, self->_size, 0);
+      ite = new(ArrayIterator, self->_tab, 0);
     }
   return (ite);
 }
