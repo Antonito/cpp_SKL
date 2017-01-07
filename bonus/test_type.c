@@ -6,6 +6,10 @@
 #include "int16_t.h"
 #include "int32_t.h"
 #include "int64_t.h"
+#include "uint8_t.h"
+#include "uint16_t.h"
+#include "uint32_t.h"
+#include "uint64_t.h"
 #include "new.h"
 
 void test(Object* a, Object* b, Object* c)
@@ -26,10 +30,14 @@ void test(Object* a, Object* b, Object* c)
 
 int main()
 {
-    test(new(Int, 12), new(Int, 12), new(Int, 13));
-    test(new(Int8_t, 12), new(Int8_t, 12), new(Int8_t, 13));
-    test(new(Int16_t, 12), new(Int16_t, 12), new(Int16_t, 13));
-    /* test(new(Int32_t, 12), new(Int32_t, 12), new(Int32_t, 13)); */
-    /* test(new(Int64_t, 12), new(Int64_t, 12), new(Int64_t, 13)); */
-    return 0;
+  printf("TESTING INIT STDINT TYPES");
+  test(new(Int8_t, 12), new(Int8_t, 12), new(Int8_t, 13));
+  test(new(Int16_t, 12), new(Int16_t, 12), new(Int16_t, 13));
+  test(new(Int32_t, 12), new(Int32_t, 12), new(Int32_t, 13));
+  test(new(Int64_t, 12), new(Int64_t, 12), new(Int64_t, 13));
+  test(new(Uint8_t, 12), new(Uint8_t, 12), new(Uint8_t, 13));
+  test(new(Uint16_t, 12), new(Uint16_t, 12), new(Uint16_t, 13));
+  test(new(Uint32_t, 12), new(Uint32_t, 12), new(Uint32_t, 13));
+  test(new(Uint64_t, 12), new(Uint64_t, 12), new(Uint64_t, 13));
+  return 0;
 }

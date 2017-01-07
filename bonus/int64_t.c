@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:45 2017 Antoine Baché
-** Last update Sat Jan 07 14:44:20 2017 
+** Last update Sat Jan  7 14:48:32 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -51,7 +51,7 @@ static char const*	Int64_t_str(Object *self)
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
-  if (asprintf(&obj->__str__, "<%s (%d)>", obj->base.__name__,
+  if (asprintf(&obj->__str__, "<%s (%ld)>", obj->base.__name__,
 	       obj->value) == -1)
     {
       raise("Out of memory");
