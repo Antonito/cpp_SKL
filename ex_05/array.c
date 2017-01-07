@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 04:44:08 2017 Antoine Baché
+** Last update Sat Jan  7 19:00:19 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -35,7 +35,7 @@ static void	_setval(ArrayClass *self, size_t ndx, va_list *ap)
 {
   if (self && ap && ndx < self->_size)
     {
-      free(self->_tab[ndx]);
+      delete(self->_tab[ndx]);
       self->_tab[ndx] = va_new(self->_type, ap);
     }
 }

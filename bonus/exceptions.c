@@ -5,36 +5,40 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 16:50:56 2017 Antoine Baché
-** Last update Sat Jan  7 18:52:35 2017 Antoine Baché
+** Last update Sat Jan  7 20:14:56 2017 Antoine Baché
 */
 
 #include "raise.h"
 #include "exceptions.h"
 
-__attribute__((nonnull (1, 2)))static void		Exception_ctor(Object *self, va_list *ap)
+static void		Exception_ctor(Object * const self, va_list * const ap)
 {
   ExceptionClass	*obj;
 
   if (!self || !ap)
-    raise("Cannot create Exception");
+    raise("Cannot create exception");
   obj = self;
   obj->value = NO_EXCEPTION;
 }
 
 
-static enum ExceptionsCode	Exception_getException(ExceptionClass *self)
+static enum ExceptionsCode	Exception_getException(const ExceptionClass *
+						       const self)
 {
   if (!self)
-    raise("Cannot get exception");
+    raise("Cannot get Exception");
   return (self->value);
 }
 
-__attribute__((always_inline)) inline void	_free_exception(Object *ptr)
+inline void	_free_exception(Object *ptr)
 {
+  Object	*except;
+
   if (!ptr || !*(void **)ptr)
     raise("Incorrect argument !");
-  ptr = *(void **)ptr;
-  free(ptr);
+  except = *(void **)ptr;
+  free(except);
+  *(void **)ptr = NULL;
 }
 
 static ExceptionClass	_description =

@@ -6,8 +6,8 @@
 
 #include "object.h"
 
-Object* new(Class * class, ...);
-Object* va_new(Class* class, va_list* ap);
-void delete(Object * ptr);
+Object* new(const Class * const class, ...);
+Object* va_new(const Class* const class, va_list* const ap);
+void delete(Object *ptr);
 
 #endif
