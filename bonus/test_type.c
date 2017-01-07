@@ -30,22 +30,38 @@ void test(Object* a, Object* b, Object* c)
 
 int main()
 {
-  /*fflush(stderr);
-  printf("TESTING INIT STDINT TYPES\n");*/
-  /* test(new(Int8_t, 12), new(Int8_t, 12), new(Int8_t, 13)); */
-  /* test(new(Int16_t, 12), new(Int16_t, 12), new(Int16_t, 13)); */
-  /* test(new(Int32_t, 12), new(Int32_t, 12), new(Int32_t, 13)); */
-  /* test(new(Int64_t, 12), new(Int64_t, 12), new(Int64_t, 13)); */
-  /* test(new(Uint8_t, 12), new(Uint8_t, 12), new(Uint8_t, 13)); */
-  /* test(new(Uint16_t, 12), new(Uint16_t, 12), new(Uint16_t, 13)); */
-  /* test(new(Uint32_t, 12), new(Uint32_t, 12), new(Uint32_t, 13)); */
-  /* test(new(Uint64_t, 12), new(Uint64_t, 12), new(Uint64_t, 13)); */
-  /*Object *a = new(Int32_t, 50);
-  Object *b = new(Int8_t, 1);
+  printf("TESTING INIT STDINT TYPES\n");
+  test(new(Int8_t, 12), new(Int8_t, 12), new(Int8_t, 13));
+  test(new(Int16_t, 12), new(Int16_t, 12), new(Int16_t, 13));
+  test(new(Int32_t, 12), new(Int32_t, 12), new(Int32_t, 13));
+  test(new(Int64_t, 12), new(Int64_t, 12), new(Int64_t, 13));
+  test(new(Uint8_t, 12), new(Uint8_t, 12), new(Uint8_t, 13));
+  test(new(Uint16_t, 12), new(Uint16_t, 12), new(Uint16_t, 13));
+  test(new(Uint32_t, 12), new(Uint32_t, 12), new(Uint32_t, 13));
+  test(new(Uint64_t, 12), new(Uint64_t, 12), new(Uint64_t, 13));
+  Object *a = new(Int64_t, -500);
+  Object *b = new(Int32_t, -50);
+  Object *c = new(Int16_t, -5);
+  Object *d = new(Int8_t, -1);
+  Object *e = new(Uint64_t, 500);
+  Object *f = new(Uint32_t, 50);
+  Object *g = new(Uint16_t, 5);
+  Object *h = new(Uint8_t, 1);
 
-  Object *res = ((Class *)a)->__div__(a, b);
-  printf("result div: %s\n", str(res));
+  printf("result div: %s\n", str(add(a, b)));
+  printf("result div: %s\n", str(mul(a, c)));
+  printf("result div: %s\n", str(div(a, d)));
+  printf("result div: %s\n", str(sub(a, e)));
+  printf("result div: %d\n", str(eq(a, f)));
+  printf("result div: %d\n", str(lt(a, g)));
+  printf("result div: %d\n", str(gt(a, h)));
+  delete(a);
   delete(b);
-  delete(a);*/
+  delete(c);
+  delete(d);
+  delete(e);
+  delete(f);
+  delete(g);
+  delete(h);
   return 0;
 }

@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan 07 21:00:59 2017 
+** Last update Sat Jan  7 21:32:28 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -233,12 +233,12 @@ static bool		Int32_t_real_eq(const Object *self, const Object *other)
 
   else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      comp = ((Int32_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
+      comp = ((Int32_tClass *)self)->value - (int16_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      comp = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
+      comp = ((Int32_tClass *)self)->value - ((Int32_tClass *)other)->value;
     }
 
   return (comp == 0);
@@ -266,12 +266,12 @@ static bool		Int32_t_real_lt(const Object *self, const Object *other)
 
   else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      comp = ((Int32_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
+      comp = ((Int32_tClass *)self)->value - (int16_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      comp = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
+      comp = ((Int32_tClass *)self)->value - ((Int32_tClass *)other)->value;
     }
 
   return (comp < 0);
@@ -299,12 +299,12 @@ static bool		Int32_t_real_gt(const Object *self, const Object *other)
 
   else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      comp = ((Int32_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
+      comp = ((Int32_tClass *)self)->value - (int16_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      comp = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
+      comp = ((Int32_tClass *)self)->value - ((Int32_tClass *)other)->value;
     }
 
   return (comp > 0);
