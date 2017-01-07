@@ -11,6 +11,7 @@
 #include "uint32_t.h"
 #include "uint64_t.h"
 #include "new.h"
+#include "object.h"
 
 void test(Object* a, Object* b, Object* c)
 {
@@ -52,9 +53,9 @@ int main()
   printf("result div: %s\n", str(mul(a, c)));
   printf("result div: %s\n", str(div(a, d)));
   printf("result div: %s\n", str(sub(a, e)));
-  printf("result div: %d\n", str(eq(a, f)));
-  printf("result div: %d\n", str(lt(a, g)));
-  printf("result div: %d\n", str(gt(a, h)));
+  printf("result div: %d\n", eq(a, f));
+  printf("result div: %d\n", lt(a, g));
+  printf("result div: %d\n", gt(a, h));
   delete(a);
   delete(b);
   delete(c);

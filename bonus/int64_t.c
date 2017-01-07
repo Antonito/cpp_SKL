@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan  7 21:31:33 2017 Arthur ARNAUD
+** Last update Sat Jan  7 21:54:48 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -57,7 +57,7 @@ static char const*	Int64_t_str(Object *self)
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
-  if (asprintf(&obj->__str__, "<%s (%d)>", obj->base.base.__name__,
+  if (asprintf(&obj->__str__, "<%s (%ld)>", obj->base.base.__name__,
 	       obj->value) == -1)
     {
       raise("Out of memory");
@@ -97,7 +97,7 @@ static Object*		Int64_t_real_add(const Object *self, const Object *other)
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      sum = ((Int64_tClass *)self)->value + ((Int32_tClass *)other)->value;
+      sum = ((Int64_tClass *)self)->value + (int32_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int64_t", 7) == 0 || memcmp(_b->__name__, "Uint64_t", 8) == 0)
@@ -136,7 +136,7 @@ static Object*		Int64_t_real_sub(const Object *self, const Object *other)
     }
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      sub = ((Int64_tClass *)self)->value - ((Int32_tClass *)other)->value;
+      sub = ((Int64_tClass *)self)->value - (int32_t)*(uintptr_t *)value;
     }
   else if (memcmp(_b->__name__, "Int64_t", 7) == 0 || memcmp(_b->__name__, "Uint64_t", 8) == 0)
     {
@@ -175,7 +175,7 @@ static Object*		Int64_t_real_mul(const Object *self, const Object *other)
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      mul = ((Int64_tClass *)self)->value * ((Int32_tClass *)other)->value;
+      mul = ((Int64_tClass *)self)->value * (int32_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int64_t", 7) == 0 || memcmp(_b->__name__, "Uint64_t", 8) == 0)
@@ -222,7 +222,7 @@ static Object*		Int64_t_real_div(const Object *self, const Object *other)
     {
       if ((int32_t)*(uintptr_t *)value == 0)
 	raise("you cannot divide by zero)");
-      div = ((Int64_tClass *)self)->value / ((Int32_tClass *)other)->value;
+      div = ((Int64_tClass *)self)->value / (int32_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int64_t", 7) == 0 || memcmp(_b->__name__, "Uint64_t", 8) == 0)
@@ -262,7 +262,7 @@ static bool		Int64_t_real_eq(const Object *self, const Object *other)
     }
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      comp = ((Int64_tClass *)self)->value - ((Int32_tClass *)other)->value;
+      comp = ((Int64_tClass *)self)->value - (int32_t)*(uintptr_t *)value;
     }
   else if (memcmp(_b->__name__, "Int64_t", 7) == 0 || memcmp(_b->__name__, "Uint64_t", 8) == 0)
     {
@@ -298,7 +298,7 @@ static bool		Int64_t_real_lt(const Object *self, const Object *other)
     }
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      comp = ((Int64_tClass *)self)->value - ((Int32_tClass *)other)->value;
+      comp = ((Int64_tClass *)self)->value - (int32_t)*(uintptr_t *)value;
     }
   else if (memcmp(_b->__name__, "Int64_t", 7) == 0 || memcmp(_b->__name__, "Uint64_t", 8) == 0)
     {
@@ -335,7 +335,7 @@ static bool		Int64_t_real_gt(const Object *self, const Object *other)
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      comp = ((Int64_tClass *)self)->value - ((Int32_tClass *)other)->value;
+      comp = ((Int64_tClass *)self)->value - (int32_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int64_t", 7) == 0 || memcmp(_b->__name__, "Uint64_t", 8) == 0)
