@@ -40,6 +40,7 @@ int main()
   test(new(Uint16_t, 12), new(Uint16_t, 12), new(Uint16_t, 13));
   test(new(Uint32_t, 12), new(Uint32_t, 12), new(Uint32_t, 13));
   test(new(Uint64_t, 12), new(Uint64_t, 12), new(Uint64_t, 13));
+
   Object *a = new(Int64_t, -500);
   Object *b = new(Int32_t, -50);
   Object *c = new(Int16_t, -5);
