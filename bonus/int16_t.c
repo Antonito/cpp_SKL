@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:45 2017 Antoine Baché
-** Last update Sat Jan  7 14:06:54 2017 Arthur ARNAUD
+** Last update Sat Jan 07 14:41:15 2017 
 */
 
 #define _GNU_SOURCE
@@ -57,6 +57,11 @@ static char const*	Int16_t_str(Object *self)
       raise("Out of memory");
     }
   return (obj->__str__);
+}
+
+static Object	*Int16_t_clone(const Object *self)
+{
+  return (new(Int16_t, ((Int16_tClass *)self)->value));
 }
 
 static Object*		Int16_t_add(const Object * self, const Object *other)
@@ -135,7 +140,7 @@ static Int16_tClass _description =
 {
   {
     sizeof(Int16_tClass), "Int16_t", &Int16_t_ctor, &Int16_t_dtor,
-    &Int16_t_str, &Int16_t_add, &Int16_t_sub, &Int16_t_mul, &Int16_t_div,
+    &Int16_t_str, &Int16_t_clone, &Int16_t_add, &Int16_t_sub, &Int16_t_mul, &Int16_t_div,
     &Int16_t_eq, &Int16_t_gt, &Int16_t_lt
   },
   NULL, 0

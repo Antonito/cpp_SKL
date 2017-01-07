@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:45 2017 Antoine Baché
-** Last update Sat Jan  7 14:18:42 2017 Arthur ARNAUD
+** Last update Sat Jan 07 14:44:20 2017 
 */
 
 #define _GNU_SOURCE
@@ -57,6 +57,11 @@ static char const*	Int64_t_str(Object *self)
       raise("Out of memory");
     }
   return (obj->__str__);
+}
+
+static Object	*Int64_t_clone(const Object *self)
+{
+  return (new(Int64_t, ((Int64_tClass *)self)->value));
 }
 
 static Object*		Int64_t_add(const Object * self, const Object *other)
@@ -135,7 +140,7 @@ static Int64_tClass _description =
 {
   {
     sizeof(Int64_tClass), "Int64_t", &Int64_t_ctor, &Int64_t_dtor,
-    &Int64_t_str, &Int64_t_add, &Int64_t_sub, &Int64_t_mul, &Int64_t_div,
+    &Int64_t_str, &Int64_t_clone, &Int64_t_add, &Int64_t_sub, &Int64_t_mul, &Int64_t_div,
     &Int64_t_eq, &Int64_t_gt, &Int64_t_lt
   },
   NULL, 0

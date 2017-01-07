@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan  7 14:15:05 2017 Arthur ARNAUD
+** Last update Sat Jan 07 14:42:48 2017 
 */
 
 #define _GNU_SOURCE
@@ -57,6 +57,11 @@ static char const*	Int32_t_str(Object *self)
       raise("Out of memory");
     }
   return (obj->__str__);
+}
+
+static Object	*Int32_t_clone(const Object *self)
+{
+  return (new(Int32_t, ((Int32_tClass *)self)->value));
 }
 
 static Object*		Int32_t_add(const Object * self, const Object *other)
@@ -135,7 +140,7 @@ static Int32_tClass _description =
 {
   {
     sizeof(Int32_tClass), "Int32_t", &Int32_t_ctor, &Int32_t_dtor,
-    &Int32_t_str, &Int32_t_add, &Int32_t_sub, &Int32_t_mul, &Int32_t_div,
+    &Int32_t_str, &Int32_t_clone, &Int32_t_add, &Int32_t_sub, &Int32_t_mul, &Int32_t_div,
     &Int32_t_eq, &Int32_t_gt, &Int32_t_lt
   },
   NULL, 0
