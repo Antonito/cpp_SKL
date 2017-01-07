@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 03:40:27 2017 Antoine Baché
+** Last update Sat Jan  7 03:59:44 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -29,6 +29,21 @@ typedef struct {
     ArrayClass* _array;
     size_t _idx;
 } ArrayIteratorClass;
+
+static void	_setval(ArrayClass *self, va_list *ap)
+{
+  size_t	ndx;
+
+  if (self && ap)
+    {
+      ndx = va_arg(*ap, size_t);
+      if (ndx < self->_size)
+	{
+	  free(self->_tab[ndx]);
+	  self->_tab[ndx] = new(self->_type, ap);
+	}
+    }
+}
 
 void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
 {
@@ -177,19 +192,12 @@ Object* Array_getitem(ArrayClass* self, ...)
 
 void Array_setitem(ArrayClass* self, ...)
 {
-  size_t	ndx;
-  size_t	i;
   va_list	ap;
 
   if (self)
     {
       va_start(ap, self);
-      ndx = va_arg(ap, size_t);
-      if (ndx < self->_size)
-	{
-	  free(self->_tab[ndx]);
-	  self->_tab[ndx] = new(self->_type, &ap);
-	}
+      _setval(self, &ap);
       va_end(ap);
     }
 }
