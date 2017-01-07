@@ -42,9 +42,6 @@ int main()
   Object *a = new(Int32_t, 50);
   Object *b = new(Int8_t, 10);
 
-  Object *toto = ((Class *)a)->__add__(b, a);
-  printf("toto : %s\n", str(toto));
-  delete(toto);
   delete(b);
   delete(a);
   return 0;

@@ -17,9 +17,9 @@ typedef struct {
   real_op	real_sub;
   real_op	real_mul;
   real_op	real_div;
-  bool		real_eq;
-  bool		real_lt;
-  bool		real_gt;
+  real_cmp	real_eq;
+  real_cmp	real_lt;
+  real_cmp	real_gt;
 
 } Number;
 

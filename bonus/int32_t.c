@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan  7 18:57:42 2017 Arthur ARNAUD
+** Last update Sat Jan  7 20:11:34 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -71,7 +71,7 @@ static Object	*Int32_t_clone(const Object *self)
 
 static Object*		Int32_t_add(const Object * self, const Object *other)
 {
-  return (check_op(self, other, '-'));
+  return (check_op(self, other, '+'));
 }
 
 static Object*		Int32_t_real_add(const Object *self, const Object *other)
@@ -85,17 +85,16 @@ static Object*		Int32_t_real_add(const Object *self, const Object *other)
   value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
 
 
-  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+  if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
     {
       sum = ((Int32_tClass *)self)->value + (int8_t)*(uintptr_t *)value;
     }
-
-  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      sum = ((Int32_tClass *)self)->value + (int8_t)*(uintptr_t *)value;
+      sum = ((Int32_tClass *)self)->value + (int16_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
       sum = ((Int32_tClass *)self)->value + ((Int32_tClass *)other)->value;
     }
@@ -120,17 +119,17 @@ static Object*		Int32_t_real_sub(const Object *self, const Object *other)
   value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
 
 
-  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+  if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
     {
       sub = ((Int32_tClass *)self)->value - (int8_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      sub = ((Int32_tClass *)self)->value - (int8_t)*(uintptr_t *)value;
+      sub = ((Int32_tClass *)self)->value - (int16_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
       sub = ((Int32_tClass *)self)->value - ((Int32_tClass *)other)->value;
     }
@@ -155,17 +154,17 @@ static Object*		Int32_t_real_mul(const Object *self, const Object *other)
   value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
 
 
-  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+  if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
     {
       mul = ((Int32_tClass *)self)->value * (int8_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      mul = ((Int32_tClass *)self)->value * (int8_t)*(uintptr_t *)value;
+      mul = ((Int32_tClass *)self)->value * (int16_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
       mul = ((Int32_tClass *)self)->value * ((Int32_tClass *)other)->value;
     }
@@ -190,17 +189,17 @@ static Object*		Int32_t_real_div(const Object *self, const Object *other)
   value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
 
 
-  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+  if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
     {
       div = ((Int32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      div = ((Int32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+      div = ((Int32_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
       div = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
     }
@@ -216,7 +215,6 @@ static bool		Int32_t_eq(const Object *self, const Object *other)
 
 static bool		Int32_t_real_eq(const Object *self, const Object *other)
 {
-  Object		*obj;
   int32_t		comp;
   Class			*_b;
   uintptr_t		value;
@@ -225,17 +223,17 @@ static bool		Int32_t_real_eq(const Object *self, const Object *other)
   value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
 
 
-  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+  if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
     {
       comp = ((Int32_tClass *)self)->value - (int8_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      comp = ((Int32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+      comp = ((Int32_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
       comp = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
     }
@@ -250,7 +248,6 @@ static bool		Int32_t_lt(const Object *self, const Object *other)
 
 static bool		Int32_t_real_lt(const Object *self, const Object *other)
 {
-  Object		*obj;
   int32_t		comp;
   Class			*_b;
   uintptr_t		value;
@@ -259,17 +256,17 @@ static bool		Int32_t_real_lt(const Object *self, const Object *other)
   value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
 
 
-  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+  if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
     {
       comp = ((Int32_tClass *)self)->value - (int8_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      comp = ((Int32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+      comp = ((Int32_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
       comp = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
     }
@@ -284,7 +281,6 @@ static bool		Int32_t_gt(const Object *self, const Object *other)
 
 static bool		Int32_t_real_gt(const Object *self, const Object *other)
 {
-  Object		*obj;
   int32_t		comp;
   Class			*_b;
   uintptr_t		value;
@@ -293,17 +289,17 @@ static bool		Int32_t_real_gt(const Object *self, const Object *other)
   value = (uintptr_t)other + sizeof(Class) + sizeof(char *);
 
 
-  if (strncmp(_b->__name__, "Int8_t", 6) == 0 || strncmp(_b->__name__, "Uint8_t", 7) == 0)
+  if (memcmp(_b->__name__, "Int8_t", 6) == 0 || memcmp(_b->__name__, "Uint8_t", 7) == 0)
     {
       comp = ((Int32_tClass *)self)->value - (int8_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int16_t", 7) == 0 || strncmp(_b->__name__, "Uint16_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
-      comp = ((Int32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+      comp = ((Int32_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
     }
 
-  if (strncmp(_b->__name__, "Int32_t", 7) == 0 || strncmp(_b->__name__, "Uint32_t", 8) == 0)
+  else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
       comp = ((Int32_tClass *)self)->value / ((Int32_tClass *)other)->value;
     }

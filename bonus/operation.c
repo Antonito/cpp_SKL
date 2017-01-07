@@ -70,27 +70,10 @@ Object *	check_op(const Object *a, const Object *b, char op)
 	else
 		return _b->real_div(b, a);
 	break;
-    case '=' :
-	if (type_a > type_b)
-		return _a->real_eq(a, b);
-	else
-		return _b->real_eq(b, a);
-	break;
-    case '<' :
-	if (type_a > type_b)
-		return _a->real_lt(a, b);
-	else
-		return _b->real_lt(b, a);
-	break;
-    case '>' :
-	if (type_a > type_b)
-		return _a->real_gt(a, b);
-	else
-		return _b->real_gt(b, a);
-	break;
     default:
 	break;
     }
+  return (NULL);
 }
 
 bool	check_cmp(const Object *a, const Object *b, char op)
@@ -154,4 +137,5 @@ bool	check_cmp(const Object *a, const Object *b, char op)
     default:
 	break;
     }
+  return (false);
 }
