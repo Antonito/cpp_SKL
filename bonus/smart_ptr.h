@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 13:20:23 2017 Antoine Baché
-** Last update Sat Jan  7 14:50:55 2017 Antoine Baché
+** Last update Sat Jan  7 16:26:33 2017 Antoine Baché
 */
 
 #ifndef UNIQUE_PTR_H_
@@ -35,7 +35,7 @@ enum	_smart_ptr_mode
 # define shared_ptr(c, ...)	_smart_ptr(c, SHARED_PTR, __VA_ARGS__)
 # define weak_ptr(c, ...)	_smart_ptr(c, WEAK_PTR, __VA_ARGS__)
 
-void		*_smart_ptr(Class *type, enum _smart_ptr_mode, ...);
+void		*_smart_ptr(Class *type, int, ...);
 void		_smart_ptr_free(Object *ptr);
 
 #endif /* !UNIQUE_PTR_H */

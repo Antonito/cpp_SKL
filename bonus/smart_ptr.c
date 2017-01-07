@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 13:19:56 2017 Antoine Baché
-** Last update Sat Jan  7 14:59:13 2017 Antoine Baché
+** Last update Sat Jan  7 16:26:43 2017 Antoine Baché
 */
 
 #include <stddef.h>
@@ -21,7 +21,7 @@ typedef struct	Smart_ptr
   Object	*_ptr;
 }	        Smart_ptr;
 
-void		*_smart_ptr(Class *type, enum _smart_ptr_mode mode, ...)
+void		*_smart_ptr(Class *type, int mode, ...)
 {
   Smart_ptr	*ptr;
   va_list	ap;
@@ -32,7 +32,6 @@ void		*_smart_ptr(Class *type, enum _smart_ptr_mode mode, ...)
   ptr = malloc(sizeof(Smart_ptr) + type->__size__);
   if (!ptr)
     raise("Out of memory !");
-  printf("Ptr is -> %p\n", ptr);
   ptr->_type = type;
   va_start(ap, mode);
   ptr->_ptr = ptr + 1;
@@ -40,7 +39,6 @@ void		*_smart_ptr(Class *type, enum _smart_ptr_mode mode, ...)
   va_end(ap);
   memcpy(ptr + 1, tmp, tmp->__size__);
   free(tmp);
-  printf("Ptr is -> %p\n", &ptr->_ptr);
   return (ptr->_ptr);
 }
 
@@ -48,11 +46,10 @@ __attribute__((always_inline)) inline void		_smart_ptr_free(Object *ptr)
 {
   Smart_ptr	*meta;
 
-  if (!ptr)
+  if (!ptr || !*(void **)ptr)
     raise("Incorrect argument !");
   ptr = *(void **)ptr;
   meta = (Smart_ptr *)((uintptr_t)ptr - sizeof(Smart_ptr));
-  printf("Ptr is -> %p\n", meta);
   ((Class *)meta->_ptr)->__del__(meta->_ptr);
   free(meta);
 }
