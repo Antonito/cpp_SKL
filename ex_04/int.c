@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:45 2017 Antoine Baché
-** Last update Sat Jan 07 13:39:57 2017 
+** Last update Sat Jan  7 18:20:54 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -26,6 +26,8 @@ static void	Int_ctor(Object *self, va_list *ap)
 {
   IntClass	*obj;
 
+  if (!self || !ap)
+    raise("Invalid parameter!");
   obj = self;
   if (ap)
     {
@@ -38,6 +40,8 @@ static void	Int_dtor(Object *self)
 {
   IntClass	*obj;
 
+  if (!self)
+    raise("Invalid parameter!");
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
@@ -47,6 +51,8 @@ static char const*	Int_str(Object *self)
 {
   IntClass		*obj;
 
+  if (!self)
+    raise("Invalid parameter!");
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
@@ -63,6 +69,8 @@ static Object*		Int_add(const Object * self, const Object *other)
   Object		*obj;
   int			sum;
 
+  if (!self || !other)
+    raise("Invalid parameter!");
   sum = ((IntClass *)self)->value + ((IntClass *)other)->value;
   obj = new(Int, sum);
   return (obj);
@@ -73,6 +81,8 @@ static Object*		Int_sub(const Object * self, const Object *other)
   Object		*obj;
   int			sub;
 
+  if (!self || !other)
+    raise("Invalid parameter!");
   sub = ((IntClass *)self)->value - ((IntClass *)other)->value;
   obj = new(Int, sub);
   return (obj);
@@ -83,6 +93,8 @@ static Object*		Int_mul(const Object * self, const Object *other)
   Object		*obj;
   int			mul;
 
+  if (!self || !other)
+    raise("Invalid parameter!");
   mul = ((IntClass *)self)->value * ((IntClass *)other)->value;
   obj = new(Int, mul);
   return (obj);
@@ -93,6 +105,8 @@ static Object*		Int_div(const Object * self, const Object *other)
   Object		*obj;
   int			div;
 
+  if (!self || !other)
+    raise("Invalid parameter!");
   if (((IntClass *)other)->value == 0)
     raise("Floating point exception !");
   div = ((IntClass *)self)->value / ((IntClass *)other)->value;
@@ -105,6 +119,8 @@ static bool		Int_eq(const Object *self, const Object *other)
   int			val1;
   int			val2;
 
+  if (!self || !other)
+    raise("Invalid parameter!");
   val1 = ((IntClass *)self)->value;
   val2 = ((IntClass *)other)->value;
   return (val1 == val2);
@@ -115,6 +131,8 @@ static bool		Int_lt(const Object *self, const Object *other)
   int			val1;
   int			val2;
 
+  if (!self || !other)
+    raise("Invalid parameter!");
   val1 = ((IntClass *)self)->value;
   val2 = ((IntClass *)other)->value;
   return (val1 < val2);
@@ -125,6 +143,8 @@ static bool		Int_gt(const Object *self, const Object *other)
   int			val1;
   int			val2;
 
+  if (!self || !other)
+    raise("Invalid parameter!");
   val1 = ((IntClass *)self)->value;
   val2 = ((IntClass *)other)->value;
   return (val1 > val2);
