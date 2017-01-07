@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:33:57 2017 Antoine Baché
-** Last update Sat Jan  7 04:43:03 2017 Antoine Baché
+** Last update Sat Jan  7 17:56:05 2017 Ludovic Petrenko
 */
 
 #include <stdlib.h>
@@ -18,17 +18,16 @@ void	*new(Class *class)
   void	*obj;
 
   obj = NULL;
-  if (class)
+  if (!class)
+    raise("Invalid parameter!");
+  obj = malloc(class->__size__);
+  if (!obj)
     {
-      obj = malloc(class->__size__);
-      if (!obj)
-	{
-	  raise("Out of memory");
-	}
-      memcpy(obj, class, class->__size__);
-      if (class->__init__)
-	class->__init__(obj);
+      raise("Out of memory");
     }
+  memcpy(obj, class, class->__size__);
+  if (class->__init__)
+    class->__init__(obj);
   return (obj);
 }
 
@@ -36,11 +35,10 @@ void	delete(Object *ptr)
 {
   Class	*obj;
 
-  if (ptr)
-    {
-      obj = ptr;
-      if (obj->__del__)
-	obj->__del__(obj);
-      free(ptr);
-    }
+  if (!ptr)
+    raise("Invalid parameter!");
+  obj = ptr;
+  if (obj->__del__)
+    obj->__del__(obj);
+  free(ptr);
 }
