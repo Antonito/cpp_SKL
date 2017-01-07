@@ -57,13 +57,13 @@ int main()
   printf("result div: %d\n", eq(c, f));
   printf("result div: %d\n", lt(b, g));
   printf("result div: %d\n", gt(a, h));
-  printf("result div: %s\n", str(add(a, NULL)));
+  /*printf("result div: %s\n", str(add(a, NULL)));
   printf("result div: %s\n", str(sub(d, NULL)));
   printf("result div: %s\n", str(mul(b, NULL)));
   printf("result div: %s\n", str(div(c, NULL)));
   printf("result div: %d\n", eq(e, NULL));
   printf("result div: %d\n", lt(f, NULL));
-  printf("result div: %d\n", gt(f, NULL));
+  printf("result div: %d\n", gt(f, NULL));*/
   delete(a);
   delete(b);
   delete(c);
