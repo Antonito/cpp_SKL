@@ -5,7 +5,7 @@
 
 enum Type {INT8_T, INT16_T, INT32_T, INT64_T, FLOAT};
 
-Object *	check_add(Object *a, Object *b)
+Object *	check_add(const Object *a, const Object *b)
 {
   Number *_a = (Number *)a;
   Number *_b = (Number *)b;
