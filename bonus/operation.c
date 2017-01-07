@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "object.h"
 #include "number.h"
@@ -26,10 +27,6 @@ Object *	check_op(const Object *a, const Object *b, char op)
 
   if (strncmp(_a->base.__name__, "Float", 5) == 0)
     type_a = FLOAT;
-
-
-
-
 
 
   if (strncmp(_b->base.__name__, "Int8_t", 6) == 0 || strncmp(_b->base.__name__, "Uint8_t", 7) == 0)

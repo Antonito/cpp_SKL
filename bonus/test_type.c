@@ -30,17 +30,22 @@ void test(Object* a, Object* b, Object* c)
 
 int main()
 {
-  printf("TESTING INIT STDINT TYPES");
-  test(new(Int8_t, 12), new(Int8_t, 12), new(Int8_t, 13));
-  test(new(Int16_t, 12), new(Int16_t, 12), new(Int16_t, 13));
-  test(new(Int32_t, 12), new(Int32_t, 12), new(Int32_t, 13));
-  test(new(Int64_t, 12), new(Int64_t, 12), new(Int64_t, 13));
-  test(new(Uint8_t, 12), new(Uint8_t, 12), new(Uint8_t, 13));
-  test(new(Uint16_t, 12), new(Uint16_t, 12), new(Uint16_t, 13));
-  test(new(Uint32_t, 12), new(Uint32_t, 12), new(Uint32_t, 13));
-  test(new(Uint64_t, 12), new(Uint64_t, 12), new(Uint64_t, 13));
+  printf("TESTING INIT STDINT TYPES\n");
+  /* test(new(Int8_t, 12), new(Int8_t, 12), new(Int8_t, 13)); */
+  /* test(new(Int16_t, 12), new(Int16_t, 12), new(Int16_t, 13)); */
+  /* test(new(Int32_t, 12), new(Int32_t, 12), new(Int32_t, 13)); */
+  /* test(new(Int64_t, 12), new(Int64_t, 12), new(Int64_t, 13)); */
+  /* test(new(Uint8_t, 12), new(Uint8_t, 12), new(Uint8_t, 13)); */
+  /* test(new(Uint16_t, 12), new(Uint16_t, 12), new(Uint16_t, 13)); */
+  /* test(new(Uint32_t, 12), new(Uint32_t, 12), new(Uint32_t, 13)); */
+  /* test(new(Uint64_t, 12), new(Uint64_t, 12), new(Uint64_t, 13)); */
+  Object *a = new(Int32_t, 50);
+  Object *b = new(Int8_t, 10);
 
-  Object *toto = add(new(Int32_t, 90), new(Int8_t, 10));
-  test(toto, toto, toto);
+  Object *toto = ((Class *)a)->__add__(b, a);
+  printf("toto : %s\n", str(toto));
+  delete(toto);
+  delete(b);
+  delete(a);
   return 0;
 }
