@@ -50,13 +50,20 @@ int main()
   Object *g = new(Uint16_t, 5);
   Object *h = new(Uint8_t, 1);
 
-  printf("result div: %s\n", str(add(a, b)));
-  printf("result div: %s\n", str(mul(a, c)));
-  printf("result div: %s\n", str(div(a, d)));
-  printf("result div: %s\n", str(sub(a, e)));
-  printf("result div: %d\n", eq(a, f));
-  printf("result div: %d\n", lt(a, g));
+  printf("result div: %s\n", str(add(g, b)));
+  printf("result div: %s\n", str(mul(f, c)));
+  printf("result div: %s\n", str(div(e, d)));
+  printf("result div: %s\n", str(sub(d, e)));
+  printf("result div: %d\n", eq(c, f));
+  printf("result div: %d\n", lt(b, g));
   printf("result div: %d\n", gt(a, h));
+  printf("result div: %s\n", str(add(a, NULL)));
+  printf("result div: %s\n", str(sub(d, NULL)));
+  printf("result div: %s\n", str(mul(b, NULL)));
+  printf("result div: %s\n", str(div(c, NULL)));
+  printf("result div: %d\n", eq(e, NULL));
+  printf("result div: %d\n", lt(f, NULL));
+  printf("result div: %d\n", gt(f, NULL));
   delete(a);
   delete(b);
   delete(c);
