@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:35:07 2017 Antoine Baché
-** Last update Sat Jan  7 01:30:31 2017 Antoine Baché
+** Last update Sat Jan  7 18:05:14 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -26,19 +26,20 @@ static void	Point_ctor(Object *self, va_list *ap)
 {
   PointClass	*obj;
 
+  if (!self || !ap)
+    raise("Invalid parameter!");
   obj = self;
-  if (ap)
-    {
-      obj->__str__ = NULL;
-      obj->x = va_arg(*ap, int);
-      obj->y = va_arg(*ap, int);
-    }
+  obj->__str__ = NULL;
+  obj->x = va_arg(*ap, int);
+  obj->y = va_arg(*ap, int);
 }
 
 static void	Point_dtor(Object *self)
 {
   PointClass	*obj;
 
+  if (!self)
+    raise("Invalid parameter!");
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
@@ -48,6 +49,8 @@ static char const*	Point_str(Object *self)
 {
   PointClass		*obj;
 
+  if (!self)
+    raise("Invalid parameter!");
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
