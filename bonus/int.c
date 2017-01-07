@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:45 2017 Antoine Baché
-** Last update Sat Jan  7 14:03:24 2017 Arthur ARNAUD
+** Last update Sat Jan 07 14:20:41 2017 
 */
 
 #define _GNU_SOURCE
@@ -43,13 +43,12 @@ static void	Int_dtor(Object *self)
     free(obj->__str__);
 }
 
-static void	Int_clone(Object *self)
+static Object	*Int_clone(const Object *self)
 {
-  IntClass	*obj;
+  Object	*cloned;
 
-  obj = self;
-  if (obj->__str__)
-    free(obj->__str__);
+  cloned = new(Int, ((IntClass *)self)->value);
+  return cloned;
 }
 
 static char const*	Int_str(Object *self)
@@ -143,7 +142,7 @@ static IntClass _description =
 {
   {
     sizeof(IntClass), "Int", &Int_ctor, &Int_dtor,
-    &Int_str, &Int_add, &Int_sub, &Int_mul, &Int_div,
+    &Int_str, &Int_clone, &Int_add, &Int_sub, &Int_mul, &Int_div,
     &Int_eq, &Int_gt, &Int_lt
   },
   NULL, 0
