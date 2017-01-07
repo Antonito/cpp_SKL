@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "object.h"
 #include "number.h"
@@ -28,10 +29,6 @@ Object *	check_add(const Object *a, const Object *b)
     type_a = FLOAT;
 
 
-
-
-
-
   if (strncmp(_b->base.__name__, "Int8_t", 6) == 0 || strncmp(_b->base.__name__, "Uint8_t", 7) == 0)
     type_b = INT8_T;
 
@@ -46,6 +43,8 @@ Object *	check_add(const Object *a, const Object *b)
 
   if (strncmp(_b->base.__name__, "Float", 5) == 0)
     type_b = FLOAT;
+
+  printf("a : %d \n b: %d \n", type_a, type_b);
 
   if (type_a > type_b)
     return _a->real_add(a, b);
