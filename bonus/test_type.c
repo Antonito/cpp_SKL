@@ -11,6 +11,7 @@
 #include "uint32_t.h"
 #include "uint64_t.h"
 #include "float.h"
+#include "double.h"
 #include "new.h"
 #include "object.h"
 
@@ -42,6 +43,7 @@ int main2()
   test(new(Uint32_t, 12), new(Uint32_t, 12), new(Uint32_t, 13));
   test(new(Uint64_t, 12), new(Uint64_t, 12), new(Uint64_t, 13));
   test(new(Float, 12.0f), new(Float, 12.0f), new(Float, 13.0f));
+  test(new(Double, 12.0), new(Double, 12.0), new(Double, 13.0));
 
   Object *a = new(Int64_t, -500);
   Object *b = new(Int32_t, -50);
@@ -52,22 +54,51 @@ int main2()
   Object *g = new(Uint16_t, 5);
   Object *h = new(Uint8_t, 1);
   Object *i = new(Float, 4.2);
+  Object *j = new(Double, 5.2);
 
+  Object *result = add(g, b);
+  printf("================TEST STDINT=============\n");
   printf("result add: %s\n", str(add(g, b)));
-  printf("result mul: %s\n", str(mul(f, c)));
-  printf("result div: %s\n", str(div(e, d)));
-  printf("result sub: %s\n", str(sub(d, e)));
+  delete(result);
+  result = mul(f, c);
+  printf("result mul: %s\n", str(result));
+  delete(result);
+  result = div(e, d);
+  printf("result div: %s\n", str(result));
+  delete(result);
+  result = sub(d, e);
+  printf("result sub: %s\n", str(result));
   printf("result eq: %d\n", eq(c, f));
   printf("result lt: %d\n", lt(b, g));
   printf("result gt: %d\n\n", gt(a, h));
 
-  printf("result add: %s\n", str(add(g, i)));
-  printf("result mul: %s\n", str(mul(i, c)));
-  printf("result div: %s\n", str(div(e, i)));
+  printf("================TEST FLOAT=============\n");
+  delete(result);
+  result = add(g,i);
+  printf("result add: %s\n", str(result));
+  delete(result);
+  result = mul(g,i);
+  printf("result mul: %s\n", str(result));
+  delete(result);
+  result = div(g,i);
+  printf("result div: %s\n", str(result));
+  delete(result);
   printf("result sub: %s\n", str(sub(i, e)));
   printf("result eq: %d\n", eq(c, i));
   printf("result lt: %d\n", lt(i, g));
   printf("result gt: %d\n", gt(a, i));
+
+  printf("================TEST DOUBLE=============\n");
+  printf("j: %s\n", str(j));
+  printf("i: %s\n", str(i));
+  printf("result add: %s\n", str(add(i, j)));
+  printf("result mul: %s\n", str(mul(j, g)));
+  printf("result div: %s\n", str(div(i, j)));
+  printf("result sub: %s\n", str(sub(i, j)));
+  printf("result eq: %d\n", eq(i, j));
+  printf("result lt: %d\n", lt(i, j));
+  printf("result gt: %d\n", gt(i, j));
+
   /*printf("result div: %s\n", str(add(a, NULL)));
   printf("result div: %s\n", str(sub(d, NULL)));
   printf("result div: %s\n", str(mul(b, NULL)));
@@ -83,5 +114,7 @@ int main2()
   delete(f);
   delete(g);
   delete(h);
+  delete(i);
+  delete(j);
   return 0;
 }
