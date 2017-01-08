@@ -241,16 +241,13 @@ static void	_test_types()
   printf(OK("Float"));
 
   printf(DISPLAY("================DOUBLE============="));
-  printf(DISPLAY("j: %s"), str(j));
   printf(DISPLAY("i: %s"), str(i));
+  printf(DISPLAY("j: %s"), str(j));
   result = add(i, j);
   printf(DISPLAY("result add: %s"), str(result));
   delete(result);
   result = mul(j, g);
   printf(DISPLAY("result mul: %s"), str(result));
-  delete(result);
-  result = div(i, j);
-  printf(DISPLAY("result div: %s"), str(result));
   delete(result);
   result = sub(i, j);
   printf(DISPLAY("result sub: %s"), str(result));

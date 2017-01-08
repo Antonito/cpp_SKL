@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan 08 07:34:50 2017 
+** Last update Sun Jan  8 09:34:27 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -169,7 +169,7 @@ static Object*		Int8_t_real_div(const Object *self, const Object *other, bool pl
       div = (double)((Int8_tClass *)self)->value / (double)(int8_t)*(uintptr_t *)value;
     }
 
-  if (place && div != 0)
+  if (place && div > -0.0001 && div < 0.0001)
     div = 1 / div;
   obj = new(Int8_t, (int8_t)div);
   return (obj);

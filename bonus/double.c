@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 08:42:00 2017 Antoine Baché
+** Last update Sun Jan  8 09:24:05 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -249,31 +249,31 @@ static Object*		Double_real_div(const Object *self, const Object *other, bool pl
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
-      if ((double)((int32_t)*(uintptr_t *)value) > 0.0001 && (double)((int32_t)*(uintptr_t *)value) < 0.0001)
+      if ((double)((int32_t)*(uintptr_t *)value) > -0.0001 && (double)((int32_t)*(uintptr_t *)value) < 0.0001)
 	raise("you cannot divide by zero)");
       div = ((DoubleClass *)self)->value / (double)((int32_t)*(uintptr_t *)value);
     }
   else if (memcmp(_b->__name__, "Int64_t", 7) == 0 || memcmp(_b->__name__, "Uint64_t", 8) == 0)
     {
-      if ((double)((int64_t)*(uintptr_t *)value) > 0.0001 && (double)((int64_t)*(uintptr_t *)value) < 0.0001)
+      if ((double)((int64_t)*(uintptr_t *)value) > -0.0001 && (double)((int64_t)*(uintptr_t *)value) < 0.0001)
 	raise("you cannot divide by zero)");
       div = ((DoubleClass *)self)->value / (double)((int64_t)*(uintptr_t *)value);
     }
   else if (memcmp(_b->__name__, "Float", 5) == 0)
     {
-      if ((double)((float)*(uintptr_t *)value) > 0.0001 && (double)((float)*(uintptr_t *)value) < 0.0001)
+      if ((double)((float)*(uintptr_t *)value) > -0.0001 && (double)((float)*(uintptr_t *)value) < 0.0001)
 	raise("you cannot divide by zero)");
       div = ((DoubleClass *)self)->value / (double)(*(float *)(uintptr_t *)value);
     }
 
   else if (memcmp(_b->__name__, "Double", 6) == 0)
     {
-      if (((DoubleClass *)other)->value > 0.0001 && ((DoubleClass *)other)->value < 0.0001)
+      if (((DoubleClass *)other)->value > -0.0001 && ((DoubleClass *)other)->value < 0.0001)
 	raise("you cannot divide by zero)");
       div = ((DoubleClass *)self)->value / ((DoubleClass *)other)->value;
     }
 
-  if (place && div != 0)
+  if (place && div > -0.0001 && div < 0.0001)
     div = 1 / div;
   obj = new(Double, div);
   return (obj);
@@ -320,7 +320,7 @@ static bool		Double_real_eq(const Object *self, const Object *other)
       comp = ((DoubleClass *)self)->value - ((DoubleClass *)other)->value;
     }
 
-  return (comp == 0);
+  return ((comp > -0.0001 && comp < 0.0001));
 }
 
 static bool		Double_lt(const Object *self, const Object *other)

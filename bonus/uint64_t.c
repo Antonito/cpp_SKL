@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan 08 07:33:52 2017 
+** Last update Sun Jan  8 09:33:06 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -235,7 +235,7 @@ static Object*		Uint64_t_real_div(const Object *self, const Object *other, bool 
       div = (double)((Uint64_tClass *)self)->value / (double)(int64_t)*(uintptr_t *)value;
     }
 
-  if (place && div != 0)
+  if (place && div > -0.0001 && div < 0.0001)
     div = 1/ div;
   obj = new(Int64_t, (int64_t)div);
   return (obj);
