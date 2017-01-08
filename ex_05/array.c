@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 05:19:56 2017 Ludovic Petrenko
+** Last update Sun Jan  8 07:41:19 2017 Arthur ARNAUD
 */
 
 #include <string.h>
@@ -33,7 +33,9 @@ typedef struct {
 
 static void	_setval(ArrayClass *self, size_t ndx, va_list *ap)
 {
-  if (self && ap && ndx < self->_size)
+  if (!self || !ap)
+    raise("Invalid parameter!");
+  if (ndx < self->_size)
     {
       delete(self->_tab[ndx]);
       self->_tab[ndx] = va_new(self->_type, ap);
@@ -42,77 +44,66 @@ static void	_setval(ArrayClass *self, size_t ndx, va_list *ap)
 
 static void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
 {
-  if (self && args)
-    {
-      self->_array = va_arg(*args, ArrayClass*);
-      self->_idx = va_arg(*args, size_t);
-      if (self->_idx >= self->_array->_size)
-	raise("Out of range iterator!");
-    }
+  if (!self || !args)
+    raise("Invalid parameter!");
+  self->_array = va_arg(*args, ArrayClass*);
+  self->_idx = va_arg(*args, size_t);
+  if (self->_idx >= self->_array->_size)
+    raise("Out of range iterator!");
 }
 
 static bool ArrayIterator_eq(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
-  if (self && other)
-    {
-      if (self->_array != other->_array)
-	raise("Comparison between incompatible iterator!");
-      return (self->_idx == other->_idx);
-    }
-  return (false);
+  if (!self || !other)
+    raise("Invalid parameter!");
+  if (self->_array != other->_array)
+    raise("Comparison between incompatible iterator!");
+  return (self->_idx == other->_idx);
 }
 
 static bool ArrayIterator_gt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
-  if (self && other)
-    {
-      if (self->_array != other->_array)
-	raise("Comparison between incompatible iterator!");
-      return (self->_idx > other->_idx);
-    }
-  return (false);
+  if (!self || !other)
+    raise("Invalid parameter!");
+  if (self->_array != other->_array)
+    raise("Comparison between incompatible iterator!");
+  return (self->_idx > other->_idx);
 }
 
 static bool ArrayIterator_lt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
-  if (self && other)
-    {
-      if (self->_array != other->_array)
-	raise("Comparison between incompatible iterator!");
-      return (self->_idx < other->_idx);
-    }
-  return (false);
+  if (!self || !other)
+    raise("Invalid parameter!");
+  if (self->_array != other->_array)
+    raise("Comparison between incompatible iterator!");
+  return (self->_idx < other->_idx);
 }
 
 static void ArrayIterator_incr(ArrayIteratorClass* self)
 {
-  if (self)
-    {
-      self->_idx++;
-      if (self->_idx >= self->_array->_size)
-	raise("Out of range iterator!");
-    }
+  if (!self)
+    raise("Invalid parameter!");
+  self->_idx++;
+  if (self->_idx >= self->_array->_size)
+    raise("Out of range iterator!");
 }
 
 static Object* ArrayIterator_getval(ArrayIteratorClass* self)
 {
-  if (self)
-    {
-      return (getitem((Container *)self->_array, self->_idx));
-    }
-  return (NULL);
+  if (!self)
+    raise("Invalid parameter!");
+  return (getitem((Container *)self->_array, self->_idx));
 }
 
 static void ArrayIterator_setval(ArrayIteratorClass* self, ...)
 {
   va_list	ap;
 
-  if (self)
-    {
-      va_start(ap, self);
-      _setval(self->_array, self->_idx, &ap);
-      va_end(ap);
-    }
+  if (!self)
+    raise("Invalid parameter!");
+  va_start(ap, self);
+  _setval(self->_array, self->_idx, &ap);
+  va_end(ap);
 }
 
 static ArrayIteratorClass ArrayIteratorDescr = {
@@ -142,21 +133,20 @@ static void Array_ctor(ArrayClass* self, va_list* args)
   size_t	i;
   va_list	ap;
 
-  if (self && args)
+  if (!self || !args)
+    raise("Invalid parameter!");
+  self->_size = va_arg(*args, size_t);
+  self->_type = va_arg(*args, Class *);
+  self->_tab = calloc(self->_size + 1, sizeof(self->_type));
+  if (!self->_tab)
+    raise("Out of memory !\n");
+  i = 0;
+  while (i < self->_size)
     {
-      self->_size = va_arg(*args, size_t);
-      self->_type = va_arg(*args, Class *);
-      self->_tab = calloc(self->_size + 1, sizeof(self->_type));
-      if (!self->_tab)
-	raise("Out of memory !\n");
-      i = 0;
-      while (i < self->_size)
-	{
-	  va_copy(ap, *args);
-	  self->_tab[i] = va_new(self->_type, &ap);
-	  va_end(ap);
-	  ++i;
-	}
+      va_copy(ap, *args);
+      self->_tab[i] = va_new(self->_type, &ap);
+      va_end(ap);
+      ++i;
     }
 }
 
@@ -164,25 +154,22 @@ static void Array_dtor(ArrayClass* self)
 {
   size_t	i;
 
-  if (self)
+  if (!self)
+    raise("Invalid parameter!");
+  i = 0;
+  while (i < self->_size)
     {
-      i = 0;
-      while (i < self->_size)
-	{
-	  delete(self->_tab[i]);
-	  ++i;
-	}
-      free(self->_tab);
+      delete(self->_tab[i]);
+      ++i;
     }
+  free(self->_tab);
 }
 
 static size_t Array_len(ArrayClass* self)
 {
-  if (self)
-    {
-      return (self->_size);
-    }
-  return (0);
+  if (!self)
+    raise("Invalid parameter!");
+  return (self->_size);
 }
 
 static Iterator* Array_begin(ArrayClass* self)
@@ -190,10 +177,9 @@ static Iterator* Array_begin(ArrayClass* self)
   Iterator	*ite;
 
   ite = NULL;
-  if (self)
-    {
-      ite = new(ArrayIterator, self, 0);
-    }
+  if (!self)
+    raise("Invalid parameter!");
+  ite = new(ArrayIterator, self, 0);
   return (ite);
 }
 
@@ -215,18 +201,17 @@ static Object* Array_getitem(ArrayClass* self, ...)
   va_list	ap;
   size_t	i;
 
-  if (self)
+  if (!self)
+    raise("Invalid parameter!");
+  va_start(ap, self);
+  ndx = va_arg(ap, size_t);
+  va_end(ap);
+  i = 0;
+  while (i < self->_size)
     {
-      va_start(ap, self);
-      ndx = va_arg(ap, size_t);
-      va_end(ap);
-      i = 0;
-      while (i < self->_size)
-	{
-	  if (i == ndx)
-	    return (&self->_tab[i]);
-	  ++i;
-	}
+      if (i == ndx)
+	return (&self->_tab[i]);
+      ++i;
     }
   return (NULL);
 }
@@ -237,13 +222,12 @@ static void Array_setitem(ArrayClass* self, ...)
   va_list	ap;
   size_t	ndx;
 
-  if (self)
-    {
-      va_start(ap, self);
-      ndx = va_arg(ap, size_t);
-      _setval(self, ndx, &ap);
-      va_end(ap);
-    }
+  if (!self)
+    raise("Invalid parameter!");
+  va_start(ap, self);
+  ndx = va_arg(ap, size_t);
+  _setval(self, ndx, &ap);
+  va_end(ap);
 }
 
 static ArrayClass _descr = {
