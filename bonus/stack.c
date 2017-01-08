@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:52:35 2017 Ludovic Petrenko
+** Last update Sun Jan  8 09:42:31 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -166,33 +166,6 @@ static void	Stack_swap(StackClass *self, StackClass *other)
   memcpy(other, &tmp, sizeof(StackClass));
 }
 
-static char const	*Stack_to_string(StackClass *self)
-{
-  char *last;
-  StackNode	*node;
-
-  if (!self)
-    raise("Invalid parameter!");
-  if (self->_str)
-    free(self->_str);
-  if (asprintf(&self->_str, "Stack<%s>[%lu]\n{\n", self->_type->__name__, self->_size) == -1)
-    raise("Out of memory!");
-  node = self->_list;
-  while (node)
-    {
-      last = self->_str;
-      if (asprintf(&self->_str, "%s%s, ", last, str(node->_type)) == -1)
-	raise("Out of memory!");
-      free(last);
-      node = node->next;
-    }
-  last = self->_str;
-  if (asprintf(&self->_str, "%s\n}\n", last) == -1)
-    raise("Out of memory!");
-  free(last);
-  return (self->_str);
-}
-
 static Object *Stack_to_array(StackClass *self)
 {
   Object	*arr;
@@ -327,7 +300,7 @@ static StackClass _descr = {
         { /* Class */
             sizeof(StackClass), "Stack",
             (ctor_t) &Stack_ctor, (dtor_t) &Stack_dtor, NULL,
-            (to_string_t) &Stack_to_string, /*str */
+            NULL, /*str */
 	    (clone_t) &Stack_clone, /* clone */
             (binary_operator_t) &Stack_add,
 	    NULL, /* sub */

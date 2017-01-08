@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sun Jan  8 05:36:15 2017 Antoine Baché
-** Last update Sun Jan  8 05:41:26 2017 Antoine Baché
+** Last update Sun Jan  8 09:28:48 2017 Antoine Baché
 */
 
 #ifndef TYPES_H_
@@ -25,6 +25,8 @@
 */
 # include "array.h"
 # include "list.h"
+# include "queue.h"
+# include "stack.h"
 
 /*
 ** Types

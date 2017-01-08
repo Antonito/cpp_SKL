@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 09:21:21 2017 Antoine Baché
+** Last update Sun Jan  8 09:41:47 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -160,33 +160,6 @@ static void	Queue_swap(QueueClass *self, QueueClass *other)
   memcpy(other, &tmp, sizeof(QueueClass));
 }
 
-static char const	*Queue_to_string(QueueClass *self)
-{
-  char *last;
-  QueueNode	*node;
-
-  if (!self)
-    raise("Invalid parameter!");
-  if (self->_str)
-    free(self->_str);
-  if (asprintf(&self->_str, "Queue<%s>[%lu]\n{\n", self->_type->__name__, self->_size) == -1)
-    raise("Out of memory!");
-  node = self->_list;
-  while (node)
-    {
-      last = self->_str;
-      if (asprintf(&self->_str, "%s%s, ", last, str(node->_type)) == -1)
-	raise("Out of memory!");
-      free(last);
-      node = node->next;
-    }
-  last = self->_str;
-  if (asprintf(&self->_str, "%s\n}\n", last) == -1)
-    raise("Out of memory!");
-  free(last);
-  return (self->_str);
-}
-
 static Object *Queue_to_array(QueueClass *self)
 {
   Object	*arr;
@@ -316,7 +289,7 @@ static QueueClass _descr = {
         { /* Class */
             sizeof(QueueClass), "Queue",
             (ctor_t) &Queue_ctor, (dtor_t) &Queue_dtor, NULL,
-            (to_string_t) &Queue_to_string, /*str */
+            NULL, /*str */
 	    (clone_t) &Queue_clone, /* clone */
             (binary_operator_t) &Queue_add,
 	    NULL, /* sub */
