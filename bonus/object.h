@@ -34,7 +34,7 @@ typedef struct {
 } Class;
 
 # define str(o) (((Class*) o)->__str__ != NULL ? ((Class*) o)->__str__(o) : "")
-# define clone(a) (((Class*) a)->__clone__(a))
+# define clone(a) (() ? ((Class*) a)->__clone__(a))
 # define set(a, ...) (((Class*) a)->__set__(a, __VA_ARGS__))
 # define add(a, b) (((Class*) a)->__add__(a, b))
 # define sub(a, b) (((Class*) a)->__sub__(a, b))
