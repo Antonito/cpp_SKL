@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:19:25 2017 Arthur ARNAUD
+** Last update Sun Jan  8 08:38:03 2017 Arthur ARNAUD
 */
 
 #include <string.h>
@@ -139,7 +139,7 @@ static void Array_ctor(ArrayClass* self, va_list* args)
   self->_type = va_arg(*args, Class *);
   self->_tab = calloc(self->_size + 1, sizeof(self->_type));
   if (!self->_tab)
-    raise("Out of memory !\n");
+    raise("Out of memory");
   i = 0;
   while (i < self->_size)
     {

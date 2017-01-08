@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:14:36 2017 Arthur ARNAUD
+** Last update Sun Jan  8 08:40:17 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -290,7 +290,7 @@ static void	List_push_back(ListClass* self, ...)
     raise("Invalid parameter!");
   va_start(ap, self);
   if (!(new_node = malloc(sizeof(ListNode))))
-    raise("Out of memory!");
+    raise("Out of memory");
   new_node->_type = va_arg(ap, __typeof__(self->_type));
   if (!self->_list)
     self->_list = new_node;
@@ -315,7 +315,7 @@ static void	List_push_front(ListClass* self, ...)
     raise("Invalid parameter!");
   va_start(ap, self);
   if (!(new_node = malloc(sizeof(ListNode))))
-    raise("Out of memory!");
+    raise("Out of memory");
   new_node->_type = va_arg(ap, __typeof__(self->_type));
   new_node->next = self->_list;
   self->_list = new_node;
@@ -379,7 +379,7 @@ static void	List_insert(ListClass* self, ...)
   if (ndx >= self->_size)
     raise("Index out of range!");
   if (!(new_node = malloc(sizeof(ListNode))))
-    raise("Out of memory!");
+    raise("Out of memory");
   node = self->_list;
   i = 0;
   while (i < ndx - 1 && node)
@@ -485,13 +485,13 @@ static char const	*List_to_string(ListClass *self)
   if (self->_str)
     free(self->_str);
   if (asprintf(&self->_str, "List<%s>[%lu]\n", self->_type->__name__, self->_size) == -1)
-    raise("Out of memory!");
+    raise("Out of memory");
   node = self->_list;
   while (node)
     {
       last = self->_str;
       if (asprintf(&self->_str, "%s%s", last, str(node->_type)) == -1)
-	raise("Out of memory!");
+	raise("Out of memory");
       free(last);
       node = node->next;
     }
