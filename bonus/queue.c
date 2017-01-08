@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:56:31 2017 Ludovic Petrenko
+** Last update Sun Jan  8 09:21:21 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -191,7 +191,6 @@ static Object *Queue_to_array(QueueClass *self)
 {
   Object	*arr;
   QueueNode	*node;
-  //  Iterator	*it;
   Object	**tab;
   size_t	i = 0;
 
@@ -199,14 +198,10 @@ static Object *Queue_to_array(QueueClass *self)
     raise("Invalid parameter!");
   arr = new(Array, self->_size, self->_type, 0);
   node = self->_list;
-  //  it = begin(arr);
-  tab = (void*)arr + sizeof(Container) + sizeof(Class*) + sizeof(size_t);
+  tab = *(void ***)((char *)arr + sizeof(Container) +
+		    sizeof(Class*) + sizeof(size_t));
   while (node && i < self->_size)
     {
-      //      setval(arr, i++, node->_type);
-      //      setval(it, node->_type);
-      //      incr(it);
-      printf("%ld\n", i );
       tab[i] = node->_type;
       node = node->next;
       ++i;
