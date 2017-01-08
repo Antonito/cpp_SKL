@@ -255,9 +255,6 @@ static void	_test_types()
   result = sub(i, j);
   printf(DISPLAY("result sub: %s"), str(result));
   delete(result);
-  printf(DISPLAY("result eq: %d"), eq(i, j));
-  printf(DISPLAY("result lt: %d"), lt(i, j));
-  printf(DISPLAY("result gt: %d"), gt(i, j));
   printf(OK("Double"));
 
   delete(a);
