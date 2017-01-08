@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 18:34:52 2017 Ludovic Petrenko
+** Last update Sun Jan  8 01:03:26 2017 Ludovic Petrenko
 */
 
 #include <string.h>
@@ -35,7 +35,7 @@ static void	_setval(ArrayClass *self, size_t ndx, va_list *ap)
 {
   if (self && ap && ndx < self->_size)
     {
-      free(self->_tab[ndx]);
+      delete(self->_tab[ndx]);
       self->_tab[ndx] = va_new(self->_type, ap);
     }
 }
@@ -144,32 +144,17 @@ void Array_ctor(ArrayClass* self, va_list* args)
 
   if (self && args)
     {
-      printf("%p\n", self);
       self->_size = va_arg(*args, size_t);
-      printf("%lu\n", self->_size);
       self->_type = va_arg(*args, Class *);
-<<<<<<< HEAD
-      printf("%p\n", self->_type);
       self->_tab = calloc(self->_size + 1, sizeof(self->_type));
-      printf("%p\n", self->_tab);
-=======
-      self->_tab = malloc(sizeof(self->_type) * (self->_size + 1));
->>>>>>> 769bf0f2765739d36af96027c1209ed45abc43ec
       if (!self->_tab)
 	raise("Out of memory !\n");
-      //      memset(self->_tab, 0, sizeof(self->_type) * (self->_size + 1));
       i = 0;
       while (i < self->_size)
 	{
-<<<<<<< HEAD
-	  va_copy(new_list, *args);
-	  self->_tab[i] = va_new(self->_type, &new_list);
-	  va_end(new_list);
-=======
 	  va_copy(ap, *args);
 	  self->_tab[i] = va_new(self->_type, &ap);
 	  va_end(ap);
->>>>>>> 769bf0f2765739d36af96027c1209ed45abc43ec
 	  ++i;
 	}
     }
@@ -207,11 +192,7 @@ Iterator* Array_begin(ArrayClass* self)
   ite = NULL;
   if (self)
     {
-<<<<<<< HEAD
-      ite = new(ArrayIterator, self->_tab, 0);
-=======
       ite = new(ArrayIterator, self, 0);
->>>>>>> 769bf0f2765739d36af96027c1209ed45abc43ec
     }
   return (ite);
 }

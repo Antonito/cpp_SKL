@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:52 2017 Antoine Baché
-** Last update Sun Jan  8 00:33:04 2017 Ludovic Petrenko
+** Last update Sun Jan  8 01:06:04 2017 Ludovic Petrenko
 */
 
 #include <stdlib.h>
@@ -13,9 +13,8 @@
 #include <string.h>
 #include "raise.h"
 #include "object.h"
-//#include "new.h"
 
-Object* va_new(Class* class, va_list* ap)
+Object* va_new(const Class* const class, va_list* const ap)
 {
   void	*obj;
 
@@ -30,7 +29,7 @@ Object* va_new(Class* class, va_list* ap)
   return (obj);
 }
 
-void		*new(Class *class, ...)
+void		*new(const Class * const class, ...)
 {
   void		*obj;
   va_list	ap;
