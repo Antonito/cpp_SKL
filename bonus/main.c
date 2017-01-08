@@ -224,6 +224,8 @@ static void	_test_types()
 
   printf(DISPLAY("================FLOAT============="));
   delete(result);
+  printf(DISPLAY("g: %s"), str(g));
+  printf(DISPLAY("i: %s"), str(i));
   result = add(g,i);
   printf(DISPLAY("result add: %s"), str(result));
   delete(result);
@@ -233,25 +235,22 @@ static void	_test_types()
   result = div(g,i);
   printf(DISPLAY("result div: %s"), str(result));
   delete(result);
-  result = sub(i, e);
+  result = sub(g, i);
   printf(DISPLAY("result sub: %s"), str(result));
   delete(result);
-  printf(DISPLAY("result eq: %d"), eq(c, i));
-  printf(DISPLAY("result lt: %d"), lt(i, g));
-  printf(DISPLAY("result gt: %d"), gt(a, i));
+  printf(DISPLAY("result eq: %d"), eq(g, i));
+  printf(DISPLAY("result lt: %d"), lt(g, i));
+  printf(DISPLAY("result gt: %d"), gt(g, i));
   printf(OK("Float"));
 
   printf(DISPLAY("================DOUBLE============="));
-  printf(DISPLAY("j: %s"), str(j));
   printf(DISPLAY("i: %s"), str(i));
+  printf(DISPLAY("j: %s"), str(j));
   result = add(i, j);
   printf(DISPLAY("result add: %s"), str(result));
   delete(result);
   result = mul(j, g);
   printf(DISPLAY("result mul: %s"), str(result));
-  delete(result);
-  result = div(i, j);
-  printf(DISPLAY("result div: %s"), str(result));
   delete(result);
   result = sub(i, j);
   printf(DISPLAY("result sub: %s"), str(result));

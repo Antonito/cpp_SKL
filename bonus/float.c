@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan 08 07:36:06 2017 
+** Last update Sun Jan  8 09:25:59 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -253,7 +253,7 @@ static Object*		Float_real_div(const Object *self, const Object *other, bool pla
       div = (double)((FloatClass *)self)->value / (double)((FloatClass *)other)->value;
     }
 
-  if (place && div != 0)
+  if (place && div > -0.0001 && div < 0.0001)
     div = 1 / div;
   obj = new(Float, (float)div);
   return (obj);
@@ -296,7 +296,7 @@ static bool		Float_real_eq(const Object *self, const Object *other)
       comp = ((FloatClass *)self)->value - ((FloatClass *)other)->value;
     }
 
-  return (comp == 0);
+  return ((comp > -0.0001 && comp < 0.0001));
 }
 
 static bool		Float_lt(const Object *self, const Object *other)
