@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 03:05:28 2017 Antoine Baché
+** Last update Sun Jan 08 07:34:50 2017 
 */
 
 #define _GNU_SOURCE
@@ -72,13 +72,14 @@ static Object*		Int8_t_add(const Object * self, const Object *other)
   return (check_op(self, other, '+'));
 }
 
-static Object*		Int8_t_real_add(const Object *self, const Object *other)
+static Object*		Int8_t_real_add(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int8_t		sum = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -97,7 +98,7 @@ static Object*		Int8_t_sub(const Object * self, const Object *other)
   return (check_op(self, other, '-'));
 }
 
-static Object*		Int8_t_real_sub(const Object *self, const Object *other)
+static Object*		Int8_t_real_sub(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int8_t		sub = 0;
@@ -113,6 +114,8 @@ static Object*		Int8_t_real_sub(const Object *self, const Object *other)
       sub = ((Int8_tClass *)self)->value - (int8_t)*(uintptr_t *)value;
     }
 
+  if (place)
+    sub = -1 * sub;
   obj = new(Int8_t, sub);
   return (obj);
 }
@@ -122,13 +125,14 @@ static Object*		Int8_t_mul(const Object * self, const Object *other)
   return (check_op(self, other, '*'));
 }
 
-static Object*		Int8_t_real_mul(const Object *self, const Object *other)
+static Object*		Int8_t_real_mul(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int8_t		mul = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -147,10 +151,10 @@ static Object*		Int8_t_div(const Object * self, const Object *other)
   return (check_op(self, other, '/'));
 }
 
-static Object*		Int8_t_real_div(const Object *self, const Object *other)
+static Object*		Int8_t_real_div(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
-  int8_t		div = 0;
+  double		div = 0;
   Class			*_b;
   uintptr_t		value;
 
@@ -162,10 +166,12 @@ static Object*		Int8_t_real_div(const Object *self, const Object *other)
     {
       if ((int8_t)*(uintptr_t *)value == 0)
 	raise("you cannot divide by zero)");
-      div = ((Int8_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+      div = (double)((Int8_tClass *)self)->value / (double)(int8_t)*(uintptr_t *)value;
     }
 
-  obj = new(Int8_t, div);
+  if (place && div != 0)
+    div = 1 / div;
+  obj = new(Int8_t, (int8_t)div);
   return (obj);
 }
 

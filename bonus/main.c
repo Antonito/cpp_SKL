@@ -19,6 +19,16 @@ static void		_test_smart_ptr(void)
   smart_ptr Object	*arr = unique_ptr(Array, 3, String, "Toto");
   auto it = begin(arr);
   auto it_end = end(arr);
+  smart_ptr Object	*new_val;
+  smart_ptr Object	*str;
+  smart_ptr Object	*str1;
+  Object		*str2;
+  smart_ptr Object	*value;
+  auto money		= 42.f;
+
+  str = unique_ptr(String, "Pete et repete sont sur un bateau.");
+  str1 = unique_ptr(String, "Pete tombe a l'eau.");
+  printf("You have -> $%.2f left on your account.\n", money);
 
   printf(TEST_STR("Smart pointers"));
   val1 = unique_ptr(Int, 42);
