@@ -28,10 +28,10 @@ int test_containers()
     push_back(list, l2);
     push_back(list, l3);
 
-      Object* list2 = new(List, List);
-  Object* l11 = new(List, Int);
-  Object* l12 = new(List, Int);
-  Object* l13 = new(List, Int);
+    Object* list2 = new(List, List);
+    Object* l11 = new(List, Int);
+    Object* l12 = new(List, Int);
+    Object* l13 = new(List, Int);
 
     push_back(l11, new(Int, 1));
     push_back(l11, new(Int, 2));
@@ -42,9 +42,9 @@ int test_containers()
     push_back(l13, new(Int, 7));
     push_back(l13, new(Int, 8));
 
-    push_back(list2, l1);
-    push_back(list2, l2);
-    push_back(list2, l3);
+    push_back(list2, l11);
+    push_back(list2, l12);
+    push_back(list2, l13);
 
     push_back(l, list);
     push_back(l, list2);
@@ -52,18 +52,14 @@ int test_containers()
 
     Object *n = new(Int, 3);
     Object *ll = mul(l2, n);
-    //    printf("%s\n", str(ll));
 
-        Object *t = to_array(ll);
-    //    Object *t = new(Array, 3, Int, 42);
-    //    printf("%s\n", ((Class*)t)->__name__);
+    Object *t = to_array(ll);
     printf("%s\n", str(t));
     Object *tt = mul(t, n);
     printf("%s\n", ((Class*)tt)->__name__);
-
-    //    Object *w = to_list(tt);
     printf("%s\n", str(tt));
-    delete(n);
-    delete(list);
+    //delete(tt);
+    //delete(ll);
+    //delete(l);
     return 0;
 }

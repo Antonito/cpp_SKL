@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 07:53:01 2017 Antoine Baché
+** Last update Sun Jan  8 08:32:25 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -398,6 +398,33 @@ static char const	*Array_to_string(ArrayClass *self)
   return (self->_str);
 }
 
+static Object		*ArrayClass_clone(const Object *self)
+{
+  const ArrayClass	*cur;
+  ArrayClass		*obj;
+  size_t		i;
+  Object		**tmp;
+
+  if (!self)
+    raise("Invalid parameter!");
+  cur = self;
+  obj = malloc(sizeof(char) * cur->base.base.__size__);
+  memcpy(obj, cur, cur->base.base.__size__);
+  tmp = malloc(sizeof(cur->_type) * (cur->_size + 1));
+  if (!tmp)
+    raise("Out of memory !");
+  memset(tmp, 0, sizeof(cur->_type) * (cur->_size + 1));
+  i = 0;
+  while (i < obj->_size)
+    {
+      if (((Class *)cur->_tab[i])->__clone__)
+	tmp[i] = ((Class *)cur->_tab[i])->__clone__(cur->_tab[i]);
+      ++i;
+    }
+  obj->_tab = tmp;
+  return (obj);
+}
+
 static ArrayClass _descr = {
     { /* Container */
         { /* Class */
@@ -405,7 +432,7 @@ static ArrayClass _descr = {
             (ctor_t) &Array_ctor, (dtor_t) &Array_dtor,
 	    NULL, /* set */
             (to_string_t) &Array_to_string, /*str */
-	    NULL, /*clone*/
+	    &ArrayClass_clone, /*clone*/
             (binary_operator_t) &Array_add,
 	    NULL, /* sub */
 	    (binary_operator_t) &Array_mul,

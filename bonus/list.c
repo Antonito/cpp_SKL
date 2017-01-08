@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 07:57:58 2017 Antoine Baché
+** Last update Sun Jan  8 08:01:12 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -199,7 +199,10 @@ static void List_dtor(ListClass* self)
     {
       next = node->next;
       if (!IsInList(next, node->_type))
-	delete(node->_type);
+	{
+	  delete(node->_type);
+	  node->_type = NULL;
+	}
       free(node);
       node = next;
     }
