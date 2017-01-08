@@ -12,6 +12,7 @@ typedef void (*ctor_t)(Object * self, va_list * args);
 typedef void (*dtor_t)(Object * self);
 typedef char const* (*to_string_t)(Object* self);
 typedef Object* (*binary_operator_t)(const Object* self, const Object* other);
+typedef Object* (*clone_t)(const Object* self);
 typedef bool (*binary_comparator_t)(const Object* self, const Object* other);
 
 typedef struct {
@@ -20,6 +21,7 @@ typedef struct {
     ctor_t              __init__;
     dtor_t              __del__;
     to_string_t         __str__;
+    clone_t		__clone__;
     binary_operator_t   __add__;
     binary_operator_t   __sub__;
     binary_operator_t   __mul__;
@@ -29,7 +31,8 @@ typedef struct {
     binary_comparator_t __lt__;
 } Class;
 
-# define str(o) (((Class*) o)->__str__ != NULL ? ((Class*) o)->__str__(o) : ((Class*) o)->__name__)
+# define str(o) (((Class*) o)->__str__ != NULL ? ((Class*) o)->__str__(o) : "")
+# define clone(a) (((Class*) a)->__clone__(a))
 # define add(a, b) (((Class*) a)->__add__(a, b))
 # define sub(a, b) (((Class*) a)->__sub__(a, b))
 # define mul(a, b) (((Class*) a)->__mul__(a, b))

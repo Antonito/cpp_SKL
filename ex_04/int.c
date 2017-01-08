@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:45 2017 Antoine Baché
-** Last update Sat Jan  7 01:30:02 2017 Antoine Baché
+** Last update Sat Jan 07 13:39:57 2017 
 */
 
 #define _GNU_SOURCE
@@ -50,7 +50,7 @@ static char const*	Int_str(Object *self)
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
-  if (asprintf(&obj->__str__, "<%s (%d)>\n", obj->base.__name__,
+  if (asprintf(&obj->__str__, "<%s (%d)>", obj->base.__name__,
 	       obj->value) == -1)
     {
       raise("Out of memory");
@@ -93,6 +93,8 @@ static Object*		Int_div(const Object * self, const Object *other)
   Object		*obj;
   int			div;
 
+  if (((IntClass *)other)->value == 0)
+    raise("Floating point exception !");
   div = ((IntClass *)self)->value / ((IntClass *)other)->value;
   obj = new(Int, div);
   return (obj);

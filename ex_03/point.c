@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:35:54 2017 Antoine Baché
-** Last update Sat Jan  7 01:30:16 2017 Antoine Baché
+** Last update Sat Jan 07 13:39:11 2017 
 */
 
 #define _GNU_SOURCE
@@ -52,7 +52,7 @@ static char const*	Point_str(Object *self)
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
-  if (asprintf(&obj->__str__, "<%s (%d, %d)>\n", obj->base.__name__,
+  if (asprintf(&obj->__str__, "<%s (%d, %d)>", obj->base.__name__,
 	       obj->x, obj->y) == -1)
     {
       raise("Out of memory");
