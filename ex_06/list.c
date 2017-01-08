@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:46:08 2017 Antoine Baché
+** Last update Sun Jan  8 08:59:49 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -163,8 +163,6 @@ static void List_ctor(ListClass* self, va_list* args)
 
 static int	IsInList(ListNode* list, Object *val)
 {
-  if (!list)
-    raise("Invalid parameter!");
   while (list)
     {
       if (list->_type == val)
