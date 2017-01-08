@@ -32,5 +32,4 @@ struct QueueClass
   queue_pop_t	__pop_front__;
 };
 
-
 #endif
