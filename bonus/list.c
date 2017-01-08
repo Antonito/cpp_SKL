@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 02:52:05 2017 Ludovic Petrenko
+** Last update Sun Jan  8 04:17:05 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -19,6 +19,7 @@
 #include "raise.h"
 #include "list.h"
 #include "new.h"
+#include "array.h"
 
 typedef struct {
     Iterator base;
@@ -516,8 +517,20 @@ static char const	*List_to_string(ListClass *self)
 
 static Object *List_to_array(ListClass *self)
 {
-  (void)self;
-  return (NULL);
+  Object	*arr;
+  ListNode	*node;
+  size_t	i = 0;
+
+  if (!self)
+    raise("Invalid parameter!");
+  arr = new(Array, self->_size, self->_type, NULL);
+  node = self->_list;
+  while (node)
+    {
+      setval(arr, i++, node->_type);
+      node = node->next;
+    }
+  return (arr);
 }
 
 static Object *List_to_list(ListClass *self)
@@ -527,6 +540,34 @@ static Object *List_to_list(ListClass *self)
   return (self);
 }
 
+static Object	*List_add(ListClass *self, Object *other)
+{
+  ListClass	*res;
+  ListClass	*o = NULL;
+  char		*validTypes[] = { "Array", "List", "Stack", "Queue" };
+
+  if (!self || !other)
+    raise("Invalid parameter!");
+
+  for (int i = 0; i < 4; ++i)
+    if (strcmp(((Class*)other)->__name__, validTypes[i]) == 0)
+      o = to_list(other);
+
+  if (!o)
+    raise("You can only add an Array with another container!");
+
+  res = new(List, self->_type);
+
+  for (Iterator *it = begin((Container *)self);
+       it != end((Container *)self); incr(it))
+    push_back(res, getval(it));
+
+  for (Iterator *it = begin((Container *)other);
+       it != end((Container *)other); incr(it))
+    push_back(res, getval(it));
+  return (res);
+}
+
 static ListClass _descr = {
     { /* Container */
         { /* Class */
@@ -534,7 +575,8 @@ static ListClass _descr = {
             (ctor_t) &List_ctor, (dtor_t) &List_dtor, NULL,
             (to_string_t) &List_to_string, /*str */
 	    NULL, /* clone */
-            NULL, NULL, NULL, NULL, /* add, sub, mul, div */
+            (binary_operator_t) &List_add,
+	    NULL, NULL, NULL, /* sub, mul, div */
             NULL, NULL, NULL, /* eq, gt, lt */
         },
         (len_t) &List_len,
@@ -542,7 +584,6 @@ static ListClass _descr = {
         (iter_t) &List_end,
         (getitem_t) &List_getitem,
         (setitem_t) &List_setitem,
-	NULL, /* setval */
 	(empty_t) &List_empty,
 	(swap_t) &List_swap,
 	(front_t) &List_front,

@@ -4,7 +4,7 @@
 #include "int.h"
 #include "exceptions.h"
 #include "String.h"
-
+#include "array.h"
 int	test_types();
 int	test_containers();
 

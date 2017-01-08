@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 02:49:58 2017 Ludovic Petrenko
+** Last update Sun Jan  8 04:17:25 2017 Ludovic Petrenko
 */
 
 #include <string.h>
@@ -16,6 +16,7 @@
 #include "raise.h"
 #include "array.h"
 #include "new.h"
+#include "list.h"
 
 typedef struct
 {
@@ -247,18 +248,91 @@ static void Array_setitem(ArrayClass* self, ...)
     }
 }
 
-
-static void Array_setval(ArrayClass *self, size_t ndx, ...)
+static Object	*Array_to_array(ArrayClass *self)
 {
-  va_list	ap;
+  if (!self)
+    raise("Invalid parameter!");
+  return (self);
+}
+
+static Object	*Array_to_list(ArrayClass *self)
+{
+  Object	*list;
 
   if (!self)
     raise("Invalid parameter!");
-  if (ndx >= self->_size)
-    raise("Out of range index!");
-  va_start(ap, ndx);
-  set(self->_tab[ndx], &ap);
-  va_end(ap);
+  list = new(List, self->_type);
+  for (size_t i = 0; i < self->_size; ++i)
+    push_back(list, getitem((Container *)self, i));
+  return (list);
+}
+
+static bool	Array_empty(ArrayClass *self)
+{
+  if (!self)
+    raise("Invalid parameter!");
+  return (self->_size == 0);
+}
+
+static void	Array_swap(ArrayClass *self, ArrayClass *other)
+{
+  ArrayClass	tmp;
+
+  if (!self || !other)
+    raise("Invalid parameter!");
+  memcpy(&tmp, self, sizeof(ArrayClass));
+  memcpy(self, other, sizeof(ArrayClass));
+  memcpy(other, &tmp, sizeof(ArrayClass));
+}
+
+static Object	*Array_front(ArrayClass *self)
+{
+  if (!self)
+    raise("Invalid parameter!");
+  if (self->_size == 0)
+    return (NULL);
+  else
+    return (self->_tab[0]);
+}
+
+static Object	*Array_back(ArrayClass *self)
+{
+  if (!self)
+    raise("Invalid parameter!");
+  if (self->_size == 0)
+    return (NULL);
+  else
+    return (self->_tab[self->_size - 1]);
+}
+
+static Object	*Array_add(ArrayClass *self, Object *other)
+{
+  ArrayClass	*res;
+  Iterator	*i;
+  ArrayClass	*o = NULL;
+  char		*validTypes[] = { "Array", "List", "Stack", "Queue" };
+
+  if (!self || !other)
+    raise("Invalid parameter!");
+
+  for (int i = 0; i < 4; ++i)
+    if (strcmp(((Class*)other)->__name__, validTypes[i]) == 0)
+      o = to_array(other);
+
+  if (!o)
+    raise("You can only add an Array with another container!");
+
+  res = new(Array, self->_type, self->_size + o->_size, NULL);
+  i = begin((Container *)res);
+
+  for (Iterator *it = begin((Container *)self);
+       it != end((Container *)self); incr(it), incr(i))
+    setval(i, getval(it));
+
+  for (Iterator *it = begin((Container *)other);
+       it != end((Container *)other); incr(it), incr(i))
+    setval(i, getval(it));
+  return (res);
 }
 
 static ArrayClass _descr = {
@@ -269,7 +343,8 @@ static ArrayClass _descr = {
 	    NULL, /* set */
             NULL, /*str */
 	    NULL, /*clone*/
-            NULL, NULL, NULL, NULL, /* add, sub, mul, div */
+            (binary_operator_t) &Array_add,
+	    NULL, NULL, NULL, /* sub, mul, div */
             NULL, NULL, NULL, /* eq, gt, lt */
         },
         (len_t) &Array_len,
@@ -277,9 +352,12 @@ static ArrayClass _descr = {
         (iter_t) &Array_end,
         (getitem_t) &Array_getitem,
         (setitem_t) &Array_setitem,
-	(setval_t) &Array_setval, /* setval */
-	NULL, NULL, NULL, NULL, /* empty, swap, front, back */
-	NULL, NULL /* to_array, to_list */
+	(empty_t) &Array_empty,
+	(swap_t) &Array_swap,
+	(front_t) &Array_front,
+	(back_t) &Array_back,
+	(to_array_t) &Array_to_array,
+	(to_list_t) &Array_to_list
     },
     NULL, 0, NULL
 };
