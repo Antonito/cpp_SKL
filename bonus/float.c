@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:27:38 2017 Arthur ARNAUD
+** Last update Sun Jan  8 01:45:21 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE

@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 01:03:26 2017 Ludovic Petrenko
+** Last update Sun Jan  8 01:55:58 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -40,7 +40,7 @@ static void	_setval(ArrayClass *self, size_t ndx, va_list *ap)
     }
 }
 
-void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
+static void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
 {
   if (self && args)
     {
@@ -51,7 +51,7 @@ void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
     }
 }
 
-bool ArrayIterator_eq(ArrayIteratorClass* self, ArrayIteratorClass* other)
+static bool ArrayIterator_eq(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
   if (self && other)
     {
@@ -62,7 +62,7 @@ bool ArrayIterator_eq(ArrayIteratorClass* self, ArrayIteratorClass* other)
   return (false);
 }
 
-bool ArrayIterator_gt(ArrayIteratorClass* self, ArrayIteratorClass* other)
+static bool ArrayIterator_gt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
   if (self && other)
     {
@@ -73,7 +73,7 @@ bool ArrayIterator_gt(ArrayIteratorClass* self, ArrayIteratorClass* other)
   return (false);
 }
 
-bool ArrayIterator_lt(ArrayIteratorClass* self, ArrayIteratorClass* other)
+static bool ArrayIterator_lt(ArrayIteratorClass* self, ArrayIteratorClass* other)
 {
   if (self && other)
     {
@@ -84,7 +84,7 @@ bool ArrayIterator_lt(ArrayIteratorClass* self, ArrayIteratorClass* other)
   return (false);
 }
 
-void ArrayIterator_incr(ArrayIteratorClass* self)
+static void ArrayIterator_incr(ArrayIteratorClass* self)
 {
   if (self)
     {
@@ -94,7 +94,7 @@ void ArrayIterator_incr(ArrayIteratorClass* self)
     }
 }
 
-Object* ArrayIterator_getval(ArrayIteratorClass* self)
+static Object* ArrayIterator_getval(ArrayIteratorClass* self)
 {
   if (self)
     {
@@ -103,7 +103,7 @@ Object* ArrayIterator_getval(ArrayIteratorClass* self)
   return (NULL);
 }
 
-void ArrayIterator_setval(ArrayIteratorClass* self, ...)
+static void ArrayIterator_setval(ArrayIteratorClass* self, ...)
 {
   va_list	ap;
 
@@ -137,7 +137,7 @@ static ArrayIteratorClass ArrayIteratorDescr = {
 
 static Class* ArrayIterator = (Class*) &ArrayIteratorDescr;
 
-void Array_ctor(ArrayClass* self, va_list* args)
+static void Array_ctor(ArrayClass* self, va_list* args)
 {
   size_t	i;
   va_list	ap;
@@ -160,7 +160,7 @@ void Array_ctor(ArrayClass* self, va_list* args)
     }
 }
 
-void Array_dtor(ArrayClass* self)
+static void Array_dtor(ArrayClass* self)
 {
   size_t	i;
 
@@ -176,7 +176,7 @@ void Array_dtor(ArrayClass* self)
     }
 }
 
-size_t Array_len(ArrayClass* self)
+static size_t Array_len(ArrayClass* self)
 {
   if (self)
     {
@@ -185,7 +185,7 @@ size_t Array_len(ArrayClass* self)
   return (0);
 }
 
-Iterator* Array_begin(ArrayClass* self)
+static Iterator* Array_begin(ArrayClass* self)
 {
   Iterator	*ite;
 
@@ -197,7 +197,7 @@ Iterator* Array_begin(ArrayClass* self)
   return (ite);
 }
 
-Iterator* Array_end(ArrayClass* self)
+static Iterator* Array_end(ArrayClass* self)
 {
   Iterator	*ite;
 
@@ -209,7 +209,7 @@ Iterator* Array_end(ArrayClass* self)
   return (ite);
 }
 
-Object* Array_getitem(ArrayClass* self, ...)
+static Object* Array_getitem(ArrayClass* self, ...)
 {
   size_t	ndx;
   va_list	ap;
@@ -232,7 +232,7 @@ Object* Array_getitem(ArrayClass* self, ...)
 }
 
 
-void Array_setitem(ArrayClass* self, ...)
+static void Array_setitem(ArrayClass* self, ...)
 {
   va_list	ap;
   size_t	ndx;
