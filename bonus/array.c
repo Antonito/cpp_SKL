@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 07:05:14 2017 Ludovic Petrenko
+** Last update Sun Jan  8 07:53:01 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -24,11 +24,11 @@
 
 typedef struct
 {
-    Container base;
-    Class* _type;
-    size_t _size;
-    Object** _tab;
-    char *_str;
+  Container base;
+  Class* _type;
+  size_t _size;
+  Object** _tab;
+  char *_str;
 } ArrayClass;
 
 typedef struct {
@@ -157,7 +157,7 @@ static void Array_ctor(ArrayClass* self, va_list* args)
       self->_tab = malloc((self->_size + 1) * sizeof(self->_type));
       if (!self->_tab)
 	raise("Out of memory !\n");
-      memset(self->_tab, 0, self->_size + 1);
+      memset(self->_tab, 0, (self->_size + 1) * sizeof(self->_type));
       i = 0;
       while (i < self->_size)
 	{
@@ -233,7 +233,7 @@ static Object* Array_getitem(ArrayClass* self, ...)
       while (i < self->_size)
 	{
 	  if (i == ndx)
-	    return (&self->_tab[i]);
+	    return (self->_tab[i]);
 	  ++i;
 	}
     }

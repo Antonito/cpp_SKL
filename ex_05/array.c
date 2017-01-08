@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 07:41:19 2017 Arthur ARNAUD
+** Last update Sun Jan  8 08:19:25 2017 Arthur ARNAUD
 */
 
 #include <string.h>
@@ -200,6 +200,7 @@ static Object* Array_getitem(ArrayClass* self, ...)
   size_t	ndx;
   va_list	ap;
   size_t	i;
+
 
   if (!self)
     raise("Invalid parameter!");
