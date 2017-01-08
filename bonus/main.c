@@ -17,12 +17,14 @@ static void		_test_smart_ptr(void)
 {
   smart_ptr Object	*val1;
   smart_ptr Object	*arr = unique_ptr(Array, 3, String, "Toto");
+  Object		*toto = clone(arr);
   auto it = begin(arr);
   auto it_end = end(arr);
   smart_ptr Object	*str;
   smart_ptr Object	*str1;
   auto money		= 42.f;
 
+  printf("%s\n", str(toto));
   str = unique_ptr(String, "Pete et repete sont sur un bateau.");
   str1 = unique_ptr(String, "Pete tombe a l'eau.");
   printf("You have -> $%.2f left on your account.\n", money);
