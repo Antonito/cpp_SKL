@@ -5,7 +5,7 @@
 ## Login   <bache_a@epitech.net>
 ##
 ## Started on  Fri Nov 25 20:10:26 2016 Antoine Baché
-## Last update Sun Jan  8 07:26:43 2017 Antoine Baché
+## Last update Sun Jan  8 07:53:57 2017 Antoine Baché
 ##
 
 # Makefile dependencies directory
@@ -32,6 +32,7 @@ SRC=		array.c			\
 		new.c			\
 		operation.c		\
 		smart_ptr.c		\
+		stack.c			\
 		String.c		\
 		test_containers.c	\
 		test_type.c		\
