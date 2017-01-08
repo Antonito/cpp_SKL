@@ -10,9 +10,6 @@
 #define LEAVING		LINE""CYAN_BOLD_INTENS"Leaving %s\n"CLEAR, __func__
 #define	TEST_STR(s)	CYAN_BOLD_INTENS"Testing "s"\n"CLEAR""LINE
 
-int	test_types();
-int	test_containers();
-
 static void		_test_smart_ptr(void)
 {
   smart_ptr Object	*val1;
@@ -280,7 +277,6 @@ int		main(void)
   _test_exceptions();
   _test_auto();
   _test_containers();
-  //test_containers();
   _test_types();
   printf(LEAVING);
   return (0);
