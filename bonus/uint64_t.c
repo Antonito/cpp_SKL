@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan 07 22:53:57 2017 
+** Last update Sun Jan  8 00:30:02 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -37,7 +37,7 @@ static void	Uint64_t_ctor(Object *self, va_list *ap)
   if (ap)
     {
       obj->__str__ = NULL;
-      obj->value = va_arg(*ap, int);
+      obj->value = va_arg(*ap, uint64_t);
     }
 }
 

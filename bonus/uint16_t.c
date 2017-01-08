@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan 07 22:11:43 2017 
+** Last update Sun Jan  8 00:32:10 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -36,7 +36,7 @@ static void	Uint16_t_ctor(Object *self, va_list *ap)
   if (ap)
     {
       obj->__str__ = NULL;
-      obj->value = va_arg(*ap, int);
+      obj->value = va_arg(*ap, unsigned int);
     }
 }
 

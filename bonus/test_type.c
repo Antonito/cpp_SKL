@@ -10,6 +10,7 @@
 #include "uint16_t.h"
 #include "uint32_t.h"
 #include "uint64_t.h"
+#include "float.h"
 #include "new.h"
 #include "object.h"
 
@@ -40,6 +41,7 @@ int main()
   test(new(Uint16_t, 12), new(Uint16_t, 12), new(Uint16_t, 13));
   test(new(Uint32_t, 12), new(Uint32_t, 12), new(Uint32_t, 13));
   test(new(Uint64_t, 12), new(Uint64_t, 12), new(Uint64_t, 13));
+  test(new(Float, 12.0f), new(Float, 12.0f), new(Float, 13.0f));
 
   Object *a = new(Int64_t, -500);
   Object *b = new(Int32_t, -50);
@@ -49,14 +51,23 @@ int main()
   Object *f = new(Uint32_t, 50);
   Object *g = new(Uint16_t, 5);
   Object *h = new(Uint8_t, 1);
+  Object *i = new(Float, 4.2);
 
-  printf("result div: %s\n", str(add(g, b)));
-  printf("result div: %s\n", str(mul(f, c)));
+  printf("result add: %s\n", str(add(g, b)));
+  printf("result mul: %s\n", str(mul(f, c)));
   printf("result div: %s\n", str(div(e, d)));
-  printf("result div: %s\n", str(sub(d, e)));
-  printf("result div: %d\n", eq(c, f));
-  printf("result div: %d\n", lt(b, g));
-  printf("result div: %d\n", gt(a, h));
+  printf("result sub: %s\n", str(sub(d, e)));
+  printf("result eq: %d\n", eq(c, f));
+  printf("result lt: %d\n", lt(b, g));
+  printf("result gt: %d\n\n", gt(a, h));
+
+  printf("result add: %s\n", str(add(g, i)));
+  printf("result mul: %s\n", str(mul(i, c)));
+  printf("result div: %s\n", str(div(e, i)));
+  printf("result sub: %s\n", str(sub(i, e)));
+  printf("result eq: %d\n", eq(c, i));
+  printf("result lt: %d\n", lt(i, g));
+  printf("result gt: %d\n", gt(a, i));
   /*printf("result div: %s\n", str(add(a, NULL)));
   printf("result div: %s\n", str(sub(d, NULL)));
   printf("result div: %s\n", str(mul(b, NULL)));
