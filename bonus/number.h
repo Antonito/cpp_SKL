@@ -8,7 +8,7 @@
 # include "bool.h"
 # include "object.h"
 
-typedef Object* (*real_op)(const Object* self, const Object* other);
+typedef Object* (*real_op)(const Object* self, const Object* other, bool place);
 typedef bool (*real_cmp)(const Object* self, const Object* other);
 
 typedef struct {
