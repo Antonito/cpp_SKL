@@ -5,12 +5,16 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 01:17:29 2017 Ludovic Petrenko
+** Last update Sun Jan  8 01:42:09 2017 Ludovic Petrenko
 */
+
+#define _GNU_SOURCE
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdint.h>
 
 #include "raise.h"
 #include "list.h"
@@ -147,12 +151,35 @@ static Class* ListIterator = (Class*) &ListIteratorDescr;
 
 void List_ctor(ListClass* self, va_list* args)
 {
-  if (self && args)
+  uint32_t	n;
+  uint32_t	i = 0;
+  Object	*value = NULL;
+  va_list	ap;
+
+  if (!self || !args)
+    raise("Invalid parameter!");
+  self->_type = va_arg(*args, Class *);
+  va_copy(ap, *args);
+  n = va_arg(ap, uint32_t);
+  self->_size = 0;
+  self->_list = NULL;
+  printf("%u\n", n);
+  if (n)
+    value = va_arg(ap, Object*);
+  while (i++ < n)
+    push_back(self, value);
+  va_end(ap);
+}
+
+static int	IsInList(ListNode* list, Object *val)
+{
+  while (list)
     {
-      self->_type = va_arg(*args, Class *);
-      self->_size = 0;
-      self->_list = NULL;
+      if (list->_type == val)
+	return (1);
+      list = list->next;
     }
+  return (0);
 }
 
 void List_dtor(ListClass* self)
@@ -160,19 +187,20 @@ void List_dtor(ListClass* self)
   ListNode*	node;
   ListNode*	next;
 
-  if (self)
+  if (!self)
+    raise("Invalid parameter!");
+  node = self->_list;
+  if (!node)
+    return ;
+  while (node)
     {
-      node = self->_list;
-      if (!node)
-	return ;
-      while (node)
-	{
-	  next = node->next;
-	  delete(node->_type);
-	  free(node);
-	  node = next;
-	}
+      next = node->next;
+      if (!IsInList(next, node->_type))
+	delete(node->_type);
+      free(node);
+      node = next;
     }
+  free(self->_str);
 }
 
 size_t List_len(ListClass* self)
@@ -237,8 +265,7 @@ Object* List_getitem(ListClass* self, ...)
   return (NULL);
 }
 
-
-void List_setitem(ListClass* self, ...)
+__attribute__((sentinel)) void List_setitem(ListClass* self, ...)
 {
   va_list	ap;
   size_t	ndx;
@@ -458,12 +485,39 @@ void	List_reverse(ListClass *self)
   self->_list = rev;
 }
 
+char const	*List_to_string(ListClass *self)
+{
+  char *last;
+  ListNode	*node;
+
+  if (!self)
+    raise("Invalid parameter!");
+  if (self->_str)
+    free(self->_str);
+  if (asprintf(&self->_str, "List<%s>[%lu]\n{\n", self->_type->__name__, self->_size) == -1)
+    raise("Out of memory!");
+  node = self->_list;
+  while (node)
+    {
+      last = self->_str;
+      if (asprintf(&self->_str, "%s%s, ", last, str(node->_type)) == -1)
+	raise("Out of memory!");
+      free(last);
+      node = node->next;
+    }
+  last = self->_str;
+  if (asprintf(&self->_str, "%s\n}\n", last) == -1)
+    raise("Out of memory!");
+  free(last);
+  return (self->_str);
+}
+
 static ListClass _descr = {
     { /* Container */
         { /* Class */
             sizeof(ListClass), "List",
             (ctor_t) &List_ctor, (dtor_t) &List_dtor,
-            NULL, /*str */
+            (to_string_t) &List_to_string, /*str */
 	    NULL, /* clone */
             NULL, NULL, NULL, NULL, /* add, sub, mul, div */
             NULL, NULL, NULL, /* eq, gt, lt */
@@ -485,7 +539,8 @@ static ListClass _descr = {
     (pop_front_t) &List_pop_front,
     (insert_t) &List_insert,
     (clear_t) &List_clear,
-    (reverse_t) &List_reverse
+    (reverse_t) &List_reverse,
+
 };
 
 Class* List = (Class*) &_descr;

@@ -30,7 +30,7 @@ void test(Object* a, Object* b, Object* c)
 }
 
 
-int main2()
+int test_types()
 {
   printf("TESTING INIT STDINT TYPES\n");
   test(new(Int8_t, 12), new(Int8_t, 12), new(Int8_t, 13));

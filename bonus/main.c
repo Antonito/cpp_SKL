@@ -5,7 +5,8 @@
 #include "exceptions.h"
 #include "String.h"
 
-int	main2();
+int	test_types();
+int	test_containers();
 
 int	main()
 {
@@ -48,6 +49,7 @@ int	main()
     }
   ETRY;
   delete(str2);
-  main2();
+  test_types();
+  test_containers();
   return (0);
 }

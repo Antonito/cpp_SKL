@@ -6,24 +6,7 @@
 #include "int.h"
 #include "new.h"
 
-void	print_list(Object *list)
-{
-  size_t	len = len(list);
-  Object	*it = begin(list);
-  Object	*end = end(list);
-
-  printf("List[%ld]\n", len);
-  while (!eq(it, end))
-    {
-      printf("%s", str(getval(it)));
-      incr(it);
-    }
-  printf("\n");
-  delete(it);
-  delete(end);
-}
-
-int main()
+int test_containers()
 {
   Object* l = new(List, List);
   Object* list = new(List, List);
