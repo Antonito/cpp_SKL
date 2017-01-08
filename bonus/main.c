@@ -157,7 +157,7 @@ void _test_containers(void)
 
 void _test_operations(Object* a, Object* b, Object* c)
 {
-  printf("a = %s, b = %s, c = %s\n", str(a), str(b), str(c));
+  printf(DISPLAY("a = %s, b = %s, c = %s"), str(a), str(b), str(c));
   assert(eq(a, b));
   assert(!gt(a, b));
   assert(!lt(a, b));
@@ -197,60 +197,61 @@ static void	_test_types()
   Object *j = new(Double, 5.2);
 
   Object *result = add(g, b);
-  printf("================TEST STDINT=============\n");
-  printf("result add: %s\n", str(result));
+  printf(DISPLAY("================INT============="));
+  printf(DISPLAY("result add: %s"), str(result));
   delete(result);
   result = mul(f, c);
-  printf("result mul: %s\n", str(result));
+  printf(DISPLAY("result mul: %s"), str(result));
   delete(result);
   result = div(e, d);
-  printf("result div: %s\n", str(result));
+  printf(DISPLAY("result div: %s"), str(result));
   delete(result);
   result = sub(d, e);
-  printf("result sub: %s\n", str(result));
-  printf("result eq: %d\n", eq(c, f));
-  printf("result lt: %d\n", lt(b, g));
-  printf("result gt: %d\n\n", gt(a, h));
+  printf(DISPLAY("result sub: %s"), str(result));
+  printf(DISPLAY("result eq: %d"), eq(c, f));
+  printf(DISPLAY("result lt: %d"), lt(b, g));
+  printf(DISPLAY("result gt: %d"), gt(a, h));
+  printf(OK("Ints"));
 
-  printf("================TEST FLOAT=============\n");
+  printf(DISPLAY("================FLOAT============="));
   delete(result);
   result = add(g,i);
-  printf("result add: %s\n", str(result));
+  printf(DISPLAY("result add: %s"), str(result));
   delete(result);
   result = mul(g,i);
-  printf("result mul: %s\n", str(result));
+  printf(DISPLAY("result mul: %s"), str(result));
   delete(result);
   result = div(g,i);
-  printf("result div: %s\n", str(result));
+  printf(DISPLAY("result div: %s"), str(result));
   delete(result);
   result = sub(i, e);
-  printf("result sub: %s\n", str(result));
-  printf("result eq: %d\n", eq(c, i));
-  printf("result lt: %d\n", lt(i, g));
-  printf("result gt: %d\n", gt(a, i));
+  printf(DISPLAY("result sub: %s"), str(result));
+  delete(result);
+  printf(DISPLAY("result eq: %d"), eq(c, i));
+  printf(DISPLAY("result lt: %d"), lt(i, g));
+  printf(DISPLAY("result gt: %d"), gt(a, i));
+  printf(OK("Float"));
 
-  printf("================TEST DOUBLE=============\n");
-  printf("j: %s\n", str(j));
-  printf("i: %s\n", str(i));
+  printf(DISPLAY("================DOUBLE============="));
+  printf(DISPLAY("j: %s"), str(j));
+  printf(DISPLAY("i: %s"), str(i));
   result = add(i, j);
-  printf("result add: %s\n", str(result));
+  printf(DISPLAY("result add: %s"), str(result));
+  delete(result);
   result = mul(j, g);
-  printf("result mul: %s\n", str(result));
+  printf(DISPLAY("result mul: %s"), str(result));
+  delete(result);
   result = div(i, j);
-  printf("result div: %s\n", str(result));
+  printf(DISPLAY("result div: %s"), str(result));
+  delete(result);
   result = sub(i, j);
-  printf("result sub: %s\n", str(result));
-  printf("result eq: %d\n", eq(i, j));
-  printf("result lt: %d\n", lt(i, j));
-  printf("result gt: %d\n", gt(i, j));
+  printf(DISPLAY("result sub: %s"), str(result));
+  delete(result);
+  printf(DISPLAY("result eq: %d"), eq(i, j));
+  printf(DISPLAY("result lt: %d"), lt(i, j));
+  printf(DISPLAY("result gt: %d"), gt(i, j));
+  printf(OK("Double"));
 
-  /*printf("result div: %s\n", str(add(a, NULL)));
-  printf("result div: %s\n", str(sub(d, NULL)));
-  printf("result div: %s\n", str(mul(b, NULL)));
-  printf("result div: %s\n", str(div(c, NULL)));
-  printf("result div: %d\n", eq(e, NULL));
-  printf("result div: %d\n", lt(f, NULL));
-  printf("result div: %d\n", gt(f, NULL));*/
   delete(a);
   delete(b);
   delete(c);
