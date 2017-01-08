@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:38:03 2017 Arthur ARNAUD
+** Last update Sun Jan  8 08:43:30 2017 Arthur ARNAUD
 */
 
 #include <string.h>
@@ -48,7 +48,7 @@ static void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
     raise("Invalid parameter!");
   self->_array = va_arg(*args, ArrayClass*);
   self->_idx = va_arg(*args, size_t);
-  if (self->_idx >= self->_array->_size)
+  if (self->_idx > self->_array->_size)
     raise("Out of range iterator!");
 }
 
@@ -84,7 +84,7 @@ static void ArrayIterator_incr(ArrayIteratorClass* self)
   if (!self)
     raise("Invalid parameter!");
   self->_idx++;
-  if (self->_idx >= self->_array->_size)
+  if (self->_idx > self->_array->_size)
     raise("Out of range iterator!");
 }
 

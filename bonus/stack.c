@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 07:36:50 2017 Ludovic Petrenko
+** Last update Sun Jan  8 07:57:49 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -197,7 +197,6 @@ static Object *Stack_to_array(StackClass *self)
 {
   Object	*arr;
   StackNode	*node;
-  //  Iterator	*it;
   Object	**tab;
   size_t	i = 0;
 
@@ -205,14 +204,10 @@ static Object *Stack_to_array(StackClass *self)
     raise("Invalid parameter!");
   arr = new(Array, self->_size, self->_type, 0);
   node = self->_list;
-  //  it = begin(arr);
-  tab = (void*)arr + sizeof(Container) + sizeof(Class*) + sizeof(size_t);
+  tab = *(void ***)((char *)arr + sizeof(Container) +
+		    sizeof(Class*) + sizeof(size_t));
   while (node && i < self->_size)
     {
-      //      setval(arr, i++, node->_type);
-      //      setval(it, node->_type);
-      //      incr(it);
-      printf("%ld\n", i );
       tab[i] = node->_type;
       node = node->next;
       ++i;

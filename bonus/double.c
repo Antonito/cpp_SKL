@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan 08 07:37:14 2017 
+** Last update Sun Jan  8 08:42:00 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -109,9 +109,6 @@ static Object*		Double_real_add(const Object *self, const Object *other, bool pl
     }
   else if (memcmp(_b->__name__, "Float", 5) == 0)
     {
-
-      printf("self :%f\n",((DoubleClass *)self)->value);
-      printf("other :%f\n",(double)(*(float *)(uintptr_t *)value));
       sum = ((DoubleClass *)self)->value + (double)(*(float *)(uintptr_t *)value);
     }
   else if (memcmp(_b->__name__, "Double", 6) == 0)
