@@ -57,27 +57,27 @@ Object *	check_op(const Object *a, const Object *b, char op)
     {
     case '+':
 	if (type_a > type_b)
-		return _a->real_add(a, b);
+		return _a->real_add(a, b, false);
 	else
-		return _b->real_add(b, a);
+		return _b->real_add(b, a, true);
 	break;
     case '-':
 	if (type_a > type_b)
-		return _a->real_sub(a, b);
+		return _a->real_sub(a, b, false);
 	else
-		return _b->real_sub(b, a);
+		return _b->real_sub(b, a, true);
 	break;
     case '*':
 	if (type_a > type_b)
-		return _a->real_mul(a, b);
+		return _a->real_mul(a, b, false);
 	else
-		return _b->real_mul(b, a);
+		return _b->real_mul(b, a, true);
 	break;
     case '/' :
 	if (type_a > type_b)
-		return _a->real_div(a, b);
+		return _a->real_div(a, b, false);
 	else
-		return _b->real_div(b, a);
+		return _b->real_div(b, a, true);
 	break;
     default:
 	break;

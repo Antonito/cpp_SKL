@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:59:16 2017 Antoine Baché
+** Last update Sun Jan 08 07:18:33 2017 
 */
 
 #define _GNU_SOURCE
@@ -73,13 +73,14 @@ static Object*		Int16_t_add(const Object * self, const Object *other)
   return (check_op(self, other, '+'));
 }
 
-static Object*		Int16_t_real_add(const Object *self, const Object *other)
+static Object*		Int16_t_real_add(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int16_t		sum = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -102,7 +103,7 @@ static Object*		Int16_t_sub(const Object * self, const Object *other)
   return (check_op(self, other, '-'));
 }
 
-static Object*		Int16_t_real_sub(const Object *self, const Object *other)
+static Object*		Int16_t_real_sub(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int16_t		sub = 0;
@@ -123,6 +124,8 @@ static Object*		Int16_t_real_sub(const Object *self, const Object *other)
       sub = ((Int16_tClass *)self)->value - ((Int16_tClass *)other)->value;
     }
 
+  if (place)
+    sub = -1 * sub;
   obj = new(Int16_t, sub);
   return (obj);
 }
@@ -132,13 +135,14 @@ static Object*		Int16_t_mul(const Object * self, const Object *other)
   return (check_op(self, other, '*'));
 }
 
-static Object*		Int16_t_real_mul(const Object *self, const Object *other)
+static Object*		Int16_t_real_mul(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int16_t		mul = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -162,10 +166,10 @@ static Object*		Int16_t_div(const Object * self, const Object *other)
   return (check_op(self, other, '/'));
 }
 
-static Object*		Int16_t_real_div(const Object *self, const Object *other)
+static Object*		Int16_t_real_div(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
-  int16_t		div = 0;
+  double		div = 0;
   Class			*_b;
   uintptr_t		value;
 
@@ -177,17 +181,19 @@ static Object*		Int16_t_real_div(const Object *self, const Object *other)
     {
       if ((int8_t)*(uintptr_t *)value == 0)
 	raise("you cannot divide by zero)");
-      div = ((Int16_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+      div = (double)((Int16_tClass *)self)->value / (double)(int8_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
       if ((int16_t)*(uintptr_t *)value == 0)
 	raise("you cannot divide by zero)");
-      div = ((Int16_tClass *)self)->value / ((Int16_tClass *)other)->value;
+      div = (double)((Int16_tClass *)self)->value / (double)((Int16_tClass *)other)->value;
     }
 
-  obj = new(Int16_t, div);
+  if (place && div != 0)
+    div = 1 / div;
+  obj = new(Int16_t, (int16_t)div);
   return (obj);
 }
 

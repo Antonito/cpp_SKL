@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:59:30 2017 Antoine Baché
+** Last update Sun Jan 08 07:23:27 2017 
 */
 
 #define _GNU_SOURCE
@@ -37,7 +37,7 @@ static void	Int64_t_ctor(Object *self, va_list *ap)
   if (ap)
     {
       obj->__str__ = NULL;
-      obj->value = va_arg(*ap, int64_t);
+      obj->value = (int32_t)va_arg(*ap, int64_t);
     }
 }
 
@@ -75,13 +75,14 @@ static Object*		Int64_t_add(const Object * self, const Object *other)
   return (check_op(self, other, '+'));
 }
 
-static Object*		Int64_t_real_add(const Object *self, const Object *other)
+static Object*		Int64_t_real_add(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int64_t		sum = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -111,16 +112,18 @@ static Object*		Int64_t_real_add(const Object *self, const Object *other)
 
 static Object*		Int64_t_sub(const Object * self, const Object *other)
 {
+  printf("INT64\n");
   return (check_op(self, other, '-'));
 }
 
-static Object*		Int64_t_real_sub(const Object *self, const Object *other)
+static Object*		Int64_t_real_sub(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int64_t		sub = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -143,6 +146,8 @@ static Object*		Int64_t_real_sub(const Object *self, const Object *other)
       sub = ((Int64_tClass *)self)->value - ((Int64_tClass *)other)->value;
     }
 
+  if (place)
+    sub = -1 * sub;
   obj = new(Int64_t, sub);
   return (obj);
 }
@@ -152,13 +157,14 @@ static Object*		Int64_t_mul(const Object * self, const Object *other)
   return (check_op(self, other, '*'));
 }
 
-static Object*		Int64_t_real_mul(const Object *self, const Object *other)
+static Object*		Int64_t_real_mul(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int64_t		mul = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -192,13 +198,14 @@ static Object*		Int64_t_div(const Object * self, const Object *other)
   return (check_op(self, other, '/'));
 }
 
-static Object*		Int64_t_real_div(const Object *self, const Object *other)
+static Object*		Int64_t_real_div(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
-  int64_t		div = 0;
+  double		div = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -207,31 +214,33 @@ static Object*		Int64_t_real_div(const Object *self, const Object *other)
     {
       if ((int8_t)*(uintptr_t *)value == 0)
 	raise("you cannot divide by zero)");
-      div = ((Int64_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+      div = (double)((Int64_tClass *)self)->value / (double)(int8_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
       if ((int16_t)*(uintptr_t *)value == 0)
 	raise("you cannot divide by zero)");
-      div = ((Int64_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
+      div = (double)((Int64_tClass *)self)->value / (double)(int16_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
       if ((int32_t)*(uintptr_t *)value == 0)
 	raise("you cannot divide by zero)");
-      div = ((Int64_tClass *)self)->value / (int32_t)*(uintptr_t *)value;
+      div = (double)((Int64_tClass *)self)->value / (double)(int32_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int64_t", 7) == 0 || memcmp(_b->__name__, "Uint64_t", 8) == 0)
     {
       if ((int64_t)*(uintptr_t *)value == 0)
 	raise("you cannot divide by zero)");
-      div = ((Int64_tClass *)self)->value / ((Int64_tClass *)other)->value;
+      div = (double)((Int64_tClass *)self)->value / (double)((Int64_tClass *)other)->value;
     }
 
-  obj = new(Int64_t, div);
+  if (place && div != 0)
+    div = 1 / div;
+  obj = new(Int64_t, (int64_t)div);
   return (obj);
 }
 

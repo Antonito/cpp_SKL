@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 02:21:51 2017 Arthur ARNAUD
+** Last update Sun Jan 08 07:31:32 2017 
 */
 
 #define _GNU_SOURCE
@@ -77,13 +77,14 @@ static Object*		Double_add(const Object * self, const Object *other)
   return (check_op(self, other, '+'));
 }
 
-static Object*		Double_real_add(const Object *self, const Object *other)
+static Object*		Double_real_add(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
-  double			sum = 0;
+  double		sum = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -127,7 +128,7 @@ static Object*		Double_sub(const Object * self, const Object *other)
   return (check_op(self, other, '-'));
 }
 
-static Object*		Double_real_sub(const Object *self, const Object *other)
+static Object*		Double_real_sub(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   double		sub = 0;
@@ -164,6 +165,8 @@ static Object*		Double_real_sub(const Object *self, const Object *other)
       sub = ((DoubleClass *)self)->value - ((DoubleClass *)other)->value;
     }
 
+  if (place)
+    sub = -1 * sub;
   obj = new(Double, sub);
   return (obj);
 }
@@ -173,13 +176,14 @@ static Object*		Double_mul(const Object * self, const Object *other)
   return (check_op(self, other, '*'));
 }
 
-static Object*		Double_real_mul(const Object *self, const Object *other)
+static Object*		Double_real_mul(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   double		mul = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -221,7 +225,7 @@ static Object*		Double_div(const Object * self, const Object *other)
   return (check_op(self, other, '/'));
 }
 
-static Object*		Double_real_div(const Object *self, const Object *other)
+static Object*		Double_real_div(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   double			div = 0;
@@ -272,6 +276,8 @@ static Object*		Double_real_div(const Object *self, const Object *other)
       div = ((DoubleClass *)self)->value / ((DoubleClass *)other)->value;
     }
 
+  if (place && div != 0)
+    div = 1 / div;
   obj = new(Double, div);
   return (obj);
 }

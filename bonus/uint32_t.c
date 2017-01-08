@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:31:25 2017 Arthur ARNAUD
+** Last update Sun Jan 08 07:13:30 2017 
 */
 
 #define _GNU_SOURCE
@@ -17,6 +17,7 @@
 #include "int8_t.h"
 #include "int16_t.h"
 #include "uint32_t.h"
+#include "int32_t.h"
 #include "new.h"
 #include "number.h"
 #include "operation.h"
@@ -74,13 +75,14 @@ static Object*		Uint32_t_add(const Object * self, const Object *other)
   return (check_op(self, other, '+'));
 }
 
-static Object*		Uint32_t_real_add(const Object *self, const Object *other)
+static Object*		Uint32_t_real_add(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int32_t		sum = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -99,7 +101,7 @@ static Object*		Uint32_t_real_add(const Object *self, const Object *other)
       sum = ((Uint32_tClass *)self)->value + ((Uint32_tClass *)other)->value;
     }
 
-  obj = new(Uint32_t, sum);
+  obj = new(Int32_t, sum);
   return (obj);
 }
 
@@ -108,7 +110,7 @@ static Object*		Uint32_t_sub(const Object * self, const Object *other)
   return (check_op(self, other, '-'));
 }
 
-static Object*		Uint32_t_real_sub(const Object *self, const Object *other)
+static Object*		Uint32_t_real_sub(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int32_t		sub = 0;
@@ -134,7 +136,9 @@ static Object*		Uint32_t_real_sub(const Object *self, const Object *other)
       sub = ((Uint32_tClass *)self)->value - ((Uint32_tClass *)other)->value;
     }
 
-  obj = new(Uint32_t, sub);
+  if (place)
+    sub = -1 * sub;
+  obj = new(Int32_t, sub);
   return (obj);
 }
 
@@ -143,13 +147,14 @@ static Object*		Uint32_t_mul(const Object * self, const Object *other)
   return (check_op(self, other, '*'));
 }
 
-static Object*		Uint32_t_real_mul(const Object *self, const Object *other)
+static Object*		Uint32_t_real_mul(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   int32_t		mul = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -169,7 +174,7 @@ static Object*		Uint32_t_real_mul(const Object *self, const Object *other)
       mul = ((Uint32_tClass *)self)->value * ((Uint32_tClass *)other)->value;
     }
 
-  obj = new(Uint32_t, mul);
+  obj = new(Int32_t, mul);
   return (obj);
 }
 
@@ -178,10 +183,10 @@ static Object*		Uint32_t_div(const Object * self, const Object *other)
   return (check_op(self, other, '/'));
 }
 
-static Object*		Uint32_t_real_div(const Object *self, const Object *other)
+static Object*		Uint32_t_real_div(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
-  int32_t		div = 0;
+  double		div = 0;
   Class			*_b;
   uintptr_t		value;
 
@@ -193,24 +198,26 @@ static Object*		Uint32_t_real_div(const Object *self, const Object *other)
     {
       if ((int8_t)*(uintptr_t *)value == 0)
 	raise("you cannot divide by zero)");
-      div = ((Uint32_tClass *)self)->value / (int8_t)*(uintptr_t *)value;
+      div = (double)((Uint32_tClass *)self)->value / (double)(int8_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
       if ((int16_t)*(uintptr_t *)value == 0)
 	raise("you cannot divide by zero)");
-      div = ((Uint32_tClass *)self)->value / (int16_t)*(uintptr_t *)value;
+      div = (double)((Uint32_tClass *)self)->value / (double)(int16_t)*(uintptr_t *)value;
     }
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
       if ((int32_t)*(uintptr_t *)value == 0)
 	raise("you cannot divide by zero)");
-      div = ((Uint32_tClass *)self)->value / ((Uint32_tClass *)other)->value;
+      div = (double)((Uint32_tClass *)self)->value / (double)((Uint32_tClass *)other)->value;
     }
 
-  obj = new(Uint32_t, div);
+  if (place && div != 0)
+    div = 1/div;
+  obj = new(Int32_t, (int32_t)div);
   return (obj);
 }
 

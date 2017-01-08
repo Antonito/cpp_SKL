@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 01:47:11 2017 Arthur ARNAUD
+** Last update Sun Jan 08 07:29:51 2017 
 */
 
 #define _GNU_SOURCE
@@ -76,13 +76,14 @@ static Object*		Float_add(const Object * self, const Object *other)
   return (check_op(self, other, '+'));
 }
 
-static Object*		Float_real_add(const Object *self, const Object *other)
+static Object*		Float_real_add(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   float			sum = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -118,7 +119,7 @@ static Object*		Float_sub(const Object * self, const Object *other)
   return (check_op(self, other, '-'));
 }
 
-static Object*		Float_real_sub(const Object *self, const Object *other)
+static Object*		Float_real_sub(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   float		sub = 0;
@@ -151,6 +152,8 @@ static Object*		Float_real_sub(const Object *self, const Object *other)
       sub = ((FloatClass *)self)->value - ((FloatClass *)other)->value;
     }
 
+  if (place)
+    sub = -1 * sub;
   obj = new(Float, sub);
   return (obj);
 }
@@ -160,13 +163,14 @@ static Object*		Float_mul(const Object * self, const Object *other)
   return (check_op(self, other, '*'));
 }
 
-static Object*		Float_real_mul(const Object *self, const Object *other)
+static Object*		Float_real_mul(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
   float		mul = 0;
   Class			*_b;
   uintptr_t		value;
 
+  (void)place;
   _b = (Class *)other;
   value = (uintptr_t)other + sizeof(Number) + sizeof(char *);
 
@@ -204,10 +208,10 @@ static Object*		Float_div(const Object * self, const Object *other)
   return (check_op(self, other, '/'));
 }
 
-static Object*		Float_real_div(const Object *self, const Object *other)
+static Object*		Float_real_div(const Object *self, const Object *other, bool place)
 {
   Object		*obj;
-  float			div = 0;
+  double		div = 0;
   Class			*_b;
   uintptr_t		value;
 
@@ -219,37 +223,39 @@ static Object*		Float_real_div(const Object *self, const Object *other)
     {
       if ((float)((int8_t)*(uintptr_t *)value) > -0.0001 && (float)((int8_t)*(uintptr_t *)value) < 0.0001)
 	raise("you cannot divide by zero)");
-      div = ((FloatClass *)self)->value / (float)((int8_t)*(uintptr_t *)value);
+      div = (double)((FloatClass *)self)->value / (double)(float)((int8_t)*(uintptr_t *)value);
     }
 
   else if (memcmp(_b->__name__, "Int16_t", 7) == 0 || memcmp(_b->__name__, "Uint16_t", 8) == 0)
     {
       if ((float)((int16_t)*(uintptr_t *)value) > -0.0001 && (float)((int16_t)*(uintptr_t *)value) < 0.0001)
 	raise("you cannot divide by zero)");
-      div = ((FloatClass *)self)->value / (float)((int16_t)*(uintptr_t *)value);
+      div = (double)((FloatClass *)self)->value / (double)(float)((int16_t)*(uintptr_t *)value);
     }
 
   else if (memcmp(_b->__name__, "Int32_t", 7) == 0 || memcmp(_b->__name__, "Uint32_t", 8) == 0)
     {
       if ((float)((int32_t)*(uintptr_t *)value) > -0.0001 && (float)((int32_t)*(uintptr_t *)value) < 0.0001)
 	raise("you cannot divide by zero)");
-      div = ((FloatClass *)self)->value / (float)((int32_t)*(uintptr_t *)value);
+      div = (double)((FloatClass *)self)->value / (double)(float)((int32_t)*(uintptr_t *)value);
     }
   else if (memcmp(_b->__name__, "Int64_t", 7) == 0 || memcmp(_b->__name__, "Uint64_t", 8) == 0)
     {
       if ((float)((int64_t)*(uintptr_t *)value) > -0.0001 && (float)((int64_t)*(uintptr_t *)value) < 0.0001)
 	raise("you cannot divide by zero)");
-      div = ((FloatClass *)self)->value / (float)((int64_t)*(uintptr_t *)value);
+      div = (double)((FloatClass *)self)->value / (double)(float)((int64_t)*(uintptr_t *)value);
     }
 
   else if (memcmp(_b->__name__, "Float", 5) == 0)
     {
       if (((FloatClass *)other)->value > -0.0001 && ((FloatClass *)other)->value < 0.0001)
 	raise("you cannot divide by zero)");
-      div = ((FloatClass *)self)->value / ((FloatClass *)other)->value;
+      div = (double)((FloatClass *)self)->value / (double)((FloatClass *)other)->value;
     }
 
-  obj = new(Float, div);
+  if (place && div != 0)
+    div = 1 / div;
+  obj = new(Float, (float)div);
   return (obj);
 }
 
