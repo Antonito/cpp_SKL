@@ -1,18 +1,67 @@
 #include <stdio.h>
-#include "raise.h"
-#include "smart_ptr.h"
-#include "int.h"
-#include "exceptions.h"
-#include "String.h"
-#include "float.h"
-#include "auto.h"
+#include "types.h"
+#include "colors.h"
+
+#define DISPLAY(s)	WHITE_BOLD_INTENS""s"\n"CLEAR
+#define OK(s)		GREEN_BOLD_INTENS"OK: "s"\n"CLEAR
+#define ERROR(s)	RED_BOLD_INTENS"Error: "s"\n"CLEAR
+#define LEAVING		CYAN_BOLD_INTENS"Leaving %s\n"CLEAR, __func__
+#define	TEST_STR(s)	CYAN_BOLD_INTENS"Testing "s"\n"CLEAR
 
 int	test_types();
 int	test_containers();
 
 char	*test_string[] = {"Auto test1", "Auto test2"};
 
-int	main()
+static void		_test_smart_ptr(void)
+{
+  smart_ptr Object	*val1;
+
+  printf(TEST_STR("Smart pointers"));
+  val1 = unique_ptr(Int, 42);
+  printf(DISPLAY("Value is -> %s"), str(val1));
+  printf(LEAVING);
+}
+
+static void		_test_exceptions()
+{
+  printf(TEST_STR("Exceptions"));
+  TRY
+    {
+      printf(DISPLAY("Trying some stuff.."));
+      TRY
+	{
+	  printf(DISPLAY("Trying some more stuff"));
+	  printf(DISPLAY("Throwing 2"));
+	  THROW(2);
+	  printf(ERROR("Should not be displayed"));
+	}
+      CATCH(1)
+	{
+	  printf(ERROR("Should not be displayed"));
+	}
+      CATCH(2)
+	{
+	  printf(OK("Caught Exception 2"));
+	}
+      ETRY;
+      printf(DISPLAY("Throwing 1"));
+      THROW(1);
+      printf(ERROR("Should not be displayed"));
+    }
+  CATCH(0)
+    {
+      printf(ERROR("Should not be displayed"));
+    }
+  CATCH(1)
+    {
+      printf(OK("Caught Exception 1"));
+    }
+  ETRY
+  printf(LEAVING);
+}
+
+int		main()
 {
   smart_ptr Object	*new_val;
   smart_ptr Object	*str;
@@ -20,6 +69,10 @@ int	main()
   Object		*str2;
   smart_ptr Object	*value;
   auto money		= 42.f;
+
+  _test_smart_ptr();
+  _test_exceptions();
+  return (0);
 
   str = unique_ptr(String, "Pete et repete sont sur un bateau.");
   str1 = unique_ptr(String, "Pete tombe a l'eau.");
