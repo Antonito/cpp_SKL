@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <assert.h>
 #include "types.h"
 #include "colors.h"
 
@@ -154,14 +155,122 @@ void _test_containers(void)
   printf(LEAVING);
 }
 
+void _test_operations(Object* a, Object* b, Object* c)
+{
+  printf("a = %s, b = %s, c = %s\n", str(a), str(b), str(c));
+  assert(eq(a, b));
+  assert(!gt(a, b));
+  assert(!lt(a, b));
+  assert(!eq(a, c));
+  assert(eq(a, b));
+  assert(gt(c, a));
+
+  delete(a);
+  delete(b);
+  delete(c);
+}
+
+static void	_test_types()
+{
+  printf(TEST_STR("Types"));
+  _test_operations(new(Int8_t, 12), new(Int8_t, 12), new(Int8_t, 13));
+  _test_operations(new(Int16_t, 12), new(Int16_t, 12), new(Int16_t, 13));
+  _test_operations(new(Int32_t, 12), new(Int32_t, 12), new(Int32_t, 13));
+  _test_operations(new(Int64_t, 12), new(Int64_t, 12), new(Int64_t, 13));
+  _test_operations(new(Uint8_t, 12), new(Uint8_t, 12), new(Uint8_t, 13));
+  _test_operations(new(Uint16_t, 12), new(Uint16_t, 12), new(Uint16_t, 13));
+  _test_operations(new(Uint32_t, 12), new(Uint32_t, 12), new(Uint32_t, 13));
+  _test_operations(new(Uint64_t, 12), new(Uint64_t, 12), new(Uint64_t, 13));
+  _test_operations(new(Float, 12.0f), new(Float, 12.0f), new(Float, 13.0f));
+  _test_operations(new(Double, 12.0), new(Double, 12.0), new(Double, 13.0));
+  printf(OK("Stdint tests"));
+
+  Object *a = new(Int64_t, -500);
+  Object *b = new(Int32_t, -50);
+  Object *c = new(Int16_t, -5);
+  Object *d = new(Int8_t, -1);
+  Object *e = new(Uint64_t, 500);
+  Object *f = new(Uint32_t, 50);
+  Object *g = new(Uint16_t, 5);
+  Object *h = new(Uint8_t, 1);
+  Object *i = new(Float, 4.2);
+  Object *j = new(Double, 5.2);
+
+  Object *result = add(g, b);
+  printf("================TEST STDINT=============\n");
+  printf("result add: %s\n", str(result));
+  delete(result);
+  result = mul(f, c);
+  printf("result mul: %s\n", str(result));
+  delete(result);
+  result = div(e, d);
+  printf("result div: %s\n", str(result));
+  delete(result);
+  result = sub(d, e);
+  printf("result sub: %s\n", str(result));
+  printf("result eq: %d\n", eq(c, f));
+  printf("result lt: %d\n", lt(b, g));
+  printf("result gt: %d\n\n", gt(a, h));
+
+  printf("================TEST FLOAT=============\n");
+  delete(result);
+  result = add(g,i);
+  printf("result add: %s\n", str(result));
+  delete(result);
+  result = mul(g,i);
+  printf("result mul: %s\n", str(result));
+  delete(result);
+  result = div(g,i);
+  printf("result div: %s\n", str(result));
+  delete(result);
+  result = sub(i, e);
+  printf("result sub: %s\n", str(result));
+  printf("result eq: %d\n", eq(c, i));
+  printf("result lt: %d\n", lt(i, g));
+  printf("result gt: %d\n", gt(a, i));
+
+  printf("================TEST DOUBLE=============\n");
+  printf("j: %s\n", str(j));
+  printf("i: %s\n", str(i));
+  result = add(i, j);
+  printf("result add: %s\n", str(result));
+  result = mul(j, g);
+  printf("result mul: %s\n", str(result));
+  result = div(i, j);
+  printf("result div: %s\n", str(result));
+  result = sub(i, j);
+  printf("result sub: %s\n", str(result));
+  printf("result eq: %d\n", eq(i, j));
+  printf("result lt: %d\n", lt(i, j));
+  printf("result gt: %d\n", gt(i, j));
+
+  /*printf("result div: %s\n", str(add(a, NULL)));
+  printf("result div: %s\n", str(sub(d, NULL)));
+  printf("result div: %s\n", str(mul(b, NULL)));
+  printf("result div: %s\n", str(div(c, NULL)));
+  printf("result div: %d\n", eq(e, NULL));
+  printf("result div: %d\n", lt(f, NULL));
+  printf("result div: %d\n", gt(f, NULL));*/
+  delete(a);
+  delete(b);
+  delete(c);
+  delete(d);
+  delete(e);
+  delete(f);
+  delete(g);
+  delete(h);
+  delete(i);
+  delete(j);
+}
+
 int		main(void)
 {
+  printf(TEST_STR("Main"));
   _test_smart_ptr();
   _test_exceptions();
   _test_auto();
-  _test_containers();
+  //_test_containers();
+  _test_types();
+  printf(LEAVING);
   return (0);
-#if 0
-  test_types();
-#endif
 }
