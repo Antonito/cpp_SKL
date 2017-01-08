@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 07:05:14 2017 Ludovic Petrenko
+** Last update Sun Jan  8 07:27:20 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -233,7 +233,7 @@ static Object* Array_getitem(ArrayClass* self, ...)
       while (i < self->_size)
 	{
 	  if (i == ndx)
-	    return (&self->_tab[i]);
+	    return (self->_tab[i]);
 	  ++i;
 	}
     }
