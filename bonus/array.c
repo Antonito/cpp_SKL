@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 01:55:58 2017 Antoine Baché
+** Last update Sun Jan  8 02:49:58 2017 Ludovic Petrenko
 */
 
 #include <string.h>
@@ -121,7 +121,9 @@ static ArrayIteratorClass ArrayIteratorDescr = {
             sizeof(ArrayIteratorClass), "ArrayIterator",
             (ctor_t) &ArrayIterator_ctor,
             NULL, /* dtor */
+	    NULL, /* set */
             NULL, /* str */
+	    NULL, /* clone */
             NULL, NULL, NULL, NULL, /* add, sub, mul, div */
             (binary_comparator_t) &ArrayIterator_eq,
             (binary_comparator_t) &ArrayIterator_gt,
@@ -231,7 +233,6 @@ static Object* Array_getitem(ArrayClass* self, ...)
   return (NULL);
 }
 
-
 static void Array_setitem(ArrayClass* self, ...)
 {
   va_list	ap;
@@ -246,12 +247,28 @@ static void Array_setitem(ArrayClass* self, ...)
     }
 }
 
+
+static void Array_setval(ArrayClass *self, size_t ndx, ...)
+{
+  va_list	ap;
+
+  if (!self)
+    raise("Invalid parameter!");
+  if (ndx >= self->_size)
+    raise("Out of range index!");
+  va_start(ap, ndx);
+  set(self->_tab[ndx], &ap);
+  va_end(ap);
+}
+
 static ArrayClass _descr = {
     { /* Container */
         { /* Class */
             sizeof(ArrayClass), "Array",
             (ctor_t) &Array_ctor, (dtor_t) &Array_dtor,
+	    NULL, /* set */
             NULL, /*str */
+	    NULL, /*clone*/
             NULL, NULL, NULL, NULL, /* add, sub, mul, div */
             NULL, NULL, NULL, /* eq, gt, lt */
         },
@@ -260,6 +277,9 @@ static ArrayClass _descr = {
         (iter_t) &Array_end,
         (getitem_t) &Array_getitem,
         (setitem_t) &Array_setitem,
+	(setval_t) &Array_setval, /* setval */
+	NULL, NULL, NULL, NULL, /* empty, swap, front, back */
+	NULL, NULL /* to_array, to_list */
     },
     NULL, 0, NULL
 };

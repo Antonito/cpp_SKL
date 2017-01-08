@@ -5,12 +5,16 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 01:17:29 2017 Ludovic Petrenko
+** Last update Sun Jan  8 02:52:05 2017 Ludovic Petrenko
 */
+
+#define _GNU_SOURCE
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdint.h>
 
 #include "raise.h"
 #include "list.h"
@@ -31,7 +35,7 @@ static void	_setval(ListClass *self, ListNode *node, va_list *ap)
     }
 }
 
-void ListIterator_ctor(ListIteratorClass* self, va_list* args)
+static void ListIterator_ctor(ListIteratorClass* self, va_list* args)
 {
   if (self && args)
     {
@@ -40,7 +44,7 @@ void ListIterator_ctor(ListIteratorClass* self, va_list* args)
     }
 }
 
-bool ListIterator_eq(ListIteratorClass* self, ListIteratorClass* other)
+static bool ListIterator_eq(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (self && other)
     {
@@ -51,7 +55,7 @@ bool ListIterator_eq(ListIteratorClass* self, ListIteratorClass* other)
   return (false);
 }
 
-bool ListIterator_gt(ListIteratorClass* self, ListIteratorClass* other)
+static bool ListIterator_gt(ListIteratorClass* self, ListIteratorClass* other)
 {
   ListNode*	node;
 
@@ -72,7 +76,7 @@ bool ListIterator_gt(ListIteratorClass* self, ListIteratorClass* other)
   return (false);
 }
 
-bool ListIterator_lt(ListIteratorClass* self, ListIteratorClass* other)
+static bool ListIterator_lt(ListIteratorClass* self, ListIteratorClass* other)
 {
   ListNode*	node;
 
@@ -91,7 +95,7 @@ bool ListIterator_lt(ListIteratorClass* self, ListIteratorClass* other)
   return (false);
 }
 
-void ListIterator_incr(ListIteratorClass* self)
+static void ListIterator_incr(ListIteratorClass* self)
 {
   if (self)
     {
@@ -101,7 +105,7 @@ void ListIterator_incr(ListIteratorClass* self)
     }
 }
 
-Object* ListIterator_getval(ListIteratorClass* self)
+static Object* ListIterator_getval(ListIteratorClass* self)
 {
   if (self)
     {
@@ -110,7 +114,7 @@ Object* ListIterator_getval(ListIteratorClass* self)
   return (NULL);
 }
 
-void ListIterator_setval(ListIteratorClass* self, ...)
+static void ListIterator_setval(ListIteratorClass* self, ...)
 {
   va_list	ap;
 
@@ -128,6 +132,7 @@ static ListIteratorClass ListIteratorDescr = {
             sizeof(ListIteratorClass), "ListIterator",
             (ctor_t) &ListIterator_ctor,
             NULL, /* dtor */
+	    NULL, /* set */
             NULL, /* str */
 	    NULL, /* clone */
             NULL, NULL, NULL, NULL, /* add, sub, mul, div */
@@ -145,37 +150,61 @@ static ListIteratorClass ListIteratorDescr = {
 
 static Class* ListIterator = (Class*) &ListIteratorDescr;
 
-void List_ctor(ListClass* self, va_list* args)
+static void List_ctor(ListClass* self, va_list* args)
 {
-  if (self && args)
-    {
-      self->_type = va_arg(*args, Class *);
-      self->_size = 0;
-      self->_list = NULL;
-    }
+  uint32_t	n;
+  uint32_t	i = 0;
+  Object	*value = NULL;
+  va_list	ap;
+
+  if (!self || !args)
+    raise("Invalid parameter!");
+  self->_type = va_arg(*args, Class *);
+  va_copy(ap, *args);
+  n = va_arg(ap, uint32_t);
+  self->_size = 0;
+  self->_list = NULL;
+  printf("%u\n", n);
+  if (n)
+    value = va_arg(ap, Object*);
+  while (i++ < n)
+    push_back(self, value);
+  va_end(ap);
 }
 
-void List_dtor(ListClass* self)
+static int	IsInList(ListNode* list, Object *val)
+{
+  while (list)
+    {
+      if (list->_type == val)
+	return (1);
+      list = list->next;
+    }
+  return (0);
+}
+
+static void List_dtor(ListClass* self)
 {
   ListNode*	node;
   ListNode*	next;
 
-  if (self)
+  if (!self)
+    raise("Invalid parameter!");
+  node = self->_list;
+  if (!node)
+    return ;
+  while (node)
     {
-      node = self->_list;
-      if (!node)
-	return ;
-      while (node)
-	{
-	  next = node->next;
-	  delete(node->_type);
-	  free(node);
-	  node = next;
-	}
+      next = node->next;
+      if (!IsInList(next, node->_type))
+	delete(node->_type);
+      free(node);
+      node = next;
     }
+  free(self->_str);
 }
 
-size_t List_len(ListClass* self)
+static size_t List_len(ListClass* self)
 {
   if (self)
     {
@@ -184,7 +213,7 @@ size_t List_len(ListClass* self)
   return (0);
 }
 
-Iterator* List_begin(ListClass* self)
+static Iterator* List_begin(ListClass* self)
 {
   Iterator	*ite;
 
@@ -196,7 +225,7 @@ Iterator* List_begin(ListClass* self)
   return (ite);
 }
 
-Iterator* List_end(ListClass* self)
+static Iterator* List_end(ListClass* self)
 {
   Iterator	*ite;
 
@@ -208,7 +237,7 @@ Iterator* List_end(ListClass* self)
   return (ite);
 }
 
-Object* List_getitem(ListClass* self, ...)
+static Object* List_getitem(ListClass* self, ...)
 {
   size_t	ndx;
   va_list	ap;
@@ -237,8 +266,7 @@ Object* List_getitem(ListClass* self, ...)
   return (NULL);
 }
 
-
-void List_setitem(ListClass* self, ...)
+static __attribute__((sentinel)) void List_setitem(ListClass* self, ...)
 {
   va_list	ap;
   size_t	ndx;
@@ -267,7 +295,7 @@ void List_setitem(ListClass* self, ...)
     }
 }
 
-void	List_push_back(ListClass* self, ...)
+static void	List_push_back(ListClass* self, ...)
 {
   ListNode	*node;
   ListNode	*new_node;
@@ -294,7 +322,7 @@ void	List_push_back(ListClass* self, ...)
     }
 }
 
-void	List_push_front(ListClass* self, ...)
+static void	List_push_front(ListClass* self, ...)
 {
   ListNode	*new_node;
   va_list	ap;
@@ -312,7 +340,7 @@ void	List_push_front(ListClass* self, ...)
     }
 }
 
-void	List_pop_back(ListClass* self)
+static void	List_pop_back(ListClass* self)
 {
     ListNode	*node;
 
@@ -339,7 +367,7 @@ void	List_pop_back(ListClass* self)
     }
 }
 
-void	List_pop_front(ListClass* self)
+static void	List_pop_front(ListClass* self)
 {
   ListNode	*node;
 
@@ -355,7 +383,7 @@ void	List_pop_front(ListClass* self)
     }
 }
 
-void	List_insert(ListClass* self, ...)
+static void	List_insert(ListClass* self, ...)
 {
   ListNode	*node;
   size_t	ndx;
@@ -384,15 +412,16 @@ void	List_insert(ListClass* self, ...)
       new_node->next = node->next;
       node->next = new_node;
       ++self->_size;
+      va_end(ap);
     }
 }
 
-Object	*List_front(ListClass *self)
+static Object	*List_front(ListClass *self)
 {
   return (self->_list->_type);
 }
 
-Object	*List_back(ListClass *self)
+static Object	*List_back(ListClass *self)
 {
   ListNode	*node;
 
@@ -404,12 +433,12 @@ Object	*List_back(ListClass *self)
   return (node->_type);
 }
 
-bool	List_empty(ListClass const *self)
+static bool	List_empty(ListClass const *self)
 {
   return (self->_list == NULL);
 }
 
-void	List_clear(ListClass *self)
+static void	List_clear(ListClass *self)
 {
   ListNode*	node;
   ListNode*	next;
@@ -430,7 +459,7 @@ void	List_clear(ListClass *self)
   self->_size = 0;
 }
 
-void	List_swap(ListClass *self, ListClass *other)
+static void	List_swap(ListClass *self, ListClass *other)
 {
   ListClass	tmp;
 
@@ -439,7 +468,7 @@ void	List_swap(ListClass *self, ListClass *other)
   memcpy(other, &tmp, sizeof(ListClass));
 }
 
-void	List_reverse(ListClass *self)
+static void	List_reverse(ListClass *self)
 {
   ListNode	*rev = NULL;
   ListNode	*node;
@@ -458,12 +487,52 @@ void	List_reverse(ListClass *self)
   self->_list = rev;
 }
 
+static char const	*List_to_string(ListClass *self)
+{
+  char *last;
+  ListNode	*node;
+
+  if (!self)
+    raise("Invalid parameter!");
+  if (self->_str)
+    free(self->_str);
+  if (asprintf(&self->_str, "List<%s>[%lu]\n{\n", self->_type->__name__, self->_size) == -1)
+    raise("Out of memory!");
+  node = self->_list;
+  while (node)
+    {
+      last = self->_str;
+      if (asprintf(&self->_str, "%s%s, ", last, str(node->_type)) == -1)
+	raise("Out of memory!");
+      free(last);
+      node = node->next;
+    }
+  last = self->_str;
+  if (asprintf(&self->_str, "%s\n}\n", last) == -1)
+    raise("Out of memory!");
+  free(last);
+  return (self->_str);
+}
+
+static Object *List_to_array(ListClass *self)
+{
+  (void)self;
+  return (NULL);
+}
+
+static Object *List_to_list(ListClass *self)
+{
+  if (!self)
+    raise("Invalid parameter!");
+  return (self);
+}
+
 static ListClass _descr = {
     { /* Container */
         { /* Class */
             sizeof(ListClass), "List",
-            (ctor_t) &List_ctor, (dtor_t) &List_dtor,
-            NULL, /*str */
+            (ctor_t) &List_ctor, (dtor_t) &List_dtor, NULL,
+            (to_string_t) &List_to_string, /*str */
 	    NULL, /* clone */
             NULL, NULL, NULL, NULL, /* add, sub, mul, div */
             NULL, NULL, NULL, /* eq, gt, lt */
@@ -473,10 +542,13 @@ static ListClass _descr = {
         (iter_t) &List_end,
         (getitem_t) &List_getitem,
         (setitem_t) &List_setitem,
+	NULL, /* setval */
 	(empty_t) &List_empty,
 	(swap_t) &List_swap,
 	(front_t) &List_front,
-	(back_t) &List_back
+	(back_t) &List_back,
+	(to_array_t) &List_to_array,
+	(to_list_t) &List_to_list
     },
     NULL, 0, NULL, NULL,
     (push_back_t) &List_push_back,

@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:32:37 2017 Arthur ARNAUD
+** Last update Sun Jan  8 02:35:13 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -245,7 +245,7 @@ static Uint8_tClass _description =
 {
   {
       {
-    sizeof(Uint8_tClass), "Uint8_t", &Uint8_t_ctor, &Uint8_t_dtor,
+	sizeof(Uint8_tClass), "Uint8_t", &Uint8_t_ctor, &Uint8_t_dtor, NULL,
     &Uint8_t_str, &Uint8_t_clone, &Uint8_t_add, &Uint8_t_sub, &Uint8_t_mul, &Uint8_t_div,
     &Uint8_t_eq, &Uint8_t_gt, &Uint8_t_lt
       },
