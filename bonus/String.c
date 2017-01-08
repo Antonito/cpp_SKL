@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Fri Jan  6 09:02:26 2017 Antoine Baché
-** Last update Sat Jan  7 23:55:49 2017 Antoine Baché
+** Last update Sun Jan  8 01:22:20 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -16,6 +16,7 @@
 #include <stdint.h>
 #include "raise.h"
 #include "new.h"
+#include "number.h"
 #include "String.h"
 
 static void		String_assign_s(Object *this, Object const * str)
@@ -430,14 +431,13 @@ static Object			*String_mul(const Object *self, const Object *other)
 
   str = self;
   nb = other;
-  if (!self || !other || memcmp(nb->__name__, "Int", sizeof("Int")))
+  if (!self || !other || memcmp(nb->__name__, "Int32_t", sizeof("Int32_t")))
     {
       raise("Cannot mult String (second argument should be Int object)");
     }
   new_str = NULL;
   i = 0;
-#pragma message("Attention au merge, sizeof")
-  max = *(uintptr_t *)((uintptr_t)nb + sizeof(Class) + sizeof(char *));
+  max = *(uintptr_t *)((uintptr_t)nb + sizeof(Number) + sizeof(char *));
   while (i < max)
     {
       if (!new_str)
@@ -455,7 +455,8 @@ static StringClass		_description =
   {
     {
       sizeof(StringClass), "String", &String_ctor, &String_dtor,
-      (to_string_t)&String_c_str, &String_add, NULL, &String_mul, NULL, NULL,
+      (to_string_t)&String_c_str, NULL, &String_add,
+      NULL, &String_mul, NULL, NULL,
       NULL, NULL
     },
     NULL, &String_assign_s, &String_assign_c, &String_append_s,

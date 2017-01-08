@@ -5,6 +5,8 @@
 #include "exceptions.h"
 #include "String.h"
 
+int	main2();
+
 int	main()
 {
   smart_ptr Object	*new_val;
@@ -46,5 +48,6 @@ int	main()
     }
   ETRY;
   delete(str2);
+  main2();
   return (0);
 }

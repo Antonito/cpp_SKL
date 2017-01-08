@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 20:59:09 2017 Ludovic Petrenko
+** Last update Sun Jan  8 01:17:29 2017 Ludovic Petrenko
 */
 
 #include <string.h>
@@ -129,6 +129,7 @@ static ListIteratorClass ListIteratorDescr = {
             (ctor_t) &ListIterator_ctor,
             NULL, /* dtor */
             NULL, /* str */
+	    NULL, /* clone */
             NULL, NULL, NULL, NULL, /* add, sub, mul, div */
             (binary_comparator_t) &ListIterator_eq,
             (binary_comparator_t) &ListIterator_gt,
@@ -463,6 +464,7 @@ static ListClass _descr = {
             sizeof(ListClass), "List",
             (ctor_t) &List_ctor, (dtor_t) &List_dtor,
             NULL, /*str */
+	    NULL, /* clone */
             NULL, NULL, NULL, NULL, /* add, sub, mul, div */
             NULL, NULL, NULL, /* eq, gt, lt */
         },
@@ -471,18 +473,18 @@ static ListClass _descr = {
         (iter_t) &List_end,
         (getitem_t) &List_getitem,
         (setitem_t) &List_setitem,
+	(empty_t) &List_empty,
+	(swap_t) &List_swap,
+	(front_t) &List_front,
+	(back_t) &List_back
     },
-    NULL, 0, NULL,
+    NULL, 0, NULL, NULL,
     (push_back_t) &List_push_back,
     (push_front_t) &List_push_front,
     (pop_back_t) &List_pop_back,
     (pop_front_t) &List_pop_front,
     (insert_t) &List_insert,
-    (front_t) &List_front,
-    (back_t) &List_back,
-    (empty_t) &List_empty,
     (clear_t) &List_clear,
-    (swap_t) &List_swap,
     (reverse_t) &List_reverse
 };
 
