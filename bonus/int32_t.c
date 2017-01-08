@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sat Jan 07 22:11:14 2017 
+** Last update Sun Jan  8 00:56:45 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -329,3 +329,4 @@ static Int32_tClass _description =
 };
 
 Class *Int32_t = (Class *)&_description;
+Class *Int = (Class*)&_description;

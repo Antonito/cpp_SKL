@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 17:49:40 2017 Arthur ARNAUD
-** Last update Sat Jan  7 17:49:41 2017 Arthur ARNAUD
+** Last update Sun Jan  8 00:56:10 2017 Antoine Baché
 */
 
 #ifndef INT_H
@@ -13,6 +13,6 @@
 
 # include "object.h"
 
-extern Int32_t Int;
+extern Class* Int;
 
 #endif

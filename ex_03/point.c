@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:35:54 2017 Antoine Baché
-** Last update Sat Jan 07 13:39:11 2017 
+** Last update Sat Jan  7 18:16:09 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -27,19 +27,20 @@ static void	Point_ctor(Object *self, va_list *ap)
 {
   PointClass	*obj;
 
+  if (!self || !ap)
+    raise("Invalid parameter!");
   obj = self;
-  if (ap)
-    {
-      obj->__str__ = NULL;
-      obj->x = va_arg(*ap, int);
-      obj->y = va_arg(*ap, int);
-    }
+  obj->__str__ = NULL;
+  obj->x = va_arg(*ap, int);
+  obj->y = va_arg(*ap, int);
 }
 
 static void	Point_dtor(Object *self)
 {
   PointClass	*obj;
 
+  if (!self)
+    raise("Invalid parameter!");
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
@@ -49,6 +50,8 @@ static char const*	Point_str(Object *self)
 {
   PointClass		*obj;
 
+  if (!self)
+    raise("Invalid parameter!");
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
@@ -66,6 +69,8 @@ static Object*		Point_add(const Object * self, const Object *other)
   int			sum_x;
   int			sum_y;
 
+  if (!self || !other)
+    raise("Invalid parameter!");
   sum_x = ((PointClass *)self)->x + ((PointClass *)other)->x;
   sum_y = ((PointClass *)self)->y + ((PointClass *)other)->y;
   obj = new(Point, sum_x, sum_y);
@@ -78,6 +83,8 @@ static Object*		Point_sub(const Object * self, const Object *other)
   int			sum_x;
   int			sum_y;
 
+  if (!self || !other)
+    raise("Invalid parameter!");
   sum_x = ((PointClass *)self)->x - ((PointClass *)other)->x;
   sum_y = ((PointClass *)self)->y - ((PointClass *)other)->y;
   obj = new(Point, sum_x, sum_y);

@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:29:05 2017 Arthur ARNAUD
+** Last update Sun Jan  8 00:59:16 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -295,3 +295,4 @@ static Int16_tClass _description =
 };
 
 Class *Int16_t = (Class *)&_description;
+Class *Short = (Class *)&_description;

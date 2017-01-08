@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:35:16 2017 Antoine Baché
-** Last update Sat Jan  7 01:30:35 2017 Antoine Baché
+** Last update Sat Jan  7 18:00:35 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -27,20 +27,21 @@ static void	Vertex_ctor(Object *self, va_list *ap)
 {
   VertexClass	*obj;
 
+  if (!self || !ap)
+    raise("Invalid parameter!");
   obj = self;
-  if (ap)
-    {
-      obj->__str__ = NULL;
-      obj->x = va_arg(*ap, int);
-      obj->y = va_arg(*ap, int);
-      obj->z = va_arg(*ap, int);
-    }
+  obj->__str__ = NULL;
+  obj->x = va_arg(*ap, int);
+  obj->y = va_arg(*ap, int);
+  obj->z = va_arg(*ap, int);
 }
 
 static void	Vertex_dtor(Object *self)
 {
   VertexClass	*obj;
 
+  if (!self)
+    raise("Invalid parameter!");
   obj = self;
   if (obj->__str__)
     free(obj->__str__);
@@ -50,6 +51,8 @@ static char const*	Vertex_str(Object *self)
 {
   VertexClass		*obj;
 
+  if (!self)
+    raise("Invalid parameter!");
   obj = self;
   if (obj->__str__)
     free(obj->__str__);

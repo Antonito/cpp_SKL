@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:29:21 2017 Arthur ARNAUD
+** Last update Sun Jan  8 00:59:30 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -365,3 +365,4 @@ static Int64_tClass _description =
 };
 
 Class *Int64_t = (Class *)&_description;
+Class *Long = (Class *)&_description;

@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 17:50:12 2017 Arthur ARNAUD
-** Last update Sat Jan  7 17:50:13 2017 Arthur ARNAUD
+** Last update Sun Jan  8 00:59:05 2017 Antoine Baché
 */
 
 #ifndef SHORT_H
@@ -13,6 +13,6 @@
 
 # include "object.h"
 
-extern Int16_t SHORT;
+extern Class *Short;
 
 #endif

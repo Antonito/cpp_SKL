@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 17:50:31 2017 Arthur ARNAUD
-** Last update Sat Jan  7 17:50:32 2017 Arthur ARNAUD
+** Last update Sun Jan  8 00:59:45 2017 Antoine Baché
 */
 
 #ifndef LONG_H
@@ -13,6 +13,6 @@
 
 # include "object.h"
 
-extern Int64_t Long;
+extern Class *Long;
 
 #endif

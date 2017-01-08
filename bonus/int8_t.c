@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:28:36 2017 Arthur ARNAUD
+** Last update Sun Jan  8 00:58:30 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -258,3 +258,4 @@ static Int8_tClass _description =
 };
 
 Class *Int8_t = (Class *)&_description;
+Class *Char = (Class *)&_description;

@@ -31,7 +31,7 @@ void test(Object* a, Object* b, Object* c)
 }
 
 
-int main()
+int main2()
 {
   printf("TESTING INIT STDINT TYPES\n");
   test(new(Int8_t, 12), new(Int8_t, 12), new(Int8_t, 13));

@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sat Jan  7 04:44:08 2017 Antoine Baché
+** Last update Sun Jan  8 01:03:26 2017 Ludovic Petrenko
 */
 
 #include <string.h>
@@ -35,7 +35,7 @@ static void	_setval(ArrayClass *self, size_t ndx, va_list *ap)
 {
   if (self && ap && ndx < self->_size)
     {
-      free(self->_tab[ndx]);
+      delete(self->_tab[ndx]);
       self->_tab[ndx] = va_new(self->_type, ap);
     }
 }
@@ -146,10 +146,9 @@ void Array_ctor(ArrayClass* self, va_list* args)
     {
       self->_size = va_arg(*args, size_t);
       self->_type = va_arg(*args, Class *);
-      self->_tab = malloc(sizeof(self->_type) * (self->_size + 1));
+      self->_tab = calloc(self->_size + 1, sizeof(self->_type));
       if (!self->_tab)
 	raise("Out of memory !\n");
-      memset(self->_tab, 0, sizeof(self->_type) * (self->_size + 1));
       i = 0;
       while (i < self->_size)
 	{
