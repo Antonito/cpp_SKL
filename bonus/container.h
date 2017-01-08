@@ -15,6 +15,8 @@ typedef bool (*empty_t)(Container const *self);
 typedef void (*swap_t)(Container *self, Container *other);
 typedef Object *(*front_t)(Container *self);
 typedef Object *(*back_t)(Container *self);
+typedef Object *(*to_array_t)(Container *self);
+typedef Object *(*to_list_t)(Container *self);
 
 struct Container_s {
     Class base;
@@ -27,6 +29,8 @@ struct Container_s {
     swap_t __swap__;
     front_t	__front__;
     back_t	__back__;
+    to_array_t	__to_array__;
+    to_list_t	__to_list__;
 };
 
 # define len(c)                 (((Container*) c)->__len__(c))
@@ -38,5 +42,7 @@ struct Container_s {
 # define swap(c)		(((Container*) c)->__swap__(c))
 # define front(c)		(((Container*) c)->__front__(c))
 # define back(c)		(((Container*) c)->__back__(c))
+# define to_array(c)		(((Container*) c)->__to_array__(c))
+# define to_list(c)		(((Container*) c)->__to_list__(c))
 
 #endif

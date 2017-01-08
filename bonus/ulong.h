@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 17:49:59 2017 Arthur ARNAUD
-** Last update Sat Jan  7 17:50:00 2017 Arthur ARNAUD
+** Last update Sun Jan  8 03:16:33 2017 Antoine Baché
 */
 
 #ifndef ULONG_H
@@ -13,6 +13,6 @@
 
 # include "object.h"
 
-extern Uint64_t Ulong;
+extern Class *Ulong;
 
 #endif

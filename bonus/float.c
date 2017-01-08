@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan 08 07:29:51 2017 
+** Last update Sun Jan 08 07:36:06 2017 
 */
 
 #define _GNU_SOURCE
@@ -381,11 +381,24 @@ static bool		Float_real_gt(const Object *self, const Object *other)
   return (comp > 0);
 }
 
+static void	Float_set(Object *self, ...)
+{
+  FloatClass	*obj;
+  va_list	ap;
+
+  if (!self)
+    raise("Incorrect Arguments");
+  obj = self;
+  va_start(ap, self);
+  obj->value = (float)va_arg(ap, double);
+  va_end(ap);
+}
+
 static FloatClass _description =
 {
   {
       {
-    sizeof(FloatClass), "Float", &Float_ctor, &Float_dtor,
+	sizeof(FloatClass), "Float", &Float_ctor, &Float_dtor, &Float_set,
     &Float_str, &Float_clone, &Float_add, &Float_sub, &Float_mul, &Float_div,
     &Float_eq, &Float_gt, &Float_lt
       },

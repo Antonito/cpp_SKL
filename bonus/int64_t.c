@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan 08 07:23:27 2017 
+** Last update Sun Jan 08 07:35:22 2017 
 */
 
 #define _GNU_SOURCE
@@ -354,11 +354,24 @@ static bool		Int64_t_real_gt(const Object *self, const Object *other)
   return (comp > 0);
 }
 
+static void	Int64_t_set(Object *self, ...)
+{
+  Int64_tClass	*obj;
+  va_list	ap;
+
+  if (!self)
+    raise("Incorrect Arguments");
+  obj = self;
+  va_start(ap, self);
+  obj->value = va_arg(ap, int);
+  va_end(ap);
+}
+
 static Int64_tClass _description =
 {
   {
       {
-    sizeof(Int64_tClass), "Int64_t", &Int64_t_ctor, &Int64_t_dtor,
+	sizeof(Int64_tClass), "Int64_t", &Int64_t_ctor, &Int64_t_dtor, &Int64_t_set,
     &Int64_t_str, &Int64_t_clone, &Int64_t_add, &Int64_t_sub, &Int64_t_mul, &Int64_t_div,
     &Int64_t_eq, &Int64_t_gt, &Int64_t_lt
       },

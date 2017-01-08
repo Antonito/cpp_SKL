@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 00:39:44 2017 Ludovic Petrenko
+** Last update Sun Jan  8 02:01:10 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -35,7 +35,7 @@ static void	_setval(ListClass *self, ListNode *node, va_list *ap)
     }
 }
 
-void ListIterator_ctor(ListIteratorClass* self, va_list* args)
+static void ListIterator_ctor(ListIteratorClass* self, va_list* args)
 {
   if (self && args)
     {
@@ -44,7 +44,7 @@ void ListIterator_ctor(ListIteratorClass* self, va_list* args)
     }
 }
 
-bool ListIterator_eq(ListIteratorClass* self, ListIteratorClass* other)
+static bool ListIterator_eq(ListIteratorClass* self, ListIteratorClass* other)
 {
   if (self && other)
     {
@@ -55,7 +55,7 @@ bool ListIterator_eq(ListIteratorClass* self, ListIteratorClass* other)
   return (false);
 }
 
-bool ListIterator_gt(ListIteratorClass* self, ListIteratorClass* other)
+static bool ListIterator_gt(ListIteratorClass* self, ListIteratorClass* other)
 {
   ListNode*	node;
 
@@ -76,7 +76,7 @@ bool ListIterator_gt(ListIteratorClass* self, ListIteratorClass* other)
   return (false);
 }
 
-bool ListIterator_lt(ListIteratorClass* self, ListIteratorClass* other)
+static bool ListIterator_lt(ListIteratorClass* self, ListIteratorClass* other)
 {
   ListNode*	node;
 
@@ -95,7 +95,7 @@ bool ListIterator_lt(ListIteratorClass* self, ListIteratorClass* other)
   return (false);
 }
 
-void ListIterator_incr(ListIteratorClass* self)
+static void ListIterator_incr(ListIteratorClass* self)
 {
   if (self)
     {
@@ -105,7 +105,7 @@ void ListIterator_incr(ListIteratorClass* self)
     }
 }
 
-Object* ListIterator_getval(ListIteratorClass* self)
+static Object* ListIterator_getval(ListIteratorClass* self)
 {
   if (self)
     {
@@ -114,7 +114,7 @@ Object* ListIterator_getval(ListIteratorClass* self)
   return (NULL);
 }
 
-void ListIterator_setval(ListIteratorClass* self, ...)
+static void ListIterator_setval(ListIteratorClass* self, ...)
 {
   va_list	ap;
 
@@ -148,7 +148,7 @@ static ListIteratorClass ListIteratorDescr = {
 
 static Class* ListIterator = (Class*) &ListIteratorDescr;
 
-void List_ctor(ListClass* self, va_list* args)
+static void List_ctor(ListClass* self, va_list* args)
 {
   uint32_t	n;
   uint32_t	i = 0;
@@ -181,7 +181,7 @@ static int	IsInList(ListNode* list, Object *val)
   return (0);
 }
 
-void List_dtor(ListClass* self)
+static void List_dtor(ListClass* self)
 {
   ListNode*	node;
   ListNode*	next;
@@ -202,7 +202,7 @@ void List_dtor(ListClass* self)
   free(self->_str);
 }
 
-size_t List_len(ListClass* self)
+static size_t List_len(ListClass* self)
 {
   if (self)
     {
@@ -211,7 +211,7 @@ size_t List_len(ListClass* self)
   return (0);
 }
 
-Iterator* List_begin(ListClass* self)
+static Iterator* List_begin(ListClass* self)
 {
   Iterator	*ite;
 
@@ -223,7 +223,7 @@ Iterator* List_begin(ListClass* self)
   return (ite);
 }
 
-Iterator* List_end(ListClass* self)
+static Iterator* List_end(ListClass* self)
 {
   Iterator	*ite;
 
@@ -235,7 +235,7 @@ Iterator* List_end(ListClass* self)
   return (ite);
 }
 
-Object* List_getitem(ListClass* self, ...)
+static Object* List_getitem(ListClass* self, ...)
 {
   size_t	ndx;
   va_list	ap;
@@ -264,7 +264,7 @@ Object* List_getitem(ListClass* self, ...)
   return (NULL);
 }
 
-__attribute__((sentinel)) void List_setitem(ListClass* self, ...)
+static __attribute__((sentinel)) void List_setitem(ListClass* self, ...)
 {
   va_list	ap;
   size_t	ndx;
@@ -293,7 +293,7 @@ __attribute__((sentinel)) void List_setitem(ListClass* self, ...)
     }
 }
 
-void	List_push_back(ListClass* self, ...)
+static void	List_push_back(ListClass* self, ...)
 {
   ListNode	*node;
   ListNode	*new_node;
@@ -320,7 +320,7 @@ void	List_push_back(ListClass* self, ...)
     }
 }
 
-void	List_push_front(ListClass* self, ...)
+static void	List_push_front(ListClass* self, ...)
 {
   ListNode	*new_node;
   va_list	ap;
@@ -338,7 +338,7 @@ void	List_push_front(ListClass* self, ...)
     }
 }
 
-void	List_pop_back(ListClass* self)
+static void	List_pop_back(ListClass* self)
 {
     ListNode	*node;
 
@@ -365,7 +365,7 @@ void	List_pop_back(ListClass* self)
     }
 }
 
-void	List_pop_front(ListClass* self)
+static void	List_pop_front(ListClass* self)
 {
   ListNode	*node;
 
@@ -381,7 +381,7 @@ void	List_pop_front(ListClass* self)
     }
 }
 
-void	List_insert(ListClass* self, ...)
+static void	List_insert(ListClass* self, ...)
 {
   ListNode	*node;
   size_t	ndx;
@@ -410,15 +410,16 @@ void	List_insert(ListClass* self, ...)
       new_node->next = node->next;
       node->next = new_node;
       ++self->_size;
+      va_end(ap);
     }
 }
 
-Object	*List_front(ListClass *self)
+static Object	*List_front(ListClass *self)
 {
   return (self->_list->_type);
 }
 
-Object	*List_back(ListClass *self)
+static Object	*List_back(ListClass *self)
 {
   ListNode	*node;
 
@@ -430,12 +431,12 @@ Object	*List_back(ListClass *self)
   return (node->_type);
 }
 
-bool	List_empty(ListClass const *self)
+static bool	List_empty(ListClass const *self)
 {
   return (self->_list == NULL);
 }
 
-void	List_clear(ListClass *self)
+static void	List_clear(ListClass *self)
 {
   ListNode*	node;
   ListNode*	next;
@@ -456,7 +457,7 @@ void	List_clear(ListClass *self)
   self->_size = 0;
 }
 
-void	List_swap(ListClass *self, ListClass *other)
+static void	List_swap(ListClass *self, ListClass *other)
 {
   ListClass	tmp;
 
@@ -465,7 +466,7 @@ void	List_swap(ListClass *self, ListClass *other)
   memcpy(other, &tmp, sizeof(ListClass));
 }
 
-void	List_reverse(ListClass *self)
+static void	List_reverse(ListClass *self)
 {
   ListNode	*rev = NULL;
   ListNode	*node;
@@ -484,9 +485,9 @@ void	List_reverse(ListClass *self)
   self->_list = rev;
 }
 
-char const	*List_to_string(ListClass *self)
+static char const	*List_to_string(ListClass *self)
 {
-  char *last;
+  char		*last;
   ListNode	*node;
 
   if (!self)

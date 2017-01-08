@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:45 2017 Antoine Baché
-** Last update Sat Jan  7 18:34:00 2017 Ludovic Petrenko
+** Last update Sun Jan  8 04:51:36 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -26,7 +26,7 @@ static void	Int_ctor(Object *self, va_list *ap)
 {
   IntClass	*obj;
 
-  if (!self || ap)
+  if (!self || !ap)
     raise("Invalid parameter!");
   obj = self;
   if (ap)

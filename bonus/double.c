@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan 08 07:31:32 2017 
+** Last update Sun Jan 08 07:37:14 2017 
 */
 
 #define _GNU_SOURCE
@@ -316,7 +316,7 @@ static bool		Double_real_eq(const Object *self, const Object *other)
     }
   else if (memcmp(_b->__name__, "Float", 5) == 0)
     {
-      comp = ((DoubleClass *)self)->value - (double)(*(float *)(uintptr_t *)value);
+      comp  = ((DoubleClass *)self)->value - (double)(*(float *)(uintptr_t *)value);
     }
   else if (memcmp(_b->__name__, "Double", 6) == 0)
     {
@@ -415,11 +415,24 @@ static bool		Double_real_gt(const Object *self, const Object *other)
   return (comp > 0);
 }
 
+static void	Double_set(Object *self, ...)
+{
+  DoubleClass	*obj;
+  va_list	ap;
+
+  if (!self)
+    raise("Incorrect Arguments");
+  obj = self;
+  va_start(ap, self);
+  obj->value = va_arg(ap, double);
+  va_end(ap);
+}
+
 static DoubleClass _description =
 {
   {
       {
-    sizeof(DoubleClass), "Double", &Double_ctor, &Double_dtor,
+	sizeof(DoubleClass), "Double", &Double_ctor, &Double_dtor, &Double_set,
     &Double_str, &Double_clone, &Double_add, &Double_sub, &Double_mul, &Double_div,
     &Double_eq, &Double_gt, &Double_lt
       },

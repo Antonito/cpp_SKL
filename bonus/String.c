@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Fri Jan  6 09:02:26 2017 Antoine Baché
-** Last update Sun Jan  8 01:22:20 2017 Ludovic Petrenko
+** Last update Sun Jan  8 04:44:07 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -451,11 +451,37 @@ static Object			*String_mul(const Object *self, const Object *other)
   return (new_str);
 }
 
+void				String_set(Object *self, ...)
+{
+  char				*str;
+  va_list			ap;
+
+  if (!self)
+    {
+      raise("Cannot set String");
+    }
+  va_start(ap, self);
+  str = va_arg(ap, char *);
+  if (!str)
+    raise("Cannot set String");
+  ((StringClass *)self)->assign_c(self, str);
+  va_end(ap);
+}
+
+static Object*			String_clone(const Object *self)
+{
+  if (!self)
+    {
+      raise("Cannot clone String");
+    }
+  return (new(String, ((StringClass *)self)->c_str(self)));
+}
+
 static StringClass		_description =
   {
     {
-      sizeof(StringClass), "String", &String_ctor, &String_dtor,
-      (to_string_t)&String_c_str, NULL, &String_add,
+      sizeof(StringClass), "String", &String_ctor, &String_dtor, &String_set,
+      (to_string_t)&String_c_str, &String_clone, &String_add,
       NULL, &String_mul, NULL, NULL,
       NULL, NULL
     },

@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan 08 07:23:27 2017 
+** Last update Sun Jan 08 07:33:52 2017 
 */
 
 #define _GNU_SOURCE
@@ -352,13 +352,26 @@ static bool		Uint64_t_real_gt(const Object *self, const Object *other)
   return (comp > 0);
 }
 
+static void	Uint64_t_set(Object *self, ...)
+{
+  Uint64_tClass	*obj;
+  va_list	ap;
+
+  if (!self)
+    raise("Incorrect Arguments");
+  obj = self;
+  va_start(ap, self);
+  obj->value = va_arg(ap, uint64_t);
+  va_end(ap);
+}
+
 static Uint64_tClass _description =
 {
   {
       {
-    sizeof(Uint64_tClass), "Uint64_t", &Uint64_t_ctor, &Uint64_t_dtor,
-    &Uint64_t_str, &Uint64_t_clone, &Uint64_t_add, &Uint64_t_sub, &Uint64_t_mul, &Uint64_t_div,
-    &Uint64_t_eq, &Uint64_t_gt, &Uint64_t_lt
+	sizeof(Uint64_tClass), "Uint64_t", &Uint64_t_ctor, &Uint64_t_dtor, &Uint64_t_set,
+	&Uint64_t_str, &Uint64_t_clone, &Uint64_t_add, &Uint64_t_sub, &Uint64_t_mul, &Uint64_t_div,
+	&Uint64_t_eq, &Uint64_t_gt, &Uint64_t_lt
       },
       &Uint64_t_real_add,
       &Uint64_t_real_sub,
@@ -372,3 +385,4 @@ static Uint64_tClass _description =
 };
 
 Class *Uint64_t = (Class *)&_description;
+Class *Ulong = (Class *)&_description;

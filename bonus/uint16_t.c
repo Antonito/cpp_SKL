@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan 08 07:12:55 2017 
+** Last update Sun Jan 08 07:34:26 2017 
 */
 
 #define _GNU_SOURCE
@@ -281,13 +281,26 @@ static bool		Uint16_t_real_gt(const Object *self, const Object *other)
   return (comp > 0);
 }
 
+static void	Uint16_t_set(Object *self, ...)
+{
+  Uint16_tClass	*obj;
+  va_list	ap;
+
+  if (!self)
+    raise("Incorrect Arguments");
+  obj = self;
+  va_start(ap, self);
+  obj->value = va_arg(ap, unsigned int);
+  va_end(ap);
+}
+
 static Uint16_tClass _description =
 {
   {
       {
-    sizeof(Uint16_tClass), "Uint16_t", &Uint16_t_ctor, &Uint16_t_dtor,
-    &Uint16_t_str, &Uint16_t_clone, &Uint16_t_add, &Uint16_t_sub, &Uint16_t_mul, &Uint16_t_div,
-    &Uint16_t_eq, &Uint16_t_gt, &Uint16_t_lt
+	sizeof(Uint16_tClass), "Uint16_t", &Uint16_t_ctor, &Uint16_t_dtor, &Uint16_t_set,
+	&Uint16_t_str, &Uint16_t_clone, &Uint16_t_add, &Uint16_t_sub, &Uint16_t_mul, &Uint16_t_div,
+	&Uint16_t_eq, &Uint16_t_gt, &Uint16_t_lt
       },
       &Uint16_t_real_add,
       &Uint16_t_real_sub,
@@ -301,3 +314,4 @@ static Uint16_tClass _description =
 };
 
 Class *Uint16_t = (Class *)&_description;
+Class *Ushort = (Class *)&_description;

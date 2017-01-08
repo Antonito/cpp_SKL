@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan 08 07:18:33 2017 
+** Last update Sun Jan 08 07:35:52 2017 
 */
 
 #define _GNU_SOURCE
@@ -281,11 +281,24 @@ static bool		Int16_t_real_gt(const Object *self, const Object *other)
   return (comp > 0);
 }
 
+static void	Int16_t_set(Object *self, ...)
+{
+  Int16_tClass	*obj;
+  va_list	ap;
+
+  if (!self)
+    raise("Incorrect Arguments");
+  obj = self;
+  va_start(ap, self);
+  obj->value = va_arg(ap, int);
+  va_end(ap);
+}
+
 static Int16_tClass _description =
 {
   {
       {
-    sizeof(Int16_tClass), "Int16_t", &Int16_t_ctor, &Int16_t_dtor,
+	sizeof(Int16_tClass), "Int16_t", &Int16_t_ctor, &Int16_t_dtor, &Int16_t_set,
     &Int16_t_str, &Int16_t_clone, &Int16_t_add, &Int16_t_sub, &Int16_t_mul, &Int16_t_div,
     &Int16_t_eq, &Int16_t_gt, &Int16_t_lt
       },

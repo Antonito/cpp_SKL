@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan 08 07:13:30 2017 
+** Last update Sun Jan 08 07:34:08 2017 
 */
 
 #define _GNU_SOURCE
@@ -320,13 +320,26 @@ static bool		Uint32_t_real_gt(const Object *self, const Object *other)
   return (comp > 0);
 }
 
+static void	Uint32_t_set(Object *self, ...)
+{
+  Uint32_tClass	*obj;
+  va_list	ap;
+
+  if (!self)
+    raise("Incorrect Arguments");
+  obj = self;
+  va_start(ap, self);
+  obj->value = va_arg(ap, unsigned int);
+  va_end(ap);
+}
+
 static Uint32_tClass _description =
 {
   {
       {
-    sizeof(Uint32_tClass), "Uint32_t", &Uint32_t_ctor, &Uint32_t_dtor,
-    &Uint32_t_str, &Uint32_t_clone, &Uint32_t_add, &Uint32_t_sub, &Uint32_t_mul, &Uint32_t_div,
-    &Uint32_t_eq, &Uint32_t_gt, &Uint32_t_lt
+	sizeof(Uint32_tClass), "Uint32_t", &Uint32_t_ctor, &Uint32_t_dtor, &Uint32_t_set,
+	&Uint32_t_str, &Uint32_t_clone, &Uint32_t_add, &Uint32_t_sub, &Uint32_t_mul, &Uint32_t_div,
+	&Uint32_t_eq, &Uint32_t_gt, &Uint32_t_lt
       },
       &Uint32_t_real_add,
       &Uint32_t_real_sub,
@@ -340,3 +353,4 @@ static Uint32_tClass _description =
 };
 
 Class *Uint32_t = (Class *)&_description;
+Class *Uint = (Class *)&_description;

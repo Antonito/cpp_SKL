@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 16:50:56 2017 Antoine Baché
-** Last update Sun Jan  8 00:53:38 2017 Antoine Baché
+** Last update Sun Jan  8 02:36:10 2017 Ludovic Petrenko
 */
 
 #include "raise.h"
@@ -43,7 +43,7 @@ __attribute__((always_inline))inline void	_free_exception(Object *ptr)
 static ExceptionClass	_description =
   {
     {
-      sizeof(ExceptionClass), "Exception", &Exception_ctor, NULL,
+      sizeof(ExceptionClass), "Exception", &Exception_ctor, NULL, NULL,
       NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
     },
     {
