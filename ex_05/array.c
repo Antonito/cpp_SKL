@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:43:30 2017 Arthur ARNAUD
+** Last update Sun Jan  8 08:58:16 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -211,7 +211,7 @@ static Object* Array_getitem(ArrayClass* self, ...)
   while (i < self->_size)
     {
       if (i == ndx)
-	return (&self->_tab[i]);
+	return (self->_tab[i]);
       ++i;
     }
   return (NULL);
