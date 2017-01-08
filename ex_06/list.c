@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:40:17 2017 Arthur ARNAUD
+** Last update Sun Jan  8 08:59:49 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -163,8 +163,6 @@ static void List_ctor(ListClass* self, va_list* args)
 
 static int	IsInList(ListNode* list, Object *val)
 {
-  if (!list)
-    raise("Invalid parameter!");
   while (list)
     {
       if (list->_type == val)
@@ -208,7 +206,6 @@ static Iterator* List_begin(ListClass* self)
 
   if (!self)
     raise("Invalid parameter!");
-  ite = NULL;
   ite = new(ListIterator, self, self->_list);
   return (ite);
 }
@@ -219,7 +216,6 @@ static Iterator* List_end(ListClass* self)
 
   if (!self)
     raise("Invalid parameter!");
-  ite = NULL;
   ite = new(ListIterator, self, NULL);
   return (ite);
 }
