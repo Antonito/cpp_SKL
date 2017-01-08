@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 02:49:58 2017 Ludovic Petrenko
+** Last update Sun Jan  8 02:57:38 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -246,7 +246,6 @@ static void Array_setitem(ArrayClass* self, ...)
       va_end(ap);
     }
 }
-
 
 static void Array_setval(ArrayClass *self, size_t ndx, ...)
 {

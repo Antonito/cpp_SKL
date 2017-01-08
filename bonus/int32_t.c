@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 02:36:32 2017 Ludovic Petrenko
+** Last update Sun Jan  8 03:04:34 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -309,11 +309,24 @@ static bool		Int32_t_real_gt(const Object *self, const Object *other)
   return (comp > 0);
 }
 
+static void	Int32_t_set(Object *self, ...)
+{
+  Int32_tClass	*obj;
+  va_list	ap;
+
+  if (!self)
+    raise("Incorrect Arguments");
+  obj = self;
+  va_start(ap, self);
+  obj->value = va_arg(ap, int);
+  va_end(ap);
+}
+
 static Int32_tClass _description =
 {
   {
       {
-	sizeof(Int32_tClass), "Int32_t", &Int32_t_ctor, &Int32_t_dtor, NULL,
+	sizeof(Int32_tClass), "Int32_t", &Int32_t_ctor, &Int32_t_dtor, &Int32_t_set,
     &Int32_t_str, &Int32_t_clone, &Int32_t_add, &Int32_t_sub, &Int32_t_mul, &Int32_t_div,
     &Int32_t_eq, &Int32_t_gt, &Int32_t_lt
       },
