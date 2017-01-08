@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 02:01:10 2017 Antoine Baché
+** Last update Sun Jan  8 08:14:36 2017 Arthur ARNAUD
 */
 
 #define _GNU_SOURCE
@@ -28,50 +28,46 @@ typedef struct {
 
 static void	_setval(ListClass *self, ListNode *node, va_list *ap)
 {
-  if (self && ap)
-    {
-      delete(node->_type);
-      node->_type = va_new(self->_type, ap);
-    }
+
+  if (!self || !node || !ap)
+    raise("Invalid parameter!");
+  delete(node->_type);
+  node->_type = va_new(self->_type, ap);
 }
 
 static void ListIterator_ctor(ListIteratorClass* self, va_list* args)
 {
-  if (self && args)
-    {
-      self->_list = va_arg(*args, ListClass*);
-      self->_node = va_arg(*args, ListNode*);
-    }
+  if (!self || !args)
+    raise("Invalid parameter!");
+  self->_list = va_arg(*args, ListClass*);
+  self->_node = va_arg(*args, ListNode*);
 }
 
 static bool ListIterator_eq(ListIteratorClass* self, ListIteratorClass* other)
 {
-  if (self && other)
-    {
-      if (self->_list != other->_list)
-	raise("Comparison between incompatible iterator!");
-      return (self->_node == other->_node);
-    }
-  return (false);
+  if (!self || !other)
+    raise("Invalid parameter!");
+  if (self->_list != other->_list)
+    raise("Comparison between incompatible iterator!");
+  return (self->_node == other->_node);
 }
 
 static bool ListIterator_gt(ListIteratorClass* self, ListIteratorClass* other)
 {
   ListNode*	node;
 
-  if (self && other)
+  if (!self || !other)
+    raise("Invalid parameter!");
+  if (self->_list != other->_list)
+    raise("Comparison between incompatible iterator!");
+  node = other->_node;
+  if (node == self->_node)
+    return (false);
+  while (node)
     {
-      if (self->_list != other->_list)
-	raise("Comparison between incompatible iterator!");
-      node = other->_node;
       if (node == self->_node)
-	return (false);
-      while (node)
-	{
-	  if (node == self->_node)
-	    return (true);
-	  node = node->next;
-	}
+	return (true);
+      node = node->next;
     }
   return (false);
 }
@@ -80,50 +76,45 @@ static bool ListIterator_lt(ListIteratorClass* self, ListIteratorClass* other)
 {
   ListNode*	node;
 
-  if (self && other)
+  if (!self || !other)
+    raise("Invalid parameter!");
+  node = self->_node;
+  if (node == other->_node)
+    return (false);
+  while (node)
     {
-      node = self->_node;
       if (node == other->_node)
-	return (false);
-      while (node)
-	{
-	  if (node == other->_node)
-	    return (true);
-	  node = node->next;
-	}
+	return (true);
+      node = node->next;
     }
   return (false);
 }
 
 static void ListIterator_incr(ListIteratorClass* self)
 {
-  if (self)
-    {
-      if (!self->_node)
-	raise("Out of range iterator!");
-      self->_node = self->_node->next;
-    }
+  if (!self)
+    raise("Invalid parameter!");
+  if (!self->_node)
+    raise("Out of range iterator!");
+  self->_node = self->_node->next;
 }
 
 static Object* ListIterator_getval(ListIteratorClass* self)
 {
-  if (self)
-    {
-      return (self->_node->_type);
-    }
-  return (NULL);
+  if (!self)
+    raise("Invalid parameter!");
+  return (self->_node->_type);
 }
 
 static void ListIterator_setval(ListIteratorClass* self, ...)
 {
   va_list	ap;
 
-  if (self)
-    {
-      va_start(ap, self);
-      _setval(self->_list, self->_node, &ap);
-      va_end(ap);
-    }
+  if (!self)
+    raise("Invalid parameter!");
+  va_start(ap, self);
+  _setval(self->_list, self->_node, &ap);
+  va_end(ap);
 }
 
 static ListIteratorClass ListIteratorDescr = {
@@ -172,6 +163,8 @@ static void List_ctor(ListClass* self, va_list* args)
 
 static int	IsInList(ListNode* list, Object *val)
 {
+  if (!list)
+    raise("Invalid parameter!");
   while (list)
     {
       if (list->_type == val)
@@ -204,22 +197,19 @@ static void List_dtor(ListClass* self)
 
 static size_t List_len(ListClass* self)
 {
-  if (self)
-    {
-      return (self->_size);
-    }
-  return (0);
+  if (!self)
+    raise("Invalid parameter!");
+  return (self->_size);
 }
 
 static Iterator* List_begin(ListClass* self)
 {
   Iterator	*ite;
 
+  if (!self)
+    raise("Invalid parameter!");
   ite = NULL;
-  if (self)
-    {
-      ite = new(ListIterator, self, self->_list);
-    }
+  ite = new(ListIterator, self, self->_list);
   return (ite);
 }
 
@@ -227,11 +217,10 @@ static Iterator* List_end(ListClass* self)
 {
   Iterator	*ite;
 
+  if (!self)
+    raise("Invalid parameter!");
   ite = NULL;
-  if (self)
-    {
-      ite = new(ListIterator, self, NULL);
-    }
+  ite = new(ListIterator, self, NULL);
   return (ite);
 }
 
@@ -242,24 +231,23 @@ static Object* List_getitem(ListClass* self, ...)
   ListNode	*node;
   size_t	i;
 
-  if (self)
+  if (!self)
+    raise("Invalid parameter!");
+  va_start(ap, self);
+  ndx = va_arg(ap, size_t);
+  va_end(ap);
+  node = self->_list;
+  if (ndx >= self->_size)
+    raise("Index out of range!");
+  i = 0;
+  while (i < self->_size)
     {
-      va_start(ap, self);
-      ndx = va_arg(ap, size_t);
-      va_end(ap);
-      node = self->_list;
-      if (ndx >= self->_size)
-	raise("Index out of range!");
-      i = 0;
-      while (i < self->_size)
-	{
-	  if (!node)
-	    raise("Corrupted list!");
-	  if (i == ndx)
-	    return (node->_type);
-	  node = node->next;
-	  ++i;
-	}
+      if (!node)
+	raise("Corrupted list!");
+      if (i == ndx)
+	return (node->_type);
+      node = node->next;
+      ++i;
     }
   return (NULL);
 }
@@ -271,26 +259,25 @@ static __attribute__((sentinel)) void List_setitem(ListClass* self, ...)
   ListNode*	node;
   size_t	i;
 
-  if (self)
+  if (!self)
+    raise("Invalid parameter!");
+  va_start(ap, self);
+  ndx = va_arg(ap, size_t);
+  node = self->_list;
+  if (ndx >= self->_size)
+    raise("Index out of range!");
+  i = 0;
+  while (i < self->_size)
     {
-      va_start(ap, self);
-      ndx = va_arg(ap, size_t);
-      node = self->_list;
-      if (ndx >= self->_size)
-	raise("Index out of range!");
-      i = 0;
-      while (i < self->_size)
-	{
-	  if (!node)
-	    raise("Corrupted list!");
-	  if (i == ndx)
+      if (!node)
+	raise("Corrupted list!");
+      if (i == ndx)
 	    break ;
-	  node = node->next;
-	  ++i;
-	}
-      _setval(self, node, &ap);
-      va_end(ap);
+      node = node->next;
+      ++i;
     }
+  _setval(self, node, &ap);
+  va_end(ap);
 }
 
 static void	List_push_back(ListClass* self, ...)
@@ -299,25 +286,24 @@ static void	List_push_back(ListClass* self, ...)
   ListNode	*new_node;
   va_list	ap;
 
-  if (self)
+  if (!self)
+    raise("Invalid parameter!");
+  va_start(ap, self);
+  if (!(new_node = malloc(sizeof(ListNode))))
+    raise("Out of memory!");
+  new_node->_type = va_arg(ap, __typeof__(self->_type));
+  if (!self->_list)
+    self->_list = new_node;
+  else
     {
-      va_start(ap, self);
-      if (!(new_node = malloc(sizeof(ListNode))))
-	raise("Out of memory!");
-      new_node->_type = va_arg(ap, __typeof__(self->_type));
-      if (!self->_list)
-	self->_list = new_node;
-      else
-	{
-	  node = self->_list;
-	  while (node->next)
-	    node = node->next;
-	  node->next = new_node;
-	}
-      new_node->next = NULL;
-      self->_size++;
-      va_end(ap);
+      node = self->_list;
+      while (node->next)
+	node = node->next;
+      node->next = new_node;
     }
+  new_node->next = NULL;
+  self->_size++;
+  va_end(ap);
 }
 
 static void	List_push_front(ListClass* self, ...)
@@ -325,60 +311,57 @@ static void	List_push_front(ListClass* self, ...)
   ListNode	*new_node;
   va_list	ap;
 
-  if (self)
-    {
-      va_start(ap, self);
-      if (!(new_node = malloc(sizeof(ListNode))))
-	raise("Out of memory!");
-      new_node->_type = va_arg(ap, __typeof__(self->_type));
-      new_node->next = self->_list;
-      self->_list = new_node;
-      self->_size++;
-      va_end(ap);
-    }
+  if (!self)
+    raise("Invalid parameter!");
+  va_start(ap, self);
+  if (!(new_node = malloc(sizeof(ListNode))))
+    raise("Out of memory!");
+  new_node->_type = va_arg(ap, __typeof__(self->_type));
+  new_node->next = self->_list;
+  self->_list = new_node;
+  self->_size++;
+  va_end(ap);
 }
 
 static void	List_pop_back(ListClass* self)
 {
-    ListNode	*node;
+  ListNode	*node;
 
-  if (self)
+  if (!self)
+    raise("Invalid parameter!");
+  node = self->_list;
+  if (!node || !self->_size)
+    raise("Cannot pop from empty list!");
+  if (!node->next)
     {
-      node = self->_list;
-      if (!node || !self->_size)
-	raise("Cannot pop from empty list!");
-      if (!node->next)
-	{
-	  delete(node->_type);
-	  free(node);
-	  self->_list = NULL;
-	}
-      else
-	{
-	  while (node->next->next)
-	    node = node->next;
-	  delete(node->next->_type);
-	  free(node->next);
-	  node->next = NULL;
-	}
-      --self->_size;
+      delete(node->_type);
+      free(node);
+      self->_list = NULL;
     }
+  else
+    {
+      while (node->next->next)
+	node = node->next;
+      delete(node->next->_type);
+      free(node->next);
+      node->next = NULL;
+    }
+  --self->_size;
 }
 
 static void	List_pop_front(ListClass* self)
 {
   ListNode	*node;
 
-  if (self)
-    {
-      if (!self->_list || !self->_size)
-	raise("Cannot pop from empty list!");
-      node = self->_list;
-      self->_list = node->next;
-      delete(node->_type);
-      free(node);
-      --self->_size;
-    }
+  if (!self)
+    raise("Invalid parameter!");
+  if (!self->_list || !self->_size)
+    raise("Cannot pop from empty list!");
+  node = self->_list;
+  self->_list = node->next;
+  delete(node->_type);
+  free(node);
+  --self->_size;
 }
 
 static void	List_insert(ListClass* self, ...)
@@ -389,33 +372,34 @@ static void	List_insert(ListClass* self, ...)
   va_list	ap;
   ListNode	*new_node;
 
-  if (self)
+  if (!self)
+    raise("Invalid parameter!");
+  va_start(ap, self);
+  ndx = va_arg(ap, size_t);
+  if (ndx >= self->_size)
+    raise("Index out of range!");
+  if (!(new_node = malloc(sizeof(ListNode))))
+    raise("Out of memory!");
+  node = self->_list;
+  i = 0;
+  while (i < ndx - 1 && node)
     {
-      va_start(ap, self);
-      ndx = va_arg(ap, size_t);
-      if (ndx >= self->_size)
-	raise("Index out of range!");
-      if (!(new_node = malloc(sizeof(ListNode))))
-	raise("Out of memory!");
-      node = self->_list;
-      i = 0;
-      while (i < ndx - 1 && node)
-	{
-	  ++i;
-	  node = node->next;
-	}
-      if (!node)
-	raise("Corrupted list!");
-      new_node->_type = va_arg(ap, __typeof__(self->_type));
-      new_node->next = node->next;
-      node->next = new_node;
-      ++self->_size;
-      va_end(ap);
+      ++i;
+      node = node->next;
     }
+  if (!node)
+    raise("Corrupted list!");
+  new_node->_type = va_arg(ap, __typeof__(self->_type));
+  new_node->next = node->next;
+  node->next = new_node;
+  ++self->_size;
+  va_end(ap);
 }
 
 static Object	*List_front(ListClass *self)
 {
+  if (!self)
+    raise("Invalid parameter!");
   return (self->_list->_type);
 }
 
@@ -423,6 +407,8 @@ static Object	*List_back(ListClass *self)
 {
   ListNode	*node;
 
+  if (!self)
+    raise("Invalid parameter!");
   node = self->_list;
   if (!node)
     return (NULL);
@@ -433,6 +419,8 @@ static Object	*List_back(ListClass *self)
 
 static bool	List_empty(ListClass const *self)
 {
+  if (!self)
+    raise("Invalid parameter!");
   return (self->_list == NULL);
 }
 
@@ -461,6 +449,8 @@ static void	List_swap(ListClass *self, ListClass *other)
 {
   ListClass	tmp;
 
+  if (!self || !other)
+    raise("Invalid parameter!");
   memcpy(&tmp, self, sizeof(ListClass));
   memcpy(self, other, sizeof(ListClass));
   memcpy(other, &tmp, sizeof(ListClass));
