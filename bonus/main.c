@@ -5,9 +5,12 @@
 #include "exceptions.h"
 #include "String.h"
 #include "float.h"
+#include "auto.h"
 
 int	test_types();
 int	test_containers();
+
+char	*test_string[] = {"Auto test1", "Auto test2"};
 
 int	main()
 {
@@ -16,12 +19,18 @@ int	main()
   smart_ptr Object	*str1;
   Object		*str2;
   smart_ptr Object	*value;
-  smart_ptr auto Object	*money;
+  auto money		= 42.f;
 
   str = unique_ptr(String, "Pete et repete sont sur un bateau.");
   str1 = unique_ptr(String, "Pete tombe a l'eau.");
-  money = unique_ptr(Float, 40.0f);
-  printf("You have -> $%s left on your account.\n", str(money));
+  printf("You have -> $%.2f left on your account.\n", money);
+
+  for (auto i = 0; i < 2; ++i)
+    {
+      auto str = test_string[i];
+      printf("--> %s\n", str);
+    }
+
   value = unique_ptr(Int, 3);
   printf("%s\n", str(str1));
   str2 = mul(str1, value);
