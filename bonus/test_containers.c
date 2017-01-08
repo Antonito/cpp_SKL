@@ -52,7 +52,7 @@ int test_containers()
 
     Object *n = new(Int, 3);
     Object *ll = mul(l2, n);
-    printf("%s\n", str(ll));
+    //    printf("%s\n", str(ll));
 
         Object *t = to_array(ll);
     //    Object *t = new(Array, 3, Int, 42);

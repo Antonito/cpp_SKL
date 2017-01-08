@@ -58,7 +58,7 @@ int test_types()
 
   Object *result = add(g, b);
   printf("================TEST STDINT=============\n");
-  printf("result add: %s\n", str(add(g, b)));
+  printf("result add: %s\n", str(result));
   delete(result);
   result = mul(f, c);
   printf("result mul: %s\n", str(result));
@@ -83,7 +83,8 @@ int test_types()
   result = div(g,i);
   printf("result div: %s\n", str(result));
   delete(result);
-  printf("result sub: %s\n", str(sub(i, e)));
+  result = sub(i, e);
+  printf("result sub: %s\n", str(result));
   printf("result eq: %d\n", eq(c, i));
   printf("result lt: %d\n", lt(i, g));
   printf("result gt: %d\n", gt(a, i));
@@ -91,10 +92,14 @@ int test_types()
   printf("================TEST DOUBLE=============\n");
   printf("j: %s\n", str(j));
   printf("i: %s\n", str(i));
-  printf("result add: %s\n", str(add(i, j)));
-  printf("result mul: %s\n", str(mul(j, g)));
-  printf("result div: %s\n", str(div(i, j)));
-  printf("result sub: %s\n", str(sub(i, j)));
+  result = add(i, j);
+  printf("result add: %s\n", str(result));
+  result = mul(j, g);
+  printf("result mul: %s\n", str(result));
+  result = div(i, j);
+  printf("result div: %s\n", str(result));
+  result = sub(i, j);
+  printf("result sub: %s\n", str(result));
   printf("result eq: %d\n", eq(i, j));
   printf("result lt: %d\n", lt(i, j));
   printf("result gt: %d\n", gt(i, j));
