@@ -5,14 +5,15 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:52 2017 Antoine Baché
-** Last update Sat Jan 07 14:20:42 2017 
+** Last update Sun Jan  8 00:33:04 2017 Ludovic Petrenko
 */
 
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
 #include "raise.h"
-#include "new.h"
+#include "object.h"
+//#include "new.h"
 
 Object* va_new(Class* class, va_list* ap)
 {

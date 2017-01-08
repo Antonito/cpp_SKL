@@ -5,11 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-<<<<<<< HEAD
-** Last update Sat Jan  7 04:37:23 2017 Ludovic Petrenko
-=======
-** Last update Sat Jan  7 04:44:08 2017 Antoine Baché
->>>>>>> 769bf0f2765739d36af96027c1209ed45abc43ec
+** Last update Sat Jan  7 18:34:52 2017 Ludovic Petrenko
 */
 
 #include <string.h>

@@ -6,8 +6,10 @@
 
 #include "object.h"
 
-Object* new(Class * class, ...);
+Object* new(Class * class, ...) __attribute__((sentinel(0)));
 Object* va_new(Class* class, va_list* ap);
 void delete(Object * ptr);
+
+# define new(...) new(__VA_ARGS__, NULL)
 
 #endif
