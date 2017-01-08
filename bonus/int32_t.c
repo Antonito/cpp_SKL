@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:56:45 2017 Antoine Baché
+** Last update Sun Jan  8 02:36:32 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -313,7 +313,7 @@ static Int32_tClass _description =
 {
   {
       {
-    sizeof(Int32_tClass), "Int32_t", &Int32_t_ctor, &Int32_t_dtor,
+	sizeof(Int32_tClass), "Int32_t", &Int32_t_ctor, &Int32_t_dtor, NULL,
     &Int32_t_str, &Int32_t_clone, &Int32_t_add, &Int32_t_sub, &Int32_t_mul, &Int32_t_div,
     &Int32_t_eq, &Int32_t_gt, &Int32_t_lt
       },

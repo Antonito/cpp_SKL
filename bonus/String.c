@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Fri Jan  6 09:02:26 2017 Antoine Baché
-** Last update Sun Jan  8 01:22:20 2017 Ludovic Petrenko
+** Last update Sun Jan  8 02:37:59 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -454,7 +454,7 @@ static Object			*String_mul(const Object *self, const Object *other)
 static StringClass		_description =
   {
     {
-      sizeof(StringClass), "String", &String_ctor, &String_dtor,
+      sizeof(StringClass), "String", &String_ctor, &String_dtor, NULL,
       (to_string_t)&String_c_str, NULL, &String_add,
       NULL, &String_mul, NULL, NULL,
       NULL, NULL

@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:30:02 2017 Arthur ARNAUD
+** Last update Sun Jan  8 02:35:28 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -348,7 +348,7 @@ static Uint64_tClass _description =
 {
   {
       {
-    sizeof(Uint64_tClass), "Uint64_t", &Uint64_t_ctor, &Uint64_t_dtor,
+	sizeof(Uint64_tClass), "Uint64_t", &Uint64_t_ctor, &Uint64_t_dtor, NULL,
     &Uint64_t_str, &Uint64_t_clone, &Uint64_t_add, &Uint64_t_sub, &Uint64_t_mul, &Uint64_t_div,
     &Uint64_t_eq, &Uint64_t_gt, &Uint64_t_lt
       },

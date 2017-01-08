@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:58:30 2017 Antoine Baché
+** Last update Sun Jan  8 02:36:44 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -242,7 +242,7 @@ static Int8_tClass _description =
 {
   {
       {
-    sizeof(Int8_tClass), "Int8_t", &Int8_t_ctor, &Int8_t_dtor,
+	sizeof(Int8_tClass), "Int8_t", &Int8_t_ctor, &Int8_t_dtor, NULL,
     &Int8_t_str, &Int8_t_clone, &Int8_t_add, &Int8_t_sub, &Int8_t_mul, &Int8_t_div,
     &Int8_t_eq, &Int8_t_gt, &Int8_t_lt
       },

@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:59:16 2017 Antoine Baché
+** Last update Sun Jan  8 02:36:25 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -279,7 +279,7 @@ static Int16_tClass _description =
 {
   {
       {
-    sizeof(Int16_tClass), "Int16_t", &Int16_t_ctor, &Int16_t_dtor,
+	sizeof(Int16_tClass), "Int16_t", &Int16_t_ctor, &Int16_t_dtor, NULL,
     &Int16_t_str, &Int16_t_clone, &Int16_t_add, &Int16_t_sub, &Int16_t_mul, &Int16_t_div,
     &Int16_t_eq, &Int16_t_gt, &Int16_t_lt
       },

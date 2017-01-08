@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:31:25 2017 Arthur ARNAUD
+** Last update Sun Jan  8 02:38:21 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -317,7 +317,7 @@ static Uint32_tClass _description =
 {
   {
       {
-    sizeof(Uint32_tClass), "Uint32_t", &Uint32_t_ctor, &Uint32_t_dtor,
+	sizeof(Uint32_tClass), "Uint32_t", &Uint32_t_ctor, &Uint32_t_dtor, NULL,
     &Uint32_t_str, &Uint32_t_clone, &Uint32_t_add, &Uint32_t_sub, &Uint32_t_mul, &Uint32_t_div,
     &Uint32_t_eq, &Uint32_t_gt, &Uint32_t_lt
       },

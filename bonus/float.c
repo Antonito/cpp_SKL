@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 00:27:38 2017 Arthur ARNAUD
+** Last update Sun Jan  8 02:36:19 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -379,7 +379,7 @@ static FloatClass _description =
 {
   {
       {
-    sizeof(FloatClass), "Float", &Float_ctor, &Float_dtor,
+	sizeof(FloatClass), "Float", &Float_ctor, &Float_dtor, NULL,
     &Float_str, &Float_clone, &Float_add, &Float_sub, &Float_mul, &Float_div,
     &Float_eq, &Float_gt, &Float_lt
       },
