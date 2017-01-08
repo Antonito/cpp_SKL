@@ -1,0 +1,29 @@
+
+#ifndef QUEUE_H
+# define QUEUE_H
+
+# include "container.h"
+# include "stack.h"
+extern Class* Queue; /* Queue(size, Type, ...)  where ellipsis are Type constructor arguments */
+
+typedef struct QueueClass QueueClass;
+
+typedef struct QueueNode
+{
+  Class* _type;
+  struct QueueNode* next;
+}  QueueNode;
+
+struct QueueClass
+{
+  Container base;
+  Class* _type;
+  size_t _size;
+  QueueNode* _list;
+  char *	_str;
+  push_t	__push_back__;
+  pop_t	__pop_front__;
+};
+
+
+#endif

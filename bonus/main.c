@@ -22,7 +22,6 @@ static void		_test_smart_ptr(void)
   smart_ptr Object	*new_val;
   smart_ptr Object	*str;
   smart_ptr Object	*str1;
-  Object		*str2;
   smart_ptr Object	*value;
   auto money		= 42.f;
 
