@@ -5,7 +5,7 @@
 #include "object.h"
 #include "number.h"
 
-enum Type {INT8_T, INT16_T, INT32_T, INT64_T, FLOAT};
+enum Type {INT8_T, INT16_T, INT32_T, INT64_T, FLOAT, DOUBLE};
 
 Object *	check_op(const Object *a, const Object *b, char op)
 {
@@ -32,6 +32,8 @@ Object *	check_op(const Object *a, const Object *b, char op)
   if (strncmp(_a->base.__name__, "Float", 5) == 0)
     type_a = FLOAT;
 
+  if (strncmp(_a->base.__name__, "Double", 6) == 0)
+    type_a = DOUBLE;
 
   if (strncmp(_b->base.__name__, "Int8_t", 6) == 0 || strncmp(_b->base.__name__, "Uint8_t", 7) == 0)
     type_b = INT8_T;
@@ -47,6 +49,9 @@ Object *	check_op(const Object *a, const Object *b, char op)
 
   if (strncmp(_b->base.__name__, "Float", 5) == 0)
     type_b = FLOAT;
+
+  if (strncmp(_b->base.__name__, "Double", 6) == 0)
+    type_b = DOUBLE;
 
   switch(op)
     {
@@ -105,6 +110,9 @@ bool	check_cmp(const Object *a, const Object *b, char op)
   if (strncmp(_a->base.__name__, "Float", 5) == 0)
     type_a = FLOAT;
 
+  if (strncmp(_a->base.__name__, "Double", 6) == 0)
+    type_a = DOUBLE;
+
 
   if (strncmp(_b->base.__name__, "Int8_t", 6) == 0 || strncmp(_b->base.__name__, "Uint8_t", 7) == 0)
     type_b = INT8_T;
@@ -120,6 +128,9 @@ bool	check_cmp(const Object *a, const Object *b, char op)
 
   if (strncmp(_b->base.__name__, "Float", 5) == 0)
     type_b = FLOAT;
+
+  if (strncmp(_b->base.__name__, "Double", 6) == 0)
+    type_b = DOUBLE;
 
   switch(op)
     {
