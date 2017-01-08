@@ -5,7 +5,7 @@
 ## Login   <bache_a@epitech.net>
 ##
 ## Started on  Fri Nov 25 20:10:26 2016 Antoine Baché
-## Last update Sun Jan  8 07:53:57 2017 Antoine Baché
+## Last update Sun Jan  8 08:57:49 2017 Ludovic Petrenko
 ##
 
 # Makefile dependencies directory
@@ -31,6 +31,7 @@ SRC=		array.c			\
 		main.c			\
 		new.c			\
 		operation.c		\
+		queue.c			\
 		smart_ptr.c		\
 		stack.c			\
 		String.c		\

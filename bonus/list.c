@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:01:12 2017 Antoine Baché
+** Last update Sun Jan  8 08:55:44 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -21,6 +21,7 @@
 #include "new.h"
 #include "array.h"
 #include "number.h"
+#include "object.h"
 
 typedef struct {
     Iterator base;
@@ -605,18 +606,57 @@ static Object			*List_mul(const ListClass *self, const Object *other)
   return (new_list);
 }
 
+static ListClass *List_clone(ListClass *self)
+{
+  ListClass	*c;
+  ListNode	*node;
+
+  if (!self)
+    raise("Invalid parameter!");
+  c = new(List, self->_type);
+  node = self->_list;
+  while (node)
+    {
+      push_back(c, clone(node->_type));
+      node = node->next;
+    }
+  return (c);
+}
+
+static bool	List_eq(ListClass *self, ListClass *other)
+{
+  ListNode	*a;
+  ListNode	*b;
+
+  if (!self || !other)
+    raise("Invalid parameter!");
+  if (self->_size != other->_size)
+    return (false);
+  a = self->_list;
+  b = other->_list;
+  while (a && b)
+    {
+      if (!eq(a, b))
+	return (false);
+      a = a->next;
+      b = b->next;
+    }
+  return (true);
+}
+
 static ListClass _descr = {
     { /* Container */
         { /* Class */
             sizeof(ListClass), "List",
             (ctor_t) &List_ctor, (dtor_t) &List_dtor, NULL,
             (to_string_t) &List_to_string, /*str */
-	    NULL, /* clone */
+	    (clone_t) &List_clone, /* clone */
             (binary_operator_t) &List_add,
 	    NULL, /* sub */
 	    (binary_operator_t) &List_mul,
 	    NULL, /* div */
-            NULL, NULL, NULL, /* eq, gt, lt */
+            (binary_comparator_t) &List_eq,
+	    NULL, NULL, /* gt, lt */
         },
         (len_t) &List_len,
         (iter_t) &List_begin,

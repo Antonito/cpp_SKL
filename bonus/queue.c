@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:52:35 2017 Ludovic Petrenko
+** Last update Sun Jan  8 08:56:31 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -17,13 +17,13 @@
 #include <stdint.h>
 
 #include "raise.h"
-#include "stack.h"
+#include "list.h"
 #include "new.h"
 #include "array.h"
 #include "number.h"
-#include "list.h"
+#include "queue.h"
 
-static void Stack_ctor(StackClass* self, va_list* args)
+static void Queue_ctor(QueueClass* self, va_list* args)
 {
   uint32_t	n;
   uint32_t	i = 0;
@@ -41,11 +41,11 @@ static void Stack_ctor(StackClass* self, va_list* args)
   if (n)
     value = va_arg(ap, Object*);
   while (i++ < n)
-    stack_push(self, value);
+    queue_push(self, value);
   va_end(ap);
 }
 
-static int	IsInStack(StackNode* list, Object *val)
+static int	IsInQueue(QueueNode* list, Object *val)
 {
   while (list)
     {
@@ -56,10 +56,10 @@ static int	IsInStack(StackNode* list, Object *val)
   return (0);
 }
 
-static void Stack_dtor(StackClass* self)
+static void Queue_dtor(QueueClass* self)
 {
-  StackNode*	node;
-  StackNode*	next;
+  QueueNode*	node;
+  QueueNode*	next;
 
   if (!self)
     raise("Invalid parameter!");
@@ -69,7 +69,7 @@ static void Stack_dtor(StackClass* self)
   while (node)
     {
       next = node->next;
-      if (!IsInStack(next, node->_type))
+      if (!IsInQueue(next, node->_type))
 	delete(node->_type);
       free(node);
       node = next;
@@ -77,7 +77,7 @@ static void Stack_dtor(StackClass* self)
   free(self->_str);
 }
 
-static size_t Stack_len(StackClass* self)
+static size_t Queue_len(QueueClass* self)
 {
   if (self)
     {
@@ -86,16 +86,16 @@ static size_t Stack_len(StackClass* self)
   return (0);
 }
 
-static void	Stack_push_back(StackClass* self, ...)
+static void	Queue_push_back(QueueClass* self, ...)
 {
-  StackNode	*node;
-  StackNode	*new_node;
+  QueueNode	*node;
+  QueueNode	*new_node;
   va_list	ap;
 
   if (self)
     {
       va_start(ap, self);
-      if (!(new_node = malloc(sizeof(StackNode))))
+      if (!(new_node = malloc(sizeof(QueueNode))))
 	raise("Out of memory!");
       new_node->_type = va_arg(ap, __typeof__(self->_type));
       if (!self->_list)
@@ -113,36 +113,30 @@ static void	Stack_push_back(StackClass* self, ...)
     }
 }
 
-static void	Stack_pop_back(StackClass* self)
+static void	Queue_pop_front(QueueClass* self)
 {
-    StackNode	*node;
+  QueueNode	*node;
 
   if (self)
     {
-      node = self->_list;
-      if (!node || !self->_size)
+      if (!self->_list || !self->_size)
 	raise("Cannot pop from empty list!");
-      if (!node->next)
-	{
-	  delete(node->_type);
-	  free(node);
-	  self->_list = NULL;
-	}
-      else
-	{
-	  while (node->next->next)
-	    node = node->next;
-	  delete(node->next->_type);
-	  free(node->next);
-	  node->next = NULL;
-	}
+      node = self->_list;
+      self->_list = node->next;
+      delete(node->_type);
+      free(node);
       --self->_size;
     }
 }
 
-static Object	*Stack_back(StackClass *self)
+static Object	*Queue_front(QueueClass *self)
 {
-  StackNode	*node;
+  return (self->_list->_type);
+}
+
+static Object	*Queue_back(QueueClass *self)
+{
+  QueueNode	*node;
 
   node = self->_list;
   if (!node)
@@ -152,30 +146,30 @@ static Object	*Stack_back(StackClass *self)
   return (node->_type);
 }
 
-static bool	Stack_empty(StackClass const *self)
+static bool	Queue_empty(QueueClass const *self)
 {
   return (self->_list == NULL);
 }
 
-static void	Stack_swap(StackClass *self, StackClass *other)
+static void	Queue_swap(QueueClass *self, QueueClass *other)
 {
-  StackClass	tmp;
+  QueueClass	tmp;
 
-  memcpy(&tmp, self, sizeof(StackClass));
-  memcpy(self, other, sizeof(StackClass));
-  memcpy(other, &tmp, sizeof(StackClass));
+  memcpy(&tmp, self, sizeof(QueueClass));
+  memcpy(self, other, sizeof(QueueClass));
+  memcpy(other, &tmp, sizeof(QueueClass));
 }
 
-static char const	*Stack_to_string(StackClass *self)
+static char const	*Queue_to_string(QueueClass *self)
 {
   char *last;
-  StackNode	*node;
+  QueueNode	*node;
 
   if (!self)
     raise("Invalid parameter!");
   if (self->_str)
     free(self->_str);
-  if (asprintf(&self->_str, "Stack<%s>[%lu]\n{\n", self->_type->__name__, self->_size) == -1)
+  if (asprintf(&self->_str, "Queue<%s>[%lu]\n{\n", self->_type->__name__, self->_size) == -1)
     raise("Out of memory!");
   node = self->_list;
   while (node)
@@ -193,10 +187,11 @@ static char const	*Stack_to_string(StackClass *self)
   return (self->_str);
 }
 
-static Object *Stack_to_array(StackClass *self)
+static Object *Queue_to_array(QueueClass *self)
 {
   Object	*arr;
-  StackNode	*node;
+  QueueNode	*node;
+  //  Iterator	*it;
   Object	**tab;
   size_t	i = 0;
 
@@ -204,10 +199,14 @@ static Object *Stack_to_array(StackClass *self)
     raise("Invalid parameter!");
   arr = new(Array, self->_size, self->_type, 0);
   node = self->_list;
-  tab = *(void ***)((char *)arr + sizeof(Container) +
-		    sizeof(Class*) + sizeof(size_t));
+  //  it = begin(arr);
+  tab = (void*)arr + sizeof(Container) + sizeof(Class*) + sizeof(size_t);
   while (node && i < self->_size)
     {
+      //      setval(arr, i++, node->_type);
+      //      setval(it, node->_type);
+      //      incr(it);
+      printf("%ld\n", i );
       tab[i] = node->_type;
       node = node->next;
       ++i;
@@ -215,23 +214,18 @@ static Object *Stack_to_array(StackClass *self)
   return (arr);
 }
 
-static Object *Stack_to_list(StackClass *self)
+static Object *Queue_to_list(QueueClass *self)
 {
-  Object	*o;
-
   if (!self)
     raise("Invalid parameter!");
-  o = new(List, self->_type);
-  memcpy(o, self, sizeof(StackClass));
-  memcpy(o, List, sizeof(*List));
   return (self);
 }
 
-static Object	*Stack_add(StackClass *self, Object *other)
+static Object	*Queue_add(QueueClass *self, Object *other)
 {
-  StackClass	*res;
-  StackClass	*o = NULL;
-  char		*validTypes[] = { "Array", "Stack", "Stack", "Queue" };
+  QueueClass	*res;
+  QueueClass	*o = NULL;
+  char		*validTypes[] = { "Array", "Queue", "Stack", "Queue" };
 
   if (!self || !other)
     raise("Invalid parameter!");
@@ -243,40 +237,40 @@ static Object	*Stack_add(StackClass *self, Object *other)
   if (!o)
     raise("You can only add an Array with another container!");
 
-  res = new(Stack, self->_type);
+  res = new(Queue, self->_type);
 
   for (Iterator *it = begin((Container *)self);
        it != end((Container *)self); incr(it))
-    stack_push(res, getval(it));
+    queue_push(res, getval(it));
 
   for (Iterator *it = begin((Container *)other);
        it != end((Container *)other); incr(it))
-    stack_push(res, getval(it));
+    queue_push(res, getval(it));
   return (res);
 }
 
-static Object			*Stack_mul(const StackClass *self, const Object *other)
+static Object			*Queue_mul(const QueueClass *self, const Object *other)
 {
   int				i;
-  StackNode			*node;
-  StackClass			*new_list;
+  QueueNode			*node;
+  QueueClass			*new_list;
   const Class			*nb;
   int				max;
 
   nb = other;
   if (!self || !other || memcmp(nb->__name__, "Int32_t", sizeof("Int32_t")))
     {
-      raise("Cannot mult Stack (second argument should be Int object)");
+      raise("Cannot mult Array (second argument should be Int object)");
     }
   i = 0;
   max = *(uintptr_t *)((uintptr_t)nb + sizeof(Number) + sizeof(char *));
-  new_list = new(Stack, self->_type, 0);
+  new_list = new(Queue, self->_type, 0);
   while (i < max)
     {
       node = self->_list;
       while (node)
 	{
-	  stack_push(new_list, node->_type);
+	  queue_push(new_list, node->_type);
 	  node = node->next;
 	}
       ++i;
@@ -284,27 +278,27 @@ static Object			*Stack_mul(const StackClass *self, const Object *other)
   return (new_list);
 }
 
-static StackClass *Stack_clone(StackClass *self)
+static QueueClass *Queue_clone(QueueClass *self)
 {
-  StackClass	*c;
-  StackNode	*node;
+  QueueClass	*c;
+  QueueNode	*node;
 
   if (!self)
     raise("Invalid parameter!");
-  c = new(Stack, self->_type);
+  c = new(Queue, self->_type);
   node = self->_list;
   while (node)
     {
-      stack_push(c, clone(node->_type));
+      queue_push(c, clone(node->_type));
       node = node->next;
     }
   return (c);
 }
 
-static bool	Stack_eq(StackClass *self, StackClass *other)
+static bool	Queue_eq(QueueClass *self, QueueClass *other)
 {
-  StackNode	*a;
-  StackNode	*b;
+  QueueNode	*a;
+  QueueNode	*b;
 
   if (!self || !other)
     raise("Invalid parameter!");
@@ -322,34 +316,34 @@ static bool	Stack_eq(StackClass *self, StackClass *other)
   return (true);
 }
 
-static StackClass _descr = {
+static QueueClass _descr = {
     { /* Container */
         { /* Class */
-            sizeof(StackClass), "Stack",
-            (ctor_t) &Stack_ctor, (dtor_t) &Stack_dtor, NULL,
-            (to_string_t) &Stack_to_string, /*str */
-	    (clone_t) &Stack_clone, /* clone */
-            (binary_operator_t) &Stack_add,
+            sizeof(QueueClass), "Queue",
+            (ctor_t) &Queue_ctor, (dtor_t) &Queue_dtor, NULL,
+            (to_string_t) &Queue_to_string, /*str */
+	    (clone_t) &Queue_clone, /* clone */
+            (binary_operator_t) &Queue_add,
 	    NULL, /* sub */
-	    (binary_operator_t) &Stack_mul,
+	    (binary_operator_t) &Queue_mul,
 	    NULL, /* div */
-            (binary_comparator_t) &Stack_eq, NULL, NULL, /* gt, lt */
+            (binary_comparator_t) &Queue_eq, NULL, NULL, /* gt, lt */
         },
-        (len_t) &Stack_len,
-        NULL,
-        NULL,
-        NULL,
-        NULL,
-	(empty_t) &Stack_empty,
-	(swap_t) &Stack_swap,
-        NULL,
-	(back_t) &Stack_back,
-	(to_array_t) &Stack_to_array,
-	(to_list_t) &Stack_to_list
+        (len_t) &Queue_len,
+	NULL,
+	NULL,
+	NULL,
+	NULL,
+	(empty_t) &Queue_empty,
+	(swap_t) &Queue_swap,
+	(front_t) &Queue_front,
+	(back_t) &Queue_back,
+	(to_array_t) &Queue_to_array,
+	(to_list_t) &Queue_to_list
     },
     NULL, 0, NULL, NULL,
-    (stack_push_t) &Stack_push_back,
-    (stack_pop_t) &Stack_pop_back
+    (queue_push_t) &Queue_push_back,
+    (queue_pop_t) &Queue_pop_front
 };
 
-Class* Stack = (Class*) &_descr;
+Class* Queue = (Class*) &_descr;
