@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:43:50 2017 Ludovic Petrenko
+** Last update Sun Jan  8 08:55:44 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -200,7 +200,10 @@ static void List_dtor(ListClass* self)
     {
       next = node->next;
       if (!IsInList(next, node->_type))
-	delete(node->_type);
+	{
+	  delete(node->_type);
+	  node->_type = NULL;
+	}
       free(node);
       node = next;
     }
@@ -521,7 +524,6 @@ static Object *List_to_array(ListClass *self)
 {
   Object	*arr;
   ListNode	*node;
-  //  Iterator	*it;
   Object	**tab;
   size_t	i = 0;
 
@@ -529,14 +531,10 @@ static Object *List_to_array(ListClass *self)
     raise("Invalid parameter!");
   arr = new(Array, self->_size, self->_type, 0);
   node = self->_list;
-  //  it = begin(arr);
   tab = *(void ***)((char *)arr + sizeof(Container) +
 		  sizeof(Class *) + sizeof(size_t));
   while (node && i < self->_size)
     {
-      //      setval(arr, i++, node->_type);
-      //      setval(it, node->_type);
-      //      incr(it);
       tab[i] = node->_type;
       node = node->next;
       ++i;
@@ -612,7 +610,6 @@ static ListClass *List_clone(ListClass *self)
 {
   ListClass	*c;
   ListNode	*node;
-  ListNode	*list = NULL;
 
   if (!self)
     raise("Invalid parameter!");

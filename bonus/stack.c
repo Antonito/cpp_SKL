@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:46:33 2017 Ludovic Petrenko
+** Last update Sun Jan  8 08:52:35 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -197,7 +197,6 @@ static Object *Stack_to_array(StackClass *self)
 {
   Object	*arr;
   StackNode	*node;
-  //  Iterator	*it;
   Object	**tab;
   size_t	i = 0;
 
@@ -205,14 +204,10 @@ static Object *Stack_to_array(StackClass *self)
     raise("Invalid parameter!");
   arr = new(Array, self->_size, self->_type, 0);
   node = self->_list;
-  //  it = begin(arr);
-  tab = (void*)arr + sizeof(Container) + sizeof(Class*) + sizeof(size_t);
+  tab = *(void ***)((char *)arr + sizeof(Container) +
+		    sizeof(Class*) + sizeof(size_t));
   while (node && i < self->_size)
     {
-      //      setval(arr, i++, node->_type);
-      //      setval(it, node->_type);
-      //      incr(it);
-      printf("%ld\n", i );
       tab[i] = node->_type;
       node = node->next;
       ++i;
@@ -252,11 +247,11 @@ static Object	*Stack_add(StackClass *self, Object *other)
 
   for (Iterator *it = begin((Container *)self);
        it != end((Container *)self); incr(it))
-    push(res, getval(it));
+    stack_push(res, getval(it));
 
   for (Iterator *it = begin((Container *)other);
        it != end((Container *)other); incr(it))
-    push(res, getval(it));
+    stack_push(res, getval(it));
   return (res);
 }
 
@@ -281,7 +276,7 @@ static Object			*Stack_mul(const StackClass *self, const Object *other)
       node = self->_list;
       while (node)
 	{
-	  push(new_list, node->_type);
+	  stack_push(new_list, node->_type);
 	  node = node->next;
 	}
       ++i;
@@ -293,7 +288,6 @@ static StackClass *Stack_clone(StackClass *self)
 {
   StackClass	*c;
   StackNode	*node;
-  StackNode	*list = NULL;
 
   if (!self)
     raise("Invalid parameter!");

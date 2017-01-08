@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 00:36:52 2017 Antoine Baché
-** Last update Sun Jan  8 00:33:04 2017 Ludovic Petrenko
+** Last update Sun Jan  8 08:15:41 2017 Arthur ARNAUD
 */
 
 #include <stdlib.h>
@@ -19,6 +19,8 @@ Object* va_new(Class* class, va_list* ap)
 {
   void	*obj;
 
+  if (!class || !ap)
+    raise("Invalid parameter!");
   obj = malloc(class->__size__);
   if (!obj)
     {
@@ -35,6 +37,8 @@ void		*new(Class *class, ...)
   void		*obj;
   va_list	ap;
 
+  if (!class)
+    raise("Invalid parameter!");
   obj = NULL;
   if (class)
     {
@@ -49,11 +53,10 @@ void	delete(Object *ptr)
 {
   Class	*obj;
 
-  if (ptr)
-    {
-      obj = ptr;
-      if (obj->__del__)
-	obj->__del__(obj);
-      free(ptr);
-    }
+  if (!ptr)
+    raise("Invalid parameter!");
+  obj = ptr;
+  if (obj->__del__)
+    obj->__del__(obj);
+  free(ptr);
 }

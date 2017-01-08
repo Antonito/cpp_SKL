@@ -17,14 +17,14 @@ static void		_test_smart_ptr(void)
 {
   smart_ptr Object	*val1;
   smart_ptr Object	*arr = unique_ptr(Array, 3, String, "Toto");
+  Object		*toto = clone(arr);
   auto it = begin(arr);
   auto it_end = end(arr);
-  smart_ptr Object	*new_val;
   smart_ptr Object	*str;
   smart_ptr Object	*str1;
-  smart_ptr Object	*value;
   auto money		= 42.f;
 
+  printf("%s\n", str(toto));
   str = unique_ptr(String, "Pete et repete sont sur un bateau.");
   str1 = unique_ptr(String, "Pete tombe a l'eau.");
   printf("You have -> $%.2f left on your account.\n", money);
@@ -153,9 +153,9 @@ void _test_containers(void)
   push_back(l13, new(Int, 7));
   push_back(l13, new(Int, 8));
 
-  push_back(list2, l1);
-  push_back(list2, l2);
-  push_back(list2, l3);
+  push_back(list2, l11);
+  push_back(list2, l12);
+  push_back(list2, l13);
 
   push_back(l, list);
   push_back(l, list2);
@@ -279,8 +279,8 @@ int		main(void)
   _test_smart_ptr();
   _test_exceptions();
   _test_auto();
-  //_test_containers();
-  test_containers();
+  _test_containers();
+  //test_containers();
   _test_types();
   printf(LEAVING);
   return (0);

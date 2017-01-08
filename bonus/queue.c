@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 08:49:31 2017 Ludovic Petrenko
+** Last update Sun Jan  8 08:56:31 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -113,51 +113,6 @@ static void	Queue_push_back(QueueClass* self, ...)
     }
 }
 
-static void	Queue_push_front(QueueClass* self, ...)
-{
-  QueueNode	*new_node;
-  va_list	ap;
-
-  if (self)
-    {
-      va_start(ap, self);
-      if (!(new_node = malloc(sizeof(QueueNode))))
-	raise("Out of memory!");
-      new_node->_type = va_arg(ap, __typeof__(self->_type));
-      new_node->next = self->_list;
-      self->_list = new_node;
-      self->_size++;
-      va_end(ap);
-    }
-}
-
-static void	Queue_pop_back(QueueClass* self)
-{
-    QueueNode	*node;
-
-  if (self)
-    {
-      node = self->_list;
-      if (!node || !self->_size)
-	raise("Cannot pop from empty list!");
-      if (!node->next)
-	{
-	  delete(node->_type);
-	  free(node);
-	  self->_list = NULL;
-	}
-      else
-	{
-	  while (node->next->next)
-	    node = node->next;
-	  delete(node->next->_type);
-	  free(node->next);
-	  node->next = NULL;
-	}
-      --self->_size;
-    }
-}
-
 static void	Queue_pop_front(QueueClass* self)
 {
   QueueNode	*node;
@@ -196,27 +151,6 @@ static bool	Queue_empty(QueueClass const *self)
   return (self->_list == NULL);
 }
 
-static void	Queue_clear(QueueClass *self)
-{
-  QueueNode*	node;
-  QueueNode*	next;
-
-  if (!self)
-    raise("Invalid parameter!");
-  node = self->_list;
-  if (!node)
-    return ;
-  while (node)
-    {
-      next = node->next;
-      delete(node->_type);
-      free(node);
-      node = next;
-    }
-  self->_list = NULL;
-  self->_size = 0;
-}
-
 static void	Queue_swap(QueueClass *self, QueueClass *other)
 {
   QueueClass	tmp;
@@ -224,25 +158,6 @@ static void	Queue_swap(QueueClass *self, QueueClass *other)
   memcpy(&tmp, self, sizeof(QueueClass));
   memcpy(self, other, sizeof(QueueClass));
   memcpy(other, &tmp, sizeof(QueueClass));
-}
-
-static void	Queue_reverse(QueueClass *self)
-{
-  QueueNode	*rev = NULL;
-  QueueNode	*node;
-  QueueNode	*next;
-
-  if (!self)
-    raise("Invalid parameter!");
-  node = self->_list;
-  while (node)
-    {
-      next = node->next;
-      node->next = rev;
-      rev = node;
-      node = next;
-    }
-  self->_list = rev;
 }
 
 static char const	*Queue_to_string(QueueClass *self)
@@ -326,11 +241,11 @@ static Object	*Queue_add(QueueClass *self, Object *other)
 
   for (Iterator *it = begin((Container *)self);
        it != end((Container *)self); incr(it))
-    push_back(res, getval(it));
+    queue_push(res, getval(it));
 
   for (Iterator *it = begin((Container *)other);
        it != end((Container *)other); incr(it))
-    push_back(res, getval(it));
+    queue_push(res, getval(it));
   return (res);
 }
 
@@ -355,7 +270,7 @@ static Object			*Queue_mul(const QueueClass *self, const Object *other)
       node = self->_list;
       while (node)
 	{
-	  push_back(new_list, node->_type);
+	  queue_push(new_list, node->_type);
 	  node = node->next;
 	}
       ++i;
@@ -367,7 +282,6 @@ static QueueClass *Queue_clone(QueueClass *self)
 {
   QueueClass	*c;
   QueueNode	*node;
-  QueueNode	*list = NULL;
 
   if (!self)
     raise("Invalid parameter!");
@@ -375,7 +289,7 @@ static QueueClass *Queue_clone(QueueClass *self)
   node = self->_list;
   while (node)
     {
-      push_back(c, clone(node->_type));
+      queue_push(c, clone(node->_type));
       node = node->next;
     }
   return (c);
