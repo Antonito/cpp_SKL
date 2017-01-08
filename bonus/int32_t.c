@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 03:04:34 2017 Antoine Baché
+** Last update Sun Jan  8 06:14:15 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -53,6 +53,8 @@ static char const*	Int32_t_str(Object *self)
 {
   Int32_tClass		*obj;
 
+  if (!self)
+    raise("Invalid parameter!");
   obj = self;
   if (obj->__str__)
     free(obj->__str__);

@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 01:55:58 2017 Antoine Baché
+** Last update Sun Jan  8 07:31:10 2017 Antoine Baché
 */
 
 #include <string.h>
@@ -204,7 +204,7 @@ static Iterator* Array_end(ArrayClass* self)
   ite = NULL;
   if (self)
     {
-      ite = new(ArrayIterator, self, 0);
+      ite = new(ArrayIterator, self, self->_size);
     }
   return (ite);
 }
@@ -224,7 +224,7 @@ static Object* Array_getitem(ArrayClass* self, ...)
       while (i < self->_size)
 	{
 	  if (i == ndx)
-	    return (&self->_tab[i]);
+	    return (self->_tab[i]);
 	  ++i;
 	}
     }

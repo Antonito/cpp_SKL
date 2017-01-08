@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 02:52:05 2017 Ludovic Petrenko
+** Last update Sun Jan  8 07:51:14 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -19,6 +19,8 @@
 #include "raise.h"
 #include "list.h"
 #include "new.h"
+#include "array.h"
+#include "number.h"
 
 typedef struct {
     Iterator base;
@@ -516,8 +518,29 @@ static char const	*List_to_string(ListClass *self)
 
 static Object *List_to_array(ListClass *self)
 {
-  (void)self;
-  return (NULL);
+  Object	*arr;
+  ListNode	*node;
+  //  Iterator	*it;
+  Object	**tab;
+  size_t	i = 0;
+
+  if (!self)
+    raise("Invalid parameter!");
+  arr = new(Array, self->_size, self->_type, 0);
+  node = self->_list;
+  //  it = begin(arr);
+  tab = *(void ***)((char *)arr + sizeof(Container) +
+		  sizeof(Class *) + sizeof(size_t));
+  while (node && i < self->_size)
+    {
+      //      setval(arr, i++, node->_type);
+      //      setval(it, node->_type);
+      //      incr(it);
+      tab[i] = node->_type;
+      node = node->next;
+      ++i;
+    }
+  return (arr);
 }
 
 static Object *List_to_list(ListClass *self)
@@ -527,6 +550,63 @@ static Object *List_to_list(ListClass *self)
   return (self);
 }
 
+static Object	*List_add(ListClass *self, Object *other)
+{
+  ListClass	*res;
+  ListClass	*o = NULL;
+  char		*validTypes[] = { "Array", "List", "Stack", "Queue" };
+
+  if (!self || !other)
+    raise("Invalid parameter!");
+
+  for (int i = 0; i < 4; ++i)
+    if (strcmp(((Class*)other)->__name__, validTypes[i]) == 0)
+      o = to_list(other);
+
+  if (!o)
+    raise("You can only add an Array with another container!");
+
+  res = new(List, self->_type);
+
+  for (Iterator *it = begin((Container *)self);
+       it != end((Container *)self); incr(it))
+    push_back(res, getval(it));
+
+  for (Iterator *it = begin((Container *)other);
+       it != end((Container *)other); incr(it))
+    push_back(res, getval(it));
+  return (res);
+}
+
+static Object			*List_mul(const ListClass *self, const Object *other)
+{
+  int				i;
+  ListNode			*node;
+  ListClass			*new_list;
+  const Class			*nb;
+  int				max;
+
+  nb = other;
+  if (!self || !other || memcmp(nb->__name__, "Int32_t", sizeof("Int32_t")))
+    {
+      raise("Cannot mult Array (second argument should be Int object)");
+    }
+  i = 0;
+  max = *(uintptr_t *)((uintptr_t)nb + sizeof(Number) + sizeof(char *));
+  new_list = new(List, self->_type, 0);
+  while (i < max)
+    {
+      node = self->_list;
+      while (node)
+	{
+	  push_back(new_list, node->_type);
+	  node = node->next;
+	}
+      ++i;
+    }
+  return (new_list);
+}
+
 static ListClass _descr = {
     { /* Container */
         { /* Class */
@@ -534,7 +614,10 @@ static ListClass _descr = {
             (ctor_t) &List_ctor, (dtor_t) &List_dtor, NULL,
             (to_string_t) &List_to_string, /*str */
 	    NULL, /* clone */
-            NULL, NULL, NULL, NULL, /* add, sub, mul, div */
+            (binary_operator_t) &List_add,
+	    NULL, /* sub */
+	    (binary_operator_t) &List_mul,
+	    NULL, /* div */
             NULL, NULL, NULL, /* eq, gt, lt */
         },
         (len_t) &List_len,
@@ -542,7 +625,6 @@ static ListClass _descr = {
         (iter_t) &List_end,
         (getitem_t) &List_getitem,
         (setitem_t) &List_setitem,
-	NULL, /* setval */
 	(empty_t) &List_empty,
 	(swap_t) &List_swap,
 	(front_t) &List_front,

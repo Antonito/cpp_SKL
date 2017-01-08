@@ -271,6 +271,7 @@ int		main(void)
   _test_exceptions();
   _test_auto();
   //_test_containers();
+  test_containers();
   _test_types();
   printf(LEAVING);
   return (0);

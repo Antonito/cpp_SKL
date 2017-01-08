@@ -25,7 +25,6 @@ struct Container_s {
     iter_t      __end__;
     getitem_t   __getitem__;
     setitem_t   __setitem__;
-    setval_t	__setval__;
     empty_t	__empty__;
     swap_t __swap__;
     front_t	__front__;
