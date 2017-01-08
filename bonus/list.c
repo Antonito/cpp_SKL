@@ -5,7 +5,7 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 04:17:05 2017 Ludovic Petrenko
+** Last update Sun Jan  8 07:02:24 2017 Ludovic Petrenko
 */
 
 #define _GNU_SOURCE
@@ -20,6 +20,7 @@
 #include "list.h"
 #include "new.h"
 #include "array.h"
+#include "number.h"
 
 typedef struct {
     Iterator base;
@@ -519,16 +520,25 @@ static Object *List_to_array(ListClass *self)
 {
   Object	*arr;
   ListNode	*node;
+  //  Iterator	*it;
+  Object	**tab;
   size_t	i = 0;
 
   if (!self)
     raise("Invalid parameter!");
-  arr = new(Array, self->_size, self->_type, NULL);
+  arr = new(Array, self->_size, self->_type, 0);
   node = self->_list;
-  while (node)
+  //  it = begin(arr);
+  tab = (void*)arr + sizeof(Container) + sizeof(Class*) + sizeof(size_t);
+  while (node && i < self->_size)
     {
-      setval(arr, i++, node->_type);
+      //      setval(arr, i++, node->_type);
+      //      setval(it, node->_type);
+      //      incr(it);
+      printf("%ld\n", i );
+      tab[i] = node->_type;
       node = node->next;
+      ++i;
     }
   return (arr);
 }
@@ -568,6 +578,35 @@ static Object	*List_add(ListClass *self, Object *other)
   return (res);
 }
 
+static Object			*List_mul(const ListClass *self, const Object *other)
+{
+  int				i;
+  ListNode			*node;
+  ListClass			*new_list;
+  const Class			*nb;
+  int				max;
+
+  nb = other;
+  if (!self || !other || memcmp(nb->__name__, "Int32_t", sizeof("Int32_t")))
+    {
+      raise("Cannot mult Array (second argument should be Int object)");
+    }
+  i = 0;
+  max = *(uintptr_t *)((uintptr_t)nb + sizeof(Number) + sizeof(char *));
+  new_list = new(List, self->_type, 0);
+  while (i < max)
+    {
+      node = self->_list;
+      while (node)
+	{
+	  push_back(new_list, node->_type);
+	  node = node->next;
+	}
+      ++i;
+    }
+  return (new_list);
+}
+
 static ListClass _descr = {
     { /* Container */
         { /* Class */
@@ -576,7 +615,9 @@ static ListClass _descr = {
             (to_string_t) &List_to_string, /*str */
 	    NULL, /* clone */
             (binary_operator_t) &List_add,
-	    NULL, NULL, NULL, /* sub, mul, div */
+	    NULL, /* sub */
+	    (binary_operator_t) &List_mul,
+	    NULL, /* div */
             NULL, NULL, NULL, /* eq, gt, lt */
         },
         (len_t) &List_len,

@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 02:36:44 2017 Ludovic Petrenko
+** Last update Sun Jan  8 03:05:28 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -238,11 +238,24 @@ static bool		Int8_t_real_gt(const Object *self, const Object *other)
   return (comp > 0);
 }
 
+static void	Int8_t_set(Object *self, ...)
+{
+  Int8_tClass	*obj;
+  va_list	ap;
+
+  if (!self)
+    raise("Incorrect Arguments");
+  obj = self;
+  va_start(ap, self);
+  obj->value = va_arg(ap, int);
+  va_end(ap);
+}
+
 static Int8_tClass _description =
 {
   {
       {
-	sizeof(Int8_tClass), "Int8_t", &Int8_t_ctor, &Int8_t_dtor, NULL,
+	sizeof(Int8_tClass), "Int8_t", &Int8_t_ctor, &Int8_t_dtor, &Int8_t_set,
     &Int8_t_str, &Int8_t_clone, &Int8_t_add, &Int8_t_sub, &Int8_t_mul, &Int8_t_div,
     &Int8_t_eq, &Int8_t_gt, &Int8_t_lt
       },

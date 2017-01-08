@@ -5,18 +5,22 @@
 ** Login   <bache_a@epitech.net>
 **
 ** Started on  Sat Jan  7 02:06:07 2017 Antoine Baché
-** Last update Sun Jan  8 04:17:25 2017 Ludovic Petrenko
+** Last update Sun Jan  8 07:05:14 2017 Ludovic Petrenko
 */
+
+#define _GNU_SOURCE
 
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <assert.h>
+#include <stdint.h>
 
 #include "raise.h"
 #include "array.h"
 #include "new.h"
 #include "list.h"
+#include "number.h"
 
 typedef struct
 {
@@ -24,6 +28,7 @@ typedef struct
     Class* _type;
     size_t _size;
     Object** _tab;
+    char *_str;
 } ArrayClass;
 
 typedef struct {
@@ -47,7 +52,7 @@ static void ArrayIterator_ctor(ArrayIteratorClass* self, va_list* args)
     {
       self->_array = va_arg(*args, ArrayClass*);
       self->_idx = va_arg(*args, size_t);
-      if (self->_idx >= self->_array->_size)
+      if (self->_idx > self->_array->_size)
 	raise("Out of range iterator!");
     }
 }
@@ -90,7 +95,7 @@ static void ArrayIterator_incr(ArrayIteratorClass* self)
   if (self)
     {
       self->_idx++;
-      if (self->_idx >= self->_array->_size)
+      if (self->_idx > self->_array->_size)
 	raise("Out of range iterator!");
     }
 }
@@ -149,9 +154,10 @@ static void Array_ctor(ArrayClass* self, va_list* args)
     {
       self->_size = va_arg(*args, size_t);
       self->_type = va_arg(*args, Class *);
-      self->_tab = calloc(self->_size + 1, sizeof(self->_type));
+      self->_tab = malloc((self->_size + 1) * sizeof(self->_type));
       if (!self->_tab)
 	raise("Out of memory !\n");
+      memset(self->_tab, 0, self->_size + 1);
       i = 0;
       while (i < self->_size)
 	{
@@ -207,7 +213,7 @@ static Iterator* Array_end(ArrayClass* self)
   ite = NULL;
   if (self)
     {
-      ite = new(ArrayIterator, self, 0);
+      ite = new(ArrayIterator, self, self->_size);
     }
   return (ite);
 }
@@ -308,7 +314,7 @@ static Object	*Array_back(ArrayClass *self)
 static Object	*Array_add(ArrayClass *self, Object *other)
 {
   ArrayClass	*res;
-  Iterator	*i;
+  size_t	i;
   ArrayClass	*o = NULL;
   char		*validTypes[] = { "Array", "List", "Stack", "Queue" };
 
@@ -317,22 +323,79 @@ static Object	*Array_add(ArrayClass *self, Object *other)
 
   for (int i = 0; i < 4; ++i)
     if (strcmp(((Class*)other)->__name__, validTypes[i]) == 0)
+      {
       o = to_array(other);
+      break;
+      }
 
   if (!o)
     raise("You can only add an Array with another container!");
 
-  res = new(Array, self->_type, self->_size + o->_size, NULL);
-  i = begin((Container *)res);
-
-  for (Iterator *it = begin((Container *)self);
-       it != end((Container *)self); incr(it), incr(i))
-    setval(i, getval(it));
-
-  for (Iterator *it = begin((Container *)other);
-       it != end((Container *)other); incr(it), incr(i))
-    setval(i, getval(it));
+  res = new(Array, self->_size + o->_size, self->_type);
+  i = 0;
+  for (size_t j = 0; j < self->_size; ++i, ++j)
+    res->_tab[i] = self->_tab[j];
+  for (size_t j = 0; j < o->_size; ++i, ++j)
+    res->_tab[j + self->_size] = o->_tab[j];
   return (res);
+}
+
+static Object			*Array_mul(const ArrayClass *self, const Object *other)
+{
+  int				i;
+  ArrayClass			*old;
+  ArrayClass			*new_arr;
+  const Class			*nb;
+  int				max;
+
+  nb = other;
+  if (!self || !other || memcmp(nb->__name__, "Int32_t", sizeof("Int32_t")))
+    {
+      raise("Cannot mult Array (second argument should be Int object)");
+    }
+  i = 0;
+  max = *(uintptr_t *)((uintptr_t)nb + sizeof(Number) + sizeof(char *));
+  new_arr = new(Array, 0, self->_type);
+  while (i < max)
+    {
+      old = new_arr;
+      new_arr = add(new_arr, self);
+      free(old);
+      ++i;
+    }
+  return (new_arr);
+}
+
+static char const	*Array_to_string(ArrayClass *self)
+{
+  char *last;
+  size_t	i;
+
+  (void)last;
+  (void)i;
+  if (!self)
+    raise("Invalid parameter!");
+  if (self->_str)
+    free(self->_str);
+  if (asprintf(&self->_str, "Array<%s>[%lu]\n{\n", self->_type->__name__, self->_size) == -1)
+    raise("Out of memory!");
+  i = 0;
+  while (i < self->_size)
+    {
+      if (self->_tab[i])
+      	{
+      	  last = self->_str;
+      	  if (asprintf(&self->_str, "%s%s, ", last, str(self->_tab[i])) == -1)
+      	    raise("Out of memory!");
+      	  free(last);
+      	}
+      ++i;
+    }
+  last = self->_str;
+  if (asprintf(&self->_str, "%s\n}\n", last) == -1)
+    raise("Out of memory!");
+  free(last);
+  return (self->_str);
 }
 
 static ArrayClass _descr = {
@@ -341,10 +404,12 @@ static ArrayClass _descr = {
             sizeof(ArrayClass), "Array",
             (ctor_t) &Array_ctor, (dtor_t) &Array_dtor,
 	    NULL, /* set */
-            NULL, /*str */
+            (to_string_t) &Array_to_string, /*str */
 	    NULL, /*clone*/
             (binary_operator_t) &Array_add,
-	    NULL, NULL, NULL, /* sub, mul, div */
+	    NULL, /* sub */
+	    (binary_operator_t) &Array_mul,
+	    NULL, /* div */
             NULL, NULL, NULL, /* eq, gt, lt */
         },
         (len_t) &Array_len,
@@ -359,7 +424,7 @@ static ArrayClass _descr = {
 	(to_array_t) &Array_to_array,
 	(to_list_t) &Array_to_list
     },
-    NULL, 0, NULL
+    NULL, 0, NULL, NULL
 };
 
 Class* Array = (Class*) &_descr;

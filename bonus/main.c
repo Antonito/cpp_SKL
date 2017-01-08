@@ -49,7 +49,7 @@ int	main()
     }
   ETRY;
   delete(str2);
-  test_types();
+  //  test_types();
   test_containers();
   return (0);
 }

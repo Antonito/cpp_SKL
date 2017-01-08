@@ -4,6 +4,6 @@
 
 # include "object.h"
 
-extern Uint8_t Uchar;
+extern Class *Uchar;
 
 #endif

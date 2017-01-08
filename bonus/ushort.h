@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 17:50:06 2017 Arthur ARNAUD
-** Last update Sat Jan  7 17:50:06 2017 Arthur ARNAUD
+** Last update Sun Jan  8 03:17:06 2017 Antoine Baché
 */
 
 #ifndef USHORT_H
@@ -13,6 +13,6 @@
 
 # include "object.h"
 
-extern Uint16_t Ushort;
+extern Class *Ushort;
 
 #endif

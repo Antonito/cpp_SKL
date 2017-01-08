@@ -5,7 +5,7 @@
 ** Login   <arnaud_e@epitech.net>
 **
 ** Started on  Sat Jan  7 14:11:35 2017 Arthur ARNAUD
-** Last update Sun Jan  8 02:35:13 2017 Ludovic Petrenko
+** Last update Sun Jan  8 03:15:11 2017 Antoine Baché
 */
 
 #define _GNU_SOURCE
@@ -241,13 +241,26 @@ static bool		Uint8_t_real_gt(const Object *self, const Object *other)
   return (comp > 0);
 }
 
-static Uint8_tClass _description =
+static void	Uint8_t_set(Object *self, ...)
 {
+  Uint8_tClass	*obj;
+  va_list	ap;
+
+  if (!self)
+    raise("Incorrect Arguments");
+  obj = self;
+  va_start(ap, self);
+  obj->value = va_arg(ap, unsigned int);
+  va_end(ap);
+}
+
+static Uint8_tClass _description =
   {
+    {
       {
-	sizeof(Uint8_tClass), "Uint8_t", &Uint8_t_ctor, &Uint8_t_dtor, NULL,
-    &Uint8_t_str, &Uint8_t_clone, &Uint8_t_add, &Uint8_t_sub, &Uint8_t_mul, &Uint8_t_div,
-    &Uint8_t_eq, &Uint8_t_gt, &Uint8_t_lt
+	sizeof(Uint8_tClass), "Uint8_t", &Uint8_t_ctor, &Uint8_t_dtor, &Uint8_t_set,
+	&Uint8_t_str, &Uint8_t_clone, &Uint8_t_add, &Uint8_t_sub, &Uint8_t_mul, &Uint8_t_div,
+	&Uint8_t_eq, &Uint8_t_gt, &Uint8_t_lt
       },
       &Uint8_t_real_add,
       &Uint8_t_real_sub,
@@ -256,8 +269,10 @@ static Uint8_tClass _description =
       &Uint8_t_real_eq,
       &Uint8_t_real_lt,
       &Uint8_t_real_gt
-  },
-  NULL, 0
-};
+    },
+    NULL, 0
+  };
 
 Class *Uint8_t = (Class *)&_description;
+Class *Byte = (Class *)&_description;
+Class *Uchar = (Class *)&_description;

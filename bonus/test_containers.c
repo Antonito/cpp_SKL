@@ -5,6 +5,7 @@
 #include "list.h"
 #include "int.h"
 #include "new.h"
+#include "array.h"
 
 int test_containers()
 {
@@ -48,6 +49,21 @@ int test_containers()
     push_back(l, list);
     push_back(l, list2);
     printf("%s\n", str(l));
+
+    Object *n = new(Int, 3);
+    Object *ll = mul(l2, n);
+    printf("%s\n", str(ll));
+
+        Object *t = to_array(ll);
+    //    Object *t = new(Array, 3, Int, 42);
+    //    printf("%s\n", ((Class*)t)->__name__);
+    printf("%s\n", str(t));
+    Object *tt = mul(t, n);
+    printf("%s\n", ((Class*)tt)->__name__);
+
+    //    Object *w = to_list(tt);
+    printf("%s\n", str(tt));
+    delete(n);
     delete(list);
     return 0;
 }
